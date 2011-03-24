@@ -1,0 +1,48 @@
+<atlassian-plugin key="${project.groupId}.${project.artifactId}" name="${project.artifactId}" plugins-version="2">
+    <plugin-info>
+        <description>${project.description} + plugin</description>
+        <version>${project.version}</version>
+        <vendor name="${project.organization.name}" url="${project.organization.url}" />
+    </plugin-info>
+
+    <component-import key="pluginSettingsFactory">
+        <interface>com.atlassian.sal.api.pluginsettings.PluginSettingsFactory</interface>
+    </component-import>
+
+
+    <!-- The webwork1 plugin element is how you add new actions to JIRA -->
+    <webwork1 key="newactions" name="New actions" class="java.lang.Object">
+      <!-- Note that HTML in the description element is ignored -->
+      <description>
+      </description>
+
+      <actions>
+
+            <action name="com.tsc.jira.github.webwork.ConfigureRepositories" alias="ConfigureRepositories" roles-required="admin">
+                    <view name="error">/templates/com/tsc/jira/github/webwork/error.vm</view>
+                    <view name="input">/templates/com/tsc/jira/github/webwork/input.vm</view>
+                    <view name="redirect">/templates/com/tsc/jira/github/webwork/redirect.vm</view>
+            </action>
+
+            <action name="com.tsc.jira.github.webwork.ViewProjectRepository" alias="ViewProjectRepository" roles-required="admin">
+                  <view name="viewrepository">/templates/com/tsc/jira/github/webwork/viewrepository.vm</view>
+            </action>
+
+            <action name="com.tsc.jira.github.webwork.GitHubOAuth2" alias="GitHubOAuth2">
+                <view name="success">/templates/com/tsc/jira/github/webwork/githuboauth2/success.vm</view>
+            </action>
+
+            <action name="com.tsc.jira.github.webwork.ConfigureGlobalSettings" alias="ConfigureGlobalSettings">
+                <view name="input">/templates/com/tsc/jira/github/webwork/global_settings/input.vm</view>
+            </action>
+
+      </actions>
+    </webwork1>
+
+
+    <resource type="download" name="github_new_oauth_app.jpg" location="com/tsc/jira/github/includes/github_new_oauth_app.jpg">
+       <param name="content-type" value="image/jpg"/>
+    </resource>
+
+
+</atlassian-plugin>

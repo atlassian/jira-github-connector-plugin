@@ -1,0 +1,43 @@
+<html>
+  <head>
+    <title>GitHub Private Repository OAuth Success</title>
+
+    <script type="text/javascript">
+    </script>
+
+    <style type="text/css">
+    </style>
+
+  </head>
+
+  <body>
+
+    <div style="background: #FFFFFF">
+
+      <table class="jiraform maxWidth">
+        <tr>
+          <td class="jiraformheader">
+            <h3 class="formtitle">GitHub Private Repository OAuth Success</h3>
+          </td>
+        </tr>
+        <tr>
+          <td class="jiraformbody">
+
+              <p>You have successfully linked the following:</p>
+
+              <p>
+                  Private Repository: <strong>$action.getPrivateRepositoryURL()</strong>
+              </p>
+
+              <p>
+                  JIRA Project Key: <strong>$action.projectKey</strong>
+              </p>
+
+              <p>
+                  GitHub Access Token: <strong>$action.access_token</strong>
+              </p>
+
+              <p>You can add additional repositories from the <a href="/jira/secure/admin/ConfigureRepositories.jspa">Configure Repositories Page</a></p>
+
+  </body>
+</html>

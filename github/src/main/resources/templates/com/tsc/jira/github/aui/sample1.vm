@@ -1,0 +1,24 @@
+<html>
+<head>
+<title>Sample 1 Success</title>
+</head>
+<body>
+<h3>Sample 1 Success</h3>
+<p>      This page shows the HTML sample from
+<a href="http://confluence.atlassian.com/display/AUI/Getting+Started+with+AUI">Getting Started with AUI</a>
+. The HTML was added directly in this velocity template file.    </p>
+<p>      When you add a class attribute to an HTML element, it can be used by css and javascript. class="foo bar". Classnames should not start with a number. Some js init function will update the event handlers for the elements with the class ane.    </p>
+<p>      It's useful to inspect the HTML of this entire page. Make sure your browser doesn't have extensions enabled that are adding anything unexpected. Also see https://studio.atlassian.com/source/browse/~raw,r=65554/AJS/trunk/auiplugin/src/demo/index.html    </p>
+<script type="text/javascript">AJS.dropDown.Standard({  trigger: ".gadget .aui-dd-trigger",  dropDown: ".gadget .aui-dropdown",  selectionHandler: function() {  this.hide();  },  align: "right"});   </script>
+<p>      This doesn't work: TODO perhaps needs markup and js?    </p>
+<ul>
+<li class="aui-dd-parent">
+<a class="aui-dd-trigger" href="#">Gadget menu</a>
+<ul class="aui-dropdown">
+<li>Batman has gadgets on his utility belt</li>
+<li>What's a Batman?</li>
+</ul>
+</li>
+</ul>
+</body>
+</html>

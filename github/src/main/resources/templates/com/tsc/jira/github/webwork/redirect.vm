@@ -1,0 +1,13 @@
+<html>
+  <head>
+    <title>GitHub Global Plugin Settings</title>
+
+
+    <meta http-equiv="refresh" content="0;url=$action.getRedirectURL()">
+
+    <style type="text/css">
+    </style>
+
+  </head>
+
+  <body></body>

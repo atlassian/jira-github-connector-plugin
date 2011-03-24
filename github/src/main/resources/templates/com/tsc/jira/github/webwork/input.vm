@@ -1,0 +1,170 @@
+<html>
+  <head>
+    <title>GitHub Repositories</title>
+
+    <script type="text/javascript">
+
+        function confirmation(delete_url) {
+            var answer = confirm("Are you sure you want to remove this repository?")
+            if (answer){
+                window.location = delete_url;
+            }
+        }
+
+        // private repositories require oauth permission
+        function checkRepoVisiblity(){
+
+            var repoVisibility = document.getElementById("repoVisibility").value;
+
+            if(repoVisibility == "private"){
+                initOAuth();
+            }else{
+                document.forms["myform"].submit();
+            }
+        }
+
+    </script>
+
+    <style type="text/css">
+        .jira_issue{
+            background: #99ccff;
+        }
+
+        .no_issue{
+
+        }
+
+    </style>
+
+
+
+
+  </head>
+
+  <body>
+
+    <div style="background: #FFFFFF">
+
+      <table class="jiraform maxWidth">
+        <tr>
+          <td class="jiraformheader">
+            <h3 class="formtitle"><a href="/jira/secure/admin/ConfigureRepositories.jspa">GitHub Repositories</a></h3>
+          </td>
+        </tr>
+        <tr>
+          <td class="jiraformbody">
+            #if ($action.getProjects().size() > 0)
+              <p>The Projects listed below are currently linked with one or more GitHub Repositories.</p>
+            #end
+
+            <h3>Existing Linked Repositories</h3>
+
+            <table class="grid maxWidth">
+
+
+                #foreach ($project in $action.getProjects())
+                    #if ($action.getProjectRepositories($project.key))
+
+                        <tr>
+                            <th colspan="3" style="text-transform: uppercase;">${project.name}</th>
+                        </tr>
+
+                        <tr>
+                            <th style="padding-left: 20px">Repository URL</th>
+                            <th>Key</th>
+                            <th>Operations</th>
+                        </tr>
+
+                    #end
+
+                    #foreach ($repository in $action.getProjectRepositories($project.key))
+                        <tr>
+                            <td><a href="$repository" target="_new" style="margin-left: 20px">$repository</a></td>
+                            <td>$project.key</td>
+                            <td width="120px">
+                                <a href="/jira/secure/admin/ViewProjectRepository.jspa?url=$repository&projectKey=$project.key&projectName=$project.name">View</a> |
+                                <a href="/jira/secure/admin/ConfigureRepositories.jspa?url=$repository&projectKey=$project.key&nextAction=SyncRepository">Sync</a> |
+                                <a href="#" onclick="confirmation('/jira/secure/admin/ConfigureRepositories.jspa?nextAction=DeleteRepository&url=$repository&projectKey=$project.key')">Delete</a>
+                            </td>
+                        </tr>
+                    #end
+                #end
+
+
+            </table>
+
+
+                #if ($action.getMessages() != "")
+                    <div style="margin: 10px; border: 2px solid black; background: #ddd; padding: 15px;">
+                           $action.getMessages()
+                    </div>
+                #end
+
+                <div>
+                    <p>Add additional GitHub repositories to the projects to link their commits with JIRA Issue IDs.</p>
+
+                    <p>Please Enter the JIRA Project and GitHub Repository URL (including branch) you would like linked.</p>
+
+                    <p><span style="color: #555">Example Repository URL: <strong>https://github.com/atlassianguy/superproject/master</strong></span></p>
+                </div>
+
+                #if ($action.getValidations() != "")
+                    <div style="margin: 10px; border: 2px solid red; width: 400px; background: #ddd; padding: 15px;">
+                           <h3>$action.getValidations() </h3>
+                    </div>
+                #end
+
+                 <form id="repoEntry" method="post" action="${req.contextPath}/secure/admin/ConfigureRepositories.jspa">
+                      <input type="hidden" name="nextAction" value="AddRepository">
+                      <table width="500px">
+
+                        <tr>
+                          <td>
+                              <select name="projectKey">
+                                #foreach ($project in $action.getProjects())
+                                  <option value="${project.key}">${project.name}</option>
+                                #end
+                              </select>
+                          </td>
+
+                          <td>
+                              <select name="repoVisibility" id="repoVisibility">
+                                  <option value="public">Public</option>
+                                  <option value="private">Private</option>
+                              </select>
+                          </td>
+
+                          <td>
+                             <input type="text"
+                             id="url"
+                             name="url"
+                             value="$action.getURL()"
+                             size="60"
+                             />
+
+                          </td>
+
+                        </tr>
+
+                        <tr>
+                            <td></td>
+                            <td class="fullyCentered jiraformfooter">
+                                <input type="submit" name="Submit" id="Submit" value="Add Repository"
+                                accesskey="S"
+                                title="Press Ctrl+S to submit form"
+                                class="spaced"
+                                />
+                            </td>
+                        </tr>
+
+
+                      <table>
+                 </form>
+          </td>
+        </tr>
+
+      </table>
+      <br>
+
+  </body>
+</html>
