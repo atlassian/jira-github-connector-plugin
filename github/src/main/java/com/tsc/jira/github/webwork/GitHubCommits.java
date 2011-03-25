@@ -3,6 +3,7 @@ package com.tsc.jira.github.webwork;
 import com.atlassian.jira.util.json.JSONArray;
 import com.atlassian.jira.util.json.JSONException;
 import com.atlassian.jira.util.json.JSONObject;
+import com.atlassian.sal.api.pluginsettings.PluginSettingsFactory;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
@@ -18,21 +19,39 @@ public class GitHubCommits {
     public String repositoryURL;
     public String projectKey;
 
-    private void GitHubCommits(){}
+    final PluginSettingsFactory pluginSettingsFactory;
+
+    public GitHubCommits(PluginSettingsFactory pluginSettingsFactory){
+        this.pluginSettingsFactory = pluginSettingsFactory;
+    }
 
     // Generates a URL for pulling commit messages based upon the base Repository URL
     private String inferCommitsURL(){
         String[] path = repositoryURL.split("/");
-        return "https://github.com/api/v2/json/commits/list/" + path[3] + "/" + path[4] +"/master";
+        return "https://github.com/api/v2/json/commits/list/" + path[3] + "/" + path[4] + "/" + path[5];
     }
 
     // Generate a URL for pulling a single commits details (diff and author)
     private String inferCommitDetailsURL(){
         String[] path = repositoryURL.split("/");
-        return "https://github.com/api/v2/json/commits/show/" + path[3] + "/" + path[4] +"/";
+        return "https://github.com/api/v2/json/commits/show/" + path[3] + "/" + path[4] +"/" + path[5];
+    }
+
+    // Only used for Private Github Repositories
+    private String getAccessTokenParameter(){
+
+        String accessToken = (String)pluginSettingsFactory.createSettingsForKey(projectKey).get("githubRepositoryAccessToken" + repositoryURL);
+
+        if (accessToken == null){
+            return "";
+        }else{
+            return "&access_token=" + accessToken;
+        }
+
     }
 
     private String getCommitsList(Integer pageNumber){
+        System.out.println("getCommitsList()");
         URL url;
         HttpURLConnection conn;
 
@@ -40,7 +59,9 @@ public class GitHubCommits {
         String line;
         String result = "";
         try {
-            url = new URL(this.inferCommitsURL() + "?page=" + Integer.toString(pageNumber));
+
+            System.out.println("Commits URL - " + this.inferCommitsURL() + "?page=" + Integer.toString(pageNumber) + this.getAccessTokenParameter() );
+            url = new URL(this.inferCommitsURL() + "?page=" + Integer.toString(pageNumber) + this.getAccessTokenParameter());
             conn = (HttpURLConnection) url.openConnection();
             conn.setInstanceFollowRedirects(true);
             conn.setRequestMethod("GET");
@@ -99,6 +120,7 @@ public class GitHubCommits {
     }
 
     public String searchCommits(Integer pageNumber){
+        System.out.println("searchCommits()");
         String commitsAsJSON = getCommitsList(pageNumber);
 
         String messages = "";

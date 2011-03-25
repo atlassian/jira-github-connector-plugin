@@ -22,7 +22,7 @@ public class ConfigureRepositories extends JiraWebActionSupport {
     }
 
     protected void doValidation() {
-
+        //System.out.println("ConfigureRepositories - doValidation()");
         for (Enumeration e =  request.getParameterNames(); e.hasMoreElements() ;) {
             String n = (String)e.nextElement();
             String[] vals = request.getParameterValues(n);
@@ -30,15 +30,19 @@ public class ConfigureRepositories extends JiraWebActionSupport {
         }
 
         // GitHub URL Validation
-        if (url.equals("") && (nextAction.equals("addRepository") || nextAction.equals("deleteReposiory"))) {
-            // Valid URL and URL starts with github.com domain
-            Pattern p = Pattern.compile("^(https|http)://github.com/[-a-zA-Z0-9+&@#/%?=~_|!:,.;]*[-a-zA-Z0-9+&@#/%=~_|]");
-            Matcher m = p.matcher(url);
-            if (!m.matches()){
-                addErrorMessage("URL must be for a valid GitHub.com repository.");
-                validations = "URL must be for a valid GitHub.com repository.";
+        if (!url.equals("")){
+            System.out.println("URL for Evaluation: " + url + " - NA: " + nextAction);
+            if (nextAction.equals("AddRepository") || nextAction.equals("DeleteReposiory")){
+                // Valid URL and URL starts with github.com domain
+                Pattern p = Pattern.compile("^(https|http)://github.com/[-a-zA-Z0-9+&@#/%?=~_|!:,.;]*[-a-zA-Z0-9+&@#/%=~_|]");
+                Matcher m = p.matcher(url);
+                if (!m.matches()){
+                    addErrorMessage("URL must be for a valid GitHub.com repository.");
+                    validations = "URL must be for a valid GitHub.com repository.";
+                }
             }
         }
+
     }
 
     protected String doExecute() throws Exception {
@@ -50,7 +54,7 @@ public class ConfigureRepositories extends JiraWebActionSupport {
                     System.out.println("Private Add Repository");
                     String clientID = (String)pluginSettingsFactory.createGlobalSettings().get("githubRepositoryClientID");
 
-                    if(clientID.equals("")){
+                    if(clientID == null){
   //                      System.out.println("No Client ID");
                         validations = "You will need to setup a new <a href='/jira/secure/admin/ConfigureGlobalSettings.jspa'>GitHub OAuth Application</a> before you can add private repositories";
                     }else{
@@ -65,7 +69,7 @@ public class ConfigureRepositories extends JiraWebActionSupport {
                         String redirectURI = "http://github.com/login/oauth/authorize?client_id=" + clientID + "&redirect_uri=http://www.flickscanapp.com/rails/movies/upc";
 
                         // ToDo: Server side redirect
-                        this.forceRedirect(redirectURI);
+                        //this.forceRedirect(redirectURI);
 
                         redirectURL = redirectURI;
 
@@ -73,7 +77,7 @@ public class ConfigureRepositories extends JiraWebActionSupport {
                     }
                 }else{
                     System.out.println("PUBLIC Add Repository");
-                    //addRepositoryURL();
+                    addRepositoryURL();
                 }
             }
 
@@ -82,11 +86,11 @@ public class ConfigureRepositories extends JiraWebActionSupport {
             }
 
             if (nextAction.equals("SyncRepository")){
-
+                System.out.println("Staring Repository Sync");
                 Date date = new Date();
                 pluginSettingsFactory.createSettingsForKey(projectKey).put("githubLastSyncTime", date.toString());
 
-                GitHubCommits repositoryCommits = new GitHubCommits();
+                GitHubCommits repositoryCommits = new GitHubCommits(pluginSettingsFactory);
                 repositoryCommits.repositoryURL = url;
                 repositoryCommits.projectKey = projectKey;
 

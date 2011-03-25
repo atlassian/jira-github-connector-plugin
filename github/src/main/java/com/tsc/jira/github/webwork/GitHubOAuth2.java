@@ -28,18 +28,12 @@ public class GitHubOAuth2 extends JiraWebActionSupport {
     protected String doExecute() throws Exception {
 
         if(code.length() > 0){
-                String pendingProjectKey = (String)pluginSettingsFactory.createGlobalSettings().get("githubPendingProjectKey");
-                projectKey = pendingProjectKey;
-
-                String pendingRepositoryURL = (String)pluginSettingsFactory.createGlobalSettings().get("githubPendingRepositoryURL");
-                privateRepositoryURL = pendingRepositoryURL;
+                projectKey = (String)pluginSettingsFactory.createGlobalSettings().get("githubPendingProjectKey");
+                privateRepositoryURL = (String)pluginSettingsFactory.createGlobalSettings().get("githubPendingRepositoryURL");
 
                 // strips "access_token=" from result returned from GitHub
-                String[] tokenReturn = requestAccessToken().split("=");
-
-                access_token = tokenReturn[1];
-
-                //access_token = (String)pluginSettingsFactory.createSettingsForKey(pendingProjectKey).put("githubRepositoryAccessToken" + pendingRepositoryURL, tokenReturn[1]);
+                access_token = requestAccessToken().split("=")[1];
+                pluginSettingsFactory.createSettingsForKey(projectKey).put("githubRepositoryAccessToken" + privateRepositoryURL, access_token);
         }
 
 
@@ -59,15 +53,15 @@ public class GitHubOAuth2 extends JiraWebActionSupport {
             String clientID = (String)pluginSettingsFactory.createGlobalSettings().get("githubRepositoryClientID");
             String clientSecret = (String)pluginSettingsFactory.createGlobalSettings().get("githubRepositoryClientSecret");
 
-            //String redirectURI = "http://github.com/login/oauth/authorize?client_id=" + clientID + "&redirect_uri=$action.getBaseURL()/secure/admin/GitHubOAuth2";
-            String redirectURI = "http://github.com/login/oauth/authorize?client_id=" + clientID + "&redirect_uri=http://www.flickscanapp.com/rails/movies/upc";
+            System.out.println("requestAccessToken() - " + "https://github.com/login/oauth/access_token?&client_id=" + clientID + "&client_secret=" + clientSecret + "&code=" + code);
 
-            url = new URL("https://github.com/login/oauth/access_token?client_id=" + clientID + "&client_secret=" + clientSecret + "&code=" + code);
+            url = new URL("https://github.com/login/oauth/access_token?&client_id=" + clientID + "&client_secret=" + clientSecret + "&code=" + code);
             conn = (HttpURLConnection) url.openConnection();
             conn.setInstanceFollowRedirects(true);
             conn.setRequestMethod("POST");
             rd = new BufferedReader(new InputStreamReader(conn.getInputStream()));
             while ((line = rd.readLine()) != null) {
+                System.out.println("RESPONSE: " + line);
                 result += line;
             }
             rd.close();
@@ -90,7 +84,6 @@ public class GitHubOAuth2 extends JiraWebActionSupport {
 
     // GitHub Access Token
     private String access_token;
-    public void setAccess_token(String value){this.access_token = value;}
     public String getAccess_token(){return access_token;}
 
     // Project Key

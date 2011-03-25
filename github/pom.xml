@@ -61,8 +61,8 @@
                 <version>3.2.4</version>
                 <extensions>true</extensions>
                 <configuration>
-                    <productVersion>${jira.version}</productVersion>
-                    <productDataVersion>${jira.data.version}</productDataVersion>
+                    <productVersion>4.3</productVersion>
+                    <productDataVersion>4.3</productDataVersion>
                     <log4jProperties>src/aps/log4j.properties</log4jProperties>
                 </configuration>
             </plugin>

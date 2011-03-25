@@ -32,15 +32,32 @@ public class ConfigureGlobalSettings extends JiraWebActionSupport {
     private void addClientIdentifiers(){
         pluginSettingsFactory.createGlobalSettings().put("githubRepositoryClientID", clientID);
         pluginSettingsFactory.createGlobalSettings().put("githubRepositoryClientSecret", clientSecret);
+
+        messages = "GitHub Client Identifiers Set Correctly";
+
     }
 
 
     public String getSavedClientSecret(){
-        return (String)pluginSettingsFactory.createGlobalSettings().get("githubRepositoryClientSecret");
+
+        String savedClientSecret = (String)pluginSettingsFactory.createGlobalSettings().get("githubRepositoryClientSecret");
+
+        if(savedClientSecret == null){
+            return "";
+        }else{
+            return savedClientSecret;
+        }
     }
 
     public String getSavedClientID(){
-        return (String)pluginSettingsFactory.createGlobalSettings().get("githubRepositoryClientID");
+
+        String savedClientID = (String)pluginSettingsFactory.createGlobalSettings().get("githubRepositoryClientID");
+
+        if(savedClientID == null){
+            return "";
+        }else{
+            return savedClientID;
+        }
     }
 
     // Validation Error Messages

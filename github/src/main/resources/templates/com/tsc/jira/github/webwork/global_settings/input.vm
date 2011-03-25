@@ -29,7 +29,7 @@
 
               <p>For the Callback URL, please enter in your <a href="/jira/secure/admin/ViewSystemInfo.jspa">JIRA Base URL</a>. This is necessary as a portion of the OAuth authentication process will have GitHub POSTing access tokens back to your JIRA instance.</p>
 
-              <p>Additionally, please do not include a trailing slash "/" on the Callback URL as this will cause the callbacks to fail.</p>
+              <p>Additionally, please do <strong>NOT</strong> include a trailing slash "/" on the Callback URL as this will cause the callbacks to fail.</p>
 
               <div>
                   <img style="border: 10px solid #ddd;" src="https://img.skitch.com/20110318-q71u2j54y29bufi6kkix8bu9eh.jpg">
@@ -37,6 +37,13 @@
 
                <br/>
               <p>After you create the application, GitHub will provide you with a <strong>Client ID</strong> and a <strong>Client Secret</strong> which you will need to enter below.</p>
+
+
+                #if ($action.getMessages() != "")
+                    <div style="margin: 10px; border: 2px solid black; background: #ddd; padding: 15px;">
+                           $action.getMessages()
+                    </div>
+                #end
 
                 #if ($action.getValidations() != "")
                     <div style="margin: 10px; border: 2px solid red; width: 400px; background: #ddd; padding: 15px;">
