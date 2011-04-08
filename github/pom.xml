@@ -1,23 +1,23 @@
 <?xml version="1.0" encoding="UTF-8"?>
-
+ 
 <project xmlns="http://maven.apache.org/POM/4.0.0"
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
-
+ 
     <modelVersion>4.0.0</modelVersion>
     <groupId>com.tsc.jira.github</groupId>
     <artifactId>GitHub</artifactId>
     <version>0.0.1</version>
-
+ 
     <organization>
         <name>Atlassian</name>
         <url>http://www.atlassian.com/</url>
     </organization>
-
+ 
     <name>GitHub</name>
     <description>GitHub Plugin for JIRA, linking JIRA issues to GitHub commits.</description>
     <packaging>atlassian-plugin</packaging>
-
+ 
     <dependencies>
         <dependency>
             <groupId>com.atlassian.jira</groupId>
@@ -49,10 +49,16 @@
             <version>2.0.17</version>
             <scope>provided</scope>
         </dependency>
-
-
+        <dependency>
+            <groupId>com.atlassian.crowd</groupId>
+            <artifactId>crowd-api</artifactId>
+            <version>2.2.0</version>
+            <scope>provided</scope>
+        </dependency>
+ 
+ 
     </dependencies>
-
+ 
     <build>
         <plugins>
             <plugin>
@@ -75,10 +81,10 @@
             </plugin>
         </plugins>
     </build>
-
+ 
     <properties>
-        <jira.version>4.2.2-b589</jira.version>
-        <jira.data.version>4.1.1</jira.data.version>
+        <jira.version>4.3.1</jira.version>
+        <jira.data.version>4.3.1</jira.data.version>
     </properties>
-
+ 
 </project>

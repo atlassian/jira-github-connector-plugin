@@ -1,15 +1,17 @@
 package com.tsc.jira.github.webwork;
 
+import com.atlassian.crowd.embedded.api.User;
 import com.atlassian.jira.ComponentManager;
 import com.atlassian.jira.config.properties.PropertiesManager;
+import com.atlassian.jira.issue.IssueManager;
+import com.atlassian.jira.issue.MutableIssue;
+import com.atlassian.jira.issue.comments.Comment;
+import com.atlassian.jira.issue.comments.CommentManager;
 import com.atlassian.jira.project.Project;
 import com.atlassian.jira.web.action.JiraWebActionSupport;
 import com.atlassian.sal.api.pluginsettings.PluginSettingsFactory;
 
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.Enumeration;
-import java.util.List;
+import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -46,6 +48,7 @@ public class ConfigureRepositories extends JiraWebActionSupport {
     }
 
     protected String doExecute() throws Exception {
+        System.out.println("NextAction: " + nextAction);
 
         if (validations.equals("")){
             if (nextAction.equals("AddRepository")){
@@ -59,7 +62,7 @@ public class ConfigureRepositories extends JiraWebActionSupport {
                         validations = "You will need to setup a new <a href='/jira/secure/admin/ConfigureGlobalSettings.jspa'>GitHub OAuth Application</a> before you can add private repositories";
                     }else{
                         addRepositoryURL();
-//                        System.out.println("Add Private Repository URL");
+                        System.out.println("Add Private Repository URL");
 
                         pluginSettingsFactory.createGlobalSettings().put("githubPendingProjectKey", projectKey);
                         pluginSettingsFactory.createGlobalSettings().put("githubPendingRepositoryURL", url);
@@ -87,8 +90,19 @@ public class ConfigureRepositories extends JiraWebActionSupport {
 
             if (nextAction.equals("SyncRepository")){
                 System.out.println("Staring Repository Sync");
-                Date date = new Date();
-                pluginSettingsFactory.createSettingsForKey(projectKey).put("githubLastSyncTime", date.toString());
+
+                //CommentManager commentManager = ComponentManager.getInstance().getCommentManager();
+                //commentManager.create(issue, "admin", message, true);
+
+                //User githubUser = ComponentManager.getInstance().getUserUtil().getUserObject("jiraGitHubUser");
+                //List<Comment> comments = commentManager.getCommentsForUser(issue, githubUser);
+
+                //Iterator<Comment> commentsIter = comments.iterator();
+
+                //while(commentsIter.hasNext()){
+                //    Comment comment = commentsIter.next();
+                //    commentManager.delete(comment);
+                //}
 
                 GitHubCommits repositoryCommits = new GitHubCommits(pluginSettingsFactory);
                 repositoryCommits.repositoryURL = url;
@@ -132,6 +146,9 @@ public class ConfigureRepositories extends JiraWebActionSupport {
     private void deleteRepositoryURL(){
         ArrayList<String> urlArray = new ArrayList<String>();
 
+        // Remove associated access key (if any) for private repos
+        pluginSettingsFactory.createSettingsForKey(projectKey).put("githubRepositoryAccessToken" + url, null);
+
         urlArray = (ArrayList<String>)pluginSettingsFactory.createSettingsForKey(projectKey).get("githubRepositoryURLArray");
 
         for (int i=0; i < urlArray.size(); i++){
@@ -151,7 +168,6 @@ public class ConfigureRepositories extends JiraWebActionSupport {
     public List getProjects(){
         return projects;
     }
-
 
     // Stored Repository + JIRA Projects
     public ArrayList<String> getProjectRepositories(String pKey){

@@ -1,5 +1,9 @@
 package com.tsc.jira.github.webwork;
 
+import com.atlassian.crowd.embedded.api.User;
+import com.atlassian.jira.ComponentManager;
+import com.atlassian.jira.issue.IssueManager;
+import com.atlassian.jira.issue.comments.Comment;
 import com.atlassian.jira.util.json.JSONArray;
 import com.atlassian.jira.util.json.JSONException;
 import com.atlassian.jira.util.json.JSONObject;
@@ -10,9 +14,15 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
-
-import java.util.regex.Pattern;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.Iterator;
+import java.util.List;
 import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
+import com.atlassian.jira.issue.comments.CommentManager;
+import com.atlassian.jira.issue.MutableIssue;
 
 public class GitHubCommits {
 
@@ -34,7 +44,7 @@ public class GitHubCommits {
     // Generate a URL for pulling a single commits details (diff and author)
     private String inferCommitDetailsURL(){
         String[] path = repositoryURL.split("/");
-        return "https://github.com/api/v2/json/commits/show/" + path[3] + "/" + path[4] +"/" + path[5];
+        return "https://github.com/api/v2/json/commits/show/" + path[3] + "/" + path[4] +"/";
     }
 
     // Only used for Private Github Repositories
@@ -73,7 +83,8 @@ public class GitHubCommits {
         }catch (MalformedURLException e){
             e.printStackTrace();
         } catch (Exception e) {
-            e.printStackTrace();
+            System.out.println("CommitList Exception");
+            //e.printStackTrace();
         }
 
         return result;
@@ -81,7 +92,7 @@ public class GitHubCommits {
 
     // Commit list returns id (hashed) and Message
     // you have to call each individual commit to get diff details
-    private String getCommitDetails(String commit_id){
+    public String getCommitDetails(String commit_id_url){
         URL url;
         HttpURLConnection conn;
 
@@ -89,7 +100,7 @@ public class GitHubCommits {
         String line;
         String result = "";
         try {
-            url = new URL(this.inferCommitDetailsURL() + commit_id);
+            url = new URL(commit_id_url);
             conn = (HttpURLConnection) url.openConnection();
             conn.setInstanceFollowRedirects(true);
             conn.setRequestMethod("GET");
@@ -120,6 +131,10 @@ public class GitHubCommits {
     }
 
     public String searchCommits(Integer pageNumber){
+
+        Date date = new Date();
+        pluginSettingsFactory.createSettingsForKey(projectKey).put("githubLastSyncTime", date.toString());
+
         System.out.println("searchCommits()");
         String commitsAsJSON = getCommitsList(pageNumber);
 
@@ -138,8 +153,21 @@ public class GitHubCommits {
                     // Detect presence of JIRA Issue Key
                     if (message.indexOf(this.projectKey) > -1){
                         if (!extractProjectKey(message).equals("")){
-                            messages += "<div class='jira_issue'>" + extractProjectKey(message) + " " + commit_id + "</div>";
-                            String commitDetailsJSON = getCommitDetails(commit_id);
+
+                            CommentManager commentManager = ComponentManager.getInstance().getCommentManager();
+                            IssueManager issueManager = ComponentManager.getInstance().getIssueManager();
+                            MutableIssue issue = issueManager.getIssueObject(extractProjectKey(message));
+
+                            String githubUser = (String)pluginSettingsFactory.createGlobalSettings().get("githubJiraGitHubUser");
+                            commentManager.create(issue, githubUser, message, true);
+
+                            String issueId = extractProjectKey(message);
+
+                            messages += "<div class='jira_issue'>" + issueId + " " + commit_id + "</div>";
+                            //String commitDetailsJSON = getCommitDetails(commit_id);
+
+                            addCommitID(issueId, commit_id);
+                            //deleteCommitId(issueId);
                         }
 
                     }else{
@@ -162,5 +190,41 @@ public class GitHubCommits {
 
     }
 
+    // Manages the entry of multiple Github commit id hash urls associated with an issue
+    // urls look like - github.com/api/v2/json/commits/show/mojombo/grit/5071bf9fbfb81778c456d62e111440fdc776f76c
+    private void addCommitID(String issueId, String commitId){
+        ArrayList<String> commitArray = new ArrayList<String>();
+
+        // First Time Repository URL is saved
+        if ((ArrayList<String>)pluginSettingsFactory.createSettingsForKey(projectKey).get("githubIssueCommitArray" + issueId) != null){
+            commitArray = (ArrayList<String>)pluginSettingsFactory.createSettingsForKey(projectKey).get("githubIssueCommitArray" + issueId);
+        }
+
+        Boolean boolExists = false;
+
+        for (int i=0; i < commitArray.size(); i++){
+            if ((inferCommitDetailsURL() + commitId).equals(commitArray.get(i))){
+                System.out.println("Found commit id" + commitArray.get(i));
+                boolExists = true;
+            }
+        }
+
+        if (!boolExists){
+            System.out.println("addCommitID: Adding CommitID " + inferCommitDetailsURL() + commitId );
+            commitArray.add(inferCommitDetailsURL() + commitId);
+            pluginSettingsFactory.createSettingsForKey(projectKey).put("githubIssueCommitArray" + issueId, commitArray);
+        }else{
+            System.out.println("addCommitID: commit id already present");
+        }
+
+        System.out.println("arrayKey: " + "githubIssueCommitArray" + issueId);
+        //System.out.println("addCommitID: " + issueId + " - " + commitId);
+
+    }
+
+    // Removes all of the associated commits from an issue
+    private void deleteCommitId(String issueId){
+        pluginSettingsFactory.createSettingsForKey(projectKey).put("githubIssueCommitArray" + issueId, null);
+    }
 
 }

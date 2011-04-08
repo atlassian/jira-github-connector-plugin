@@ -20,10 +20,44 @@
             <h3 class="formtitle"><a href="/jira/secure/admin/ConfigureRepositories.jspa">GitHub Global Plugin Settings</a></h3>
           </td>
         </tr>
+
+        <form id="GitHubUserForm" method="post" action="${req.contextPath}/secure/admin/ConfigureGlobalSettings.jspa">
+
+            <tr>
+                <td class="jiraformbody">
+
+                    <h3>GitHub User Configuration</h3>
+
+                    <p>Please specify the user account that will perform actions within JIRA. These include adding comments, etc. </p>
+
+                        <input type="hidden" name="nextAction" value="SetJiraGitHubUser">
+
+                                 <input type="text"
+                                 id="jiraUser"
+                                 name="jiraGitHubUser"
+                                 value="$action.getSavedJiraGitHubUser()"
+                                 size="60"
+                                 />
+                        <p/>
+
+
+
+                </td>
+            </tr>
+
+            <tr>
+                <td>
+                    <input type="submit" name="Submit" id="Submit" value="Set JIRA GitHub User" class="spaced"/>
+                </td>
+
+            </tr>
+
+        </form>
+
         <tr>
           <td class="jiraformbody">
 
-              <h3>OAuth Configuration</h3>
+              <h3>GitHub OAuth Configuration</h3>
 
               <p>To sync with private GitHub repositories you will need to <a href="https://github.com/account/applications/new">create a new GitHub OAuth Application.</a></p>
 
@@ -90,8 +124,6 @@
                             <td></td>
                             <td class="fullyCentered jiraformfooter">
                                 <input type="submit" name="Submit" id="Submit" value="Add/Update Keys"
-                                accesskey="S"
-                                title="Press Ctrl+S to submit form"
                                 class="spaced"
                                 />
                             </td>

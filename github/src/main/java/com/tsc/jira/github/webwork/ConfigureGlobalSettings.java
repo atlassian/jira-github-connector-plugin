@@ -1,7 +1,12 @@
 package com.tsc.jira.github.webwork;
 
+import com.atlassian.jira.ComponentManager;
+import com.atlassian.jira.issue.comments.CommentManager;
 import com.atlassian.jira.web.action.JiraWebActionSupport;
 import com.atlassian.sal.api.pluginsettings.PluginSettingsFactory;
+
+import com.atlassian.jira.user.util.UserManager;
+import com.atlassian.crowd.embedded.api.User;
 
 public class ConfigureGlobalSettings extends JiraWebActionSupport {
 
@@ -17,9 +22,27 @@ public class ConfigureGlobalSettings extends JiraWebActionSupport {
                 validations = "Please enter both the GitHub OAuth Client ID and Client Secret";
             }
         }
+
+        if(nextAction.equals("SetJiraGitHubUser")){
+
+            User githubUser = ComponentManager.getInstance().getUserUtil().getUserObject(jiraGitHubUser);
+
+            if(githubUser == null){
+                validations = "Please specify an existing JIRA user for your GitHub actions.";
+            }
+
+        }
+
     }
 
     protected String doExecute() throws Exception {
+
+        if(nextAction.equals("SetJiraGitHubUser")){
+            if(validations.equals("")){
+                  pluginSettingsFactory.createGlobalSettings().put("githubJiraGitHubUser", jiraGitHubUser);
+            }
+        }
+
         if(nextAction.equals("SetOAuthValues")){
             if(validations.equals("")){
                 addClientIdentifiers();
@@ -60,9 +83,25 @@ public class ConfigureGlobalSettings extends JiraWebActionSupport {
         }
     }
 
+
+    public String getSavedJiraGitHubUser(){
+        String jiraGitHubUser = (String)pluginSettingsFactory.createGlobalSettings().get("githubJiraGitHubUser");
+
+        if(jiraGitHubUser == null){
+            return "";
+        }else{
+            return jiraGitHubUser;
+        }
+    }
+
     // Validation Error Messages
     private String validations = "";
     public String getValidations(){return this.validations;}
+
+    // JIRA GitHub User
+    private String jiraGitHubUser = "";
+    public void setJiraGitHubUser(String value){this.jiraGitHubUser = value;}
+    public String getJiraGitHubUser(){return this.jiraGitHubUser;}
 
     // Client ID (from GitHub OAuth Application)
     private String clientID = "";
