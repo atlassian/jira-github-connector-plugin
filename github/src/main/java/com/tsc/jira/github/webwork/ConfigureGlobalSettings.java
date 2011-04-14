@@ -8,6 +8,8 @@ import com.atlassian.sal.api.pluginsettings.PluginSettingsFactory;
 import com.atlassian.jira.user.util.UserManager;
 import com.atlassian.crowd.embedded.api.User;
 
+// JIRA GitHub user left in preparation for use with Activity Streams
+
 public class ConfigureGlobalSettings extends JiraWebActionSupport {
 
     final PluginSettingsFactory pluginSettingsFactory;

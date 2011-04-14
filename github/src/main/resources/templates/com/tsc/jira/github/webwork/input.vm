@@ -51,6 +51,12 @@
             <h3 class="formtitle"><a href="/jira/secure/admin/ConfigureRepositories.jspa">GitHub Repositories</a></h3>
           </td>
         </tr>
+
+        <tr>
+            <td><a href="/jira/secure/admin/ConfigureGlobalSettings.jspa">Global GitHub Settings</a></td>
+        </tr>
+
+
         <tr>
           <td class="jiraformbody">
             #if ($action.getProjects().size() > 0)

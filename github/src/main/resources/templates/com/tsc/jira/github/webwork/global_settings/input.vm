@@ -21,38 +21,9 @@
           </td>
         </tr>
 
-        <form id="GitHubUserForm" method="post" action="${req.contextPath}/secure/admin/ConfigureGlobalSettings.jspa">
-
-            <tr>
-                <td class="jiraformbody">
-
-                    <h3>GitHub User Configuration</h3>
-
-                    <p>Please specify the user account that will perform actions within JIRA. These include adding comments, etc. </p>
-
-                        <input type="hidden" name="nextAction" value="SetJiraGitHubUser">
-
-                                 <input type="text"
-                                 id="jiraUser"
-                                 name="jiraGitHubUser"
-                                 value="$action.getSavedJiraGitHubUser()"
-                                 size="60"
-                                 />
-                        <p/>
-
-
-
-                </td>
-            </tr>
-
-            <tr>
-                <td>
-                    <input type="submit" name="Submit" id="Submit" value="Set JIRA GitHub User" class="spaced"/>
-                </td>
-
-            </tr>
-
-        </form>
+        <tr>
+            <td><a href="/jira/secure/admin/ConfigureGlobalSettings.jspa">Global GitHub Settings</a></td>
+        </tr>
 
         <tr>
           <td class="jiraformbody">
