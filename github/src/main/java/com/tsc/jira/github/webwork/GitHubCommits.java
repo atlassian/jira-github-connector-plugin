@@ -130,10 +130,28 @@ public class GitHubCommits {
         }
     }
 
-    public String searchCommits(Integer pageNumber){
+    private Integer incrementCommitCount(String commitType){
+
+        Integer commitCount = 0;
+
+        if ((Integer)pluginSettingsFactory.createSettingsForKey(projectKey).get(commitType + repositoryURL) != null){
+            commitCount = 0;
+        }else{
+            commitCount = (Integer)pluginSettingsFactory.createSettingsForKey(projectKey).get(commitType + repositoryURL);
+        }
+
+        commitCount += 1;
+
+        pluginSettingsFactory.createSettingsForKey(projectKey).put(commitType + repositoryURL, commitCount);
+
+        return commitCount;
+
+    }
+
+    public String syncCommits(Integer pageNumber){
 
         Date date = new Date();
-        pluginSettingsFactory.createSettingsForKey(projectKey).put("githubLastSyncTime", date.toString());
+        pluginSettingsFactory.createSettingsForKey(projectKey).put("githubLastSyncTime" + repositoryURL, date);
 
         System.out.println("searchCommits()");
         String commitsAsJSON = getCommitsList(pageNumber);
@@ -154,28 +172,23 @@ public class GitHubCommits {
                     if (message.indexOf(this.projectKey) > -1){
                         if (!extractProjectKey(message).equals("")){
 
-                            CommentManager commentManager = ComponentManager.getInstance().getCommentManager();
-                            IssueManager issueManager = ComponentManager.getInstance().getIssueManager();
-                            MutableIssue issue = issueManager.getIssueObject(extractProjectKey(message));
-
-                            String githubUser = (String)pluginSettingsFactory.createGlobalSettings().get("githubJiraGitHubUser");
-                            commentManager.create(issue, githubUser, message, true);
-
                             String issueId = extractProjectKey(message);
+                            addCommitID(issueId, commit_id);
+                            incrementCommitCount("JIRACommitTotal");
 
                             messages += "<div class='jira_issue'>" + issueId + " " + commit_id + "</div>";
                             //String commitDetailsJSON = getCommitDetails(commit_id);
 
-                            addCommitID(issueId, commit_id);
                             //deleteCommitId(issueId);
                         }
 
                     }else{
+                        incrementCommitCount("NonJIRACommitTotal");
                         messages += "<div class='no_issue'>No Issue: " + commit_id + "</div>" ;
                     }
                 }
 
-                messages += this.searchCommits(pageNumber + 1);
+                messages += this.syncCommits(pageNumber + 1);
 
             }catch (JSONException e){
                 e.printStackTrace();
@@ -187,6 +200,53 @@ public class GitHubCommits {
         }
 
         return "";
+
+    }
+
+    public String postReceiveHook(String payload){
+
+        Date date = new Date();
+        pluginSettingsFactory.createSettingsForKey(projectKey).put("githubLastSyncTime" + repositoryURL, date);
+
+        System.out.println("postBack()");
+        String messages = "";
+
+        try{
+            JSONObject jsonCommits = new JSONObject(payload);
+            JSONArray commits = jsonCommits.getJSONArray("commits");
+
+            for (int i = 0; i < commits.length(); ++i) {
+                String message = commits.getJSONObject(i).getString("message");
+                String commit_id = commits.getJSONObject(i).getString("id");
+
+                // Detect presence of JIRA Issue Key
+                if (message.indexOf(this.projectKey) > -1){
+                    if (!extractProjectKey(message).equals("")){
+
+                        String issueId = extractProjectKey(message);
+                        addCommitID(issueId, commit_id);
+                        incrementCommitCount("JIRACommitTotal");
+
+                        messages += "<div class='jira_issue'>" + issueId + " " + commit_id + "</div>";
+                        //String commitDetailsJSON = getCommitDetails(commit_id);
+
+                        //deleteCommitId(issueId);
+                    }
+
+                }else{
+                    incrementCommitCount("NonJIRACommitTotal");
+                    messages += "<div class='no_issue'>No Issue: " + commit_id + "</div>" ;
+                }
+            }
+
+
+        }catch (JSONException e){
+            e.printStackTrace();
+            return "exception";
+        }
+
+        return messages;
+
 
     }
 

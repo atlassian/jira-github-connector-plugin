@@ -96,7 +96,7 @@ public class GitHubCommitsTabPanel extends AbstractIssueTabPanel {
 
                     for (int i=0; i < arrayAdded.length(); i++){
                           String addFilename = arrayAdded.getString(i);
-                          htmlAdded += "<tr><td>" + addFilename + "</td></tr>";
+                          htmlAdded += "<tr><td style='padding-left: 20px'>" + addFilename + "</td></tr>";
                     }
 
                     htmlAdded += "</table>";
@@ -112,7 +112,7 @@ public class GitHubCommitsTabPanel extends AbstractIssueTabPanel {
 
                     for (int i=0; i < arrayRemoved.length(); i++){
                           String addFilename = arrayRemoved.getString(i);
-                          htmlRemoved += "<tr><td>" + addFilename + "</td></tr>";
+                          htmlRemoved += "<tr><td style='padding-left: 20px'>" + addFilename + "</td></tr>";
                     }
 
                     htmlRemoved += "</table>";
@@ -129,7 +129,7 @@ public class GitHubCommitsTabPanel extends AbstractIssueTabPanel {
                     for (int i=0; i < arrayModified.length(); i++){
                           String modFilename = arrayModified.getJSONObject(i).getString("filename");
                           String modDiff = arrayModified.getJSONObject(i).getString("diff");
-                          htmlModified += "<tr><td>" + modFilename + " - " + modDiff + "</td></tr>";
+                          htmlModified += "<tr><td style='padding-left: 20px'>" + modFilename + " - " + modDiff + "</td></tr>";
                     }
 
                     htmlModified += "</table>";
@@ -148,12 +148,12 @@ public class GitHubCommitsTabPanel extends AbstractIssueTabPanel {
                 String gravatarHash = user.getString("gravatar_id");
                 String gravatarUrl = "http://www.gravatar.com/avatar/" + gravatarHash + "?s=40";
 
-                String htmlCommitTable = "<table><tr><td><strong>Commit:</strong></td><td>" + commit_id + "</td></tr>";
+                String htmlCommitTable = "<table><tr><th bgcolor=''><font color=''><strong>Commit:</strong></font></td><td bgcolor='' ><font color=''><a href='https://github.com" + commitURL + "'>" + commit_id + "</a></font></td></tr>";
                 htmlCommitTable += "<tr><td><strong>Tree:</strong></td><td>" + commitTree + "</td></tr></table>";
 
 
-                String htmlUserTable = "<table width='250'><tr><td width='50'><img src='" + gravatarUrl + "'></td>";
-                htmlUserTable += "<td width='200'><strong><a href='https://github.com/"+ login + "'>" + login + "</a></strong><br/>" + committedDate + "</td></tr></table>";
+                String htmlUserTable = "<table><tr><td><img src='" + gravatarUrl + "'></td>";
+                htmlUserTable += "<td><strong><a href='https://github.com/"+ login + "'>" + login + "</a></strong><br/>" + committedDate + "</td></tr></table><hr size='5'>";
 
                 return htmlCommitTable + commitMessage + htmlAdded + htmlRemoved + htmlModified + htmlUserTable;
 

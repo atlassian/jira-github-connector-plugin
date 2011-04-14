@@ -17,22 +17,22 @@
       <table class="jiraform maxWidth">
         <tr>
           <td class="jiraformheader">
-            <h3 class="formtitle"><a href="/jira/secure/admin/ConfigureRepositories.jspa">GitHub Global Plugin Settings</a></h3>
+            <h3 class="formtitle">GitHub Global Plugin Settings</h3>
           </td>
         </tr>
 
         <tr>
-            <td><a href="/jira/secure/admin/ConfigureGlobalSettings.jspa">Global GitHub Settings</a></td>
+            <td><a href="/jira/secure/admin/ConfigureRepositories.jspa">Configure GitHub Repositories</a></td>
         </tr>
 
         <tr>
           <td class="jiraformbody">
 
-              <h3>GitHub OAuth Configuration</h3>
+              <h3>GitHub OAuth Application Setup</h3>
 
               <p>To sync with private GitHub repositories you will need to <a href="https://github.com/account/applications/new">create a new GitHub OAuth Application.</a></p>
 
-              <p>For the Callback URL, please enter in your <a href="/jira/secure/admin/ViewSystemInfo.jspa">JIRA Base URL</a>. This is necessary as a portion of the OAuth authentication process will have GitHub POSTing access tokens back to your JIRA instance.</p>
+              <p>For the Callback URL, please enter in your <a href="/jira/secure/admin/ViewSystemInfo.jspa">JIRA Base URL</a>. This is necessary as a portion of the OAuth authentication process will have GitHub redirectina an access token back to your JIRA instance.</p>
 
               <p>Additionally, please do <strong>NOT</strong> include a trailing slash "/" on the Callback URL as this will cause the callbacks to fail.</p>
 
@@ -41,6 +41,9 @@
               </div>
 
                <br/>
+
+              <h3>GitHub OAuth Client ID Entry</h3>
+
               <p>After you create the application, GitHub will provide you with a <strong>Client ID</strong> and a <strong>Client Secret</strong> which you will need to enter below.</p>
 
 

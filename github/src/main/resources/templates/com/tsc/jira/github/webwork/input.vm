@@ -48,7 +48,7 @@
       <table class="jiraform maxWidth">
         <tr>
           <td class="jiraformheader">
-            <h3 class="formtitle"><a href="/jira/secure/admin/ConfigureRepositories.jspa">GitHub Repositories</a></h3>
+            <h3 class="formtitle">GitHub Repositories</h3>
           </td>
         </tr>
 
@@ -117,6 +117,26 @@
                 #if ($action.getValidations() != "")
                     <div style="margin: 10px; border: 2px solid red; width: 400px; background: #ddd; padding: 15px;">
                            <h3>$action.getValidations() </h3>
+                    </div>
+                #end
+
+
+
+                #if ($action.getPostCommitURL() != "")
+                    <div style="margin: 10px; border: 2px solid black; background: #E2E2E2; padding: 15px;">
+                           <h2>One More Step </h2>
+                           <h3>Add the Post-Receive Hook</h3>
+
+                            <p>Please add the URL below to your GitHub Repositories Post-Receive Hooks</p>
+
+                            <p>
+                                $action.getBaseURL()$action.getPostCommitURL()
+                            </p>
+
+                            <div>
+                                <a href="http://help.github.com/post-receive-hooks/" targer="_new">Post Receive URL Setup Instructions</a>
+                            </div>
+
                     </div>
                 #end
 

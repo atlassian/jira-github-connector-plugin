@@ -37,6 +37,10 @@
                   <view name="viewrepository">/templates/com/tsc/jira/github/webwork/viewrepository.vm</view>
             </action>
 
+            <action name="com.tsc.jira.github.webwork.GitHubPostCommit" alias="PostCommit">
+                  <view name="postcommit">/templates/com/tsc/jira/github/webwork/postcommit.vm</view>
+            </action>
+
             <action name="com.tsc.jira.github.webwork.GitHubOAuth2" alias="GitHubOAuth2">
                 <view name="success">/templates/com/tsc/jira/github/webwork/githuboauth2/success.vm</view>
             </action>

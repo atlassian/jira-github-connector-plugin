@@ -50,6 +50,16 @@ public class ConfigureRepositories extends JiraWebActionSupport {
     protected String doExecute() throws Exception {
         System.out.println("NextAction: " + nextAction);
 
+        // Remove trailing slashes from URL
+        if (url.endsWith("/")){
+            url = url.substring(0, url.length() - 1);
+        }
+
+        // Set all URLs to HTTPS
+        if (url.startsWith("http:")){
+            url = url.replaceFirst("http:","https:");
+        }
+
         if (validations.equals("")){
             if (nextAction.equals("AddRepository")){
 
@@ -82,6 +92,12 @@ public class ConfigureRepositories extends JiraWebActionSupport {
                     System.out.println("PUBLIC Add Repository");
                     addRepositoryURL();
                 }
+
+                String[] urlArray = url.split("/");
+                postCommitURL = "PostCommit.jspa?projectKey=" + projectKey + "&branch=" + urlArray[urlArray.length-1];
+
+                System.out.println(postCommitURL);
+
             }
 
             if (nextAction.equals("DeleteRepository")){
@@ -91,26 +107,17 @@ public class ConfigureRepositories extends JiraWebActionSupport {
             if (nextAction.equals("SyncRepository")){
                 System.out.println("Staring Repository Sync");
 
-                //CommentManager commentManager = ComponentManager.getInstance().getCommentManager();
-                //commentManager.create(issue, "admin", message, true);
-
-                //User githubUser = ComponentManager.getInstance().getUserUtil().getUserObject("jiraGitHubUser");
-                //List<Comment> comments = commentManager.getCommentsForUser(issue, githubUser);
-
-                //Iterator<Comment> commentsIter = comments.iterator();
-
-                //while(commentsIter.hasNext()){
-                //    Comment comment = commentsIter.next();
-                //    commentManager.delete(comment);
-                //}
-
                 GitHubCommits repositoryCommits = new GitHubCommits(pluginSettingsFactory);
                 repositoryCommits.repositoryURL = url;
                 repositoryCommits.projectKey = projectKey;
 
-                // Starts actual search of commits via GitAPI, "1" represents the first
+                // Reset Commit count
+                pluginSettingsFactory.createSettingsForKey(projectKey).put("NonJIRACommitTotal" + url, 0);
+                pluginSettingsFactory.createSettingsForKey(projectKey).put("JIRACommitTotal" + url, 0);
+
+                // Starts actual search of commits via GitAPI, "1" is the first
                 // page of commits to be returned via the API
-                messages = repositoryCommits.searchCommits(1);
+                messages = repositoryCommits.syncCommits(1);
 
             }
         }
@@ -178,6 +185,11 @@ public class ConfigureRepositories extends JiraWebActionSupport {
     private String url = "";
     public void setUrl(String value){this.url = value;}
     public String getURL(){return url;}
+
+    // GitHub Post Commit URL for a specific project and repository
+    private String postCommitURL = "";
+    public void setPostCommitURL(String value){this.postCommitURL = value;}
+    public String getPostCommitURL(){return postCommitURL;}
 
     // GitHub Repository Visibility
     private String repoVisibility = "";
