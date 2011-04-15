@@ -2,6 +2,7 @@ package com.tsc.jira.github.issuetabpanels;
 
 import com.atlassian.core.util.StringUtils;
 import com.atlassian.core.util.collection.EasyList;
+import com.atlassian.gadgets.view.View;
 import com.atlassian.jira.issue.Issue;
 import com.atlassian.jira.issue.tabpanels.GenericMessageAction;
 import com.atlassian.jira.plugin.issuetabpanel.AbstractIssueTabPanel;
@@ -13,17 +14,24 @@ import com.atlassian.sal.api.pluginsettings.PluginSettingsFactory;
 import com.opensymphony.user.User;
 import com.tsc.jira.github.webwork.GitHubCommits;
 
+import com.tsc.jira.github.webwork.ViewProjectRepository;
+
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.lang.reflect.Array;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
-import java.sql.Date;
+import java.util.Date;
+import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
+import java.text.SimpleDateFormat;
+import java.text.ParseException;
+
+
 
 public class GitHubCommitsTabPanel extends AbstractIssueTabPanel {
 
@@ -44,6 +52,7 @@ public class GitHubCommitsTabPanel extends AbstractIssueTabPanel {
         String issueId = (String)issue.getKey();
 
         GitHubCommits gitHubCommits = new GitHubCommits(pluginSettingsFactory);
+        gitHubCommits.projectKey = projectKey;
 
         ArrayList<String> commitArray = new ArrayList<String>();
 
@@ -57,6 +66,7 @@ public class GitHubCommitsTabPanel extends AbstractIssueTabPanel {
 
             for (int i=0; i < commitArray.size(); i++){
                     System.out.println("Found commit id" + commitArray.get(i));
+
                     String commitDetails = gitHubCommits.getCommitDetails(commitArray.get(i));
 
                     issueCommitActions = this.formatCommitDetails(commitDetails);
@@ -73,10 +83,80 @@ public class GitHubCommitsTabPanel extends AbstractIssueTabPanel {
 
         return EasyList.build(githubActions);
 
+
     }
 
     public boolean showPanel(Issue issue, User user) {
         return true;  //To change body of implemented methods use File | Settings | File Templates.
+    }
+
+    private Date parseISO8601(String input) throws ParseException{
+        //NOTE: SimpleDateFormat uses GMT[-+]hh:mm for the TZ which breaks
+        //things a bit.  Before we go on we have to repair this.
+        SimpleDateFormat df = new SimpleDateFormat( "yyyy-MM-dd'T'HH:mm:ssz" );
+
+        //this is zero time so we need to add that TZ indicator for
+        if ( input.endsWith( "Z" ) ) {
+            input = input.substring( 0, input.length() - 1) + "GMT-00:00";
+        } else {
+            int inset = 6;
+
+            String s0 = input.substring( 0, input.length() - inset );
+            String s1 = input.substring( input.length() - inset, input.length() );
+
+            input = s0 + "GMT" + s1;
+        }
+
+        return df.parse(input);
+
+    }
+
+    private String formatCommitDate(Date commitDate) throws ParseException{
+        SimpleDateFormat sdfGithub = new SimpleDateFormat("MMM d, yyyy k:ma");
+        return sdfGithub.format(commitDate);
+    }
+
+    public String extractDiffInformation(String diff){
+
+        // the +3 and -1 remove the leading and trailing spaces
+        Integer first = diff.indexOf("@@") + 3;
+        Integer second = diff.indexOf("@@", first) -1;
+
+        String[] modLine = diff.substring(first,second).replace("+","").replace("-","").split(" ");
+
+        String[] removedEntryArray = modLine[0].split(",");
+        String[] addedEntryArray = modLine[1].split(",");
+
+        String removedEntry = "";
+        String addedEntry = "";
+
+        if (removedEntryArray.length == 1){
+            removedEntry = removedEntryArray[0];
+        }else{
+            removedEntry = removedEntryArray[1];
+        }
+
+        if (addedEntryArray.length == 1){
+            addedEntry = addedEntryArray[0];
+        }else{
+            addedEntry = addedEntryArray[1];
+        }
+
+        if (addedEntry == "0"){
+            addedEntry = "<span style='color: gray'>+" + addedEntry + "</span>";
+        }else{
+            addedEntry = "<span style='color: green'>+" + addedEntry + "</span>";
+        }
+
+        if (removedEntry == "0"){
+            removedEntry = "<span style='color: gray'>-" + removedEntry + "</span>";
+        }else{
+            removedEntry = "<span style='color: red'>-" + removedEntry + "</span>";
+        }
+
+
+        return addedEntry + " " + removedEntry;
+
     }
 
     private String formatCommitDetails(String jsonDetails){
@@ -85,21 +165,61 @@ public class GitHubCommitsTabPanel extends AbstractIssueTabPanel {
                 JSONObject commit = jsonCommits.getJSONObject("commit");
 
                 String message = commit.getString("message");
-                String commit_id = commit.getString("id");
+                String commit_hash = commit.getString("id");
+
+                JSONObject author = commit.getJSONObject("author");
+                String authorName = author.getString("name");
+                String login = author.getString("login");
+                String commitURL = commit.getString("url");
+
+                String[] commitURLArray = commitURL.split("/");
+
+                String projectName = commitURLArray[2];
+
+                String committedDateString = commit.getString("committed_date");
+
+                String formattedCommitDate = "";
+
+                try{
+                    Date committedDate = parseISO8601(committedDateString);
+                    formattedCommitDate = formatCommitDate(committedDate);
+                }catch (ParseException pe){
+
+                }
+
+                String commitTree = commit.getString("tree");
+                String commitMessage = commit.getString("message");
+                JSONObject githubUser = new JSONObject(getUserDetails(login));
+                JSONObject user = githubUser.getJSONObject("user");
+                String userName = user.getString("name");
+                String gravatarHash = user.getString("gravatar_id");
+                String gravatarUrl = "http://www.gravatar.com/avatar/" + gravatarHash + "?s=40";
+
+                String htmlParentHashes = "";
+
+                if(commit.has("parents")){
+                    JSONArray arrayParents = commit.getJSONArray("parents");
+
+                    for (int i=0; i < arrayParents.length(); i++){
+                        String parentHashID = arrayParents.getJSONObject(i).getString("id");
+                        htmlParentHashes = "<tr><td>Parent:</td><td><a href='" + "https://github.com/" + login + "/" + projectName + "/commit/" + parentHashID +"' target='_new'>" + parentHashID + "</a></td></tr>";
+                    }
+
+                }
 
                 String htmlAdded = "";
 
                 if(commit.has("added")){
                     JSONArray arrayAdded = commit.getJSONArray("added");
 
-                    htmlAdded = "<table><tr><th><font color='green'>Added</font></th></tr>";
+                    htmlAdded = "<div style='color: green;'>Added</div><ul>";
 
                     for (int i=0; i < arrayAdded.length(); i++){
                           String addFilename = arrayAdded.getString(i);
-                          htmlAdded += "<tr><td style='padding-left: 20px'>" + addFilename + "</td></tr>";
+                          htmlAdded += "<li>" + addFilename + "</li>";
                     }
 
-                    htmlAdded += "</table>";
+                    htmlAdded += "</ul>";
 
                 }
 
@@ -108,14 +228,14 @@ public class GitHubCommitsTabPanel extends AbstractIssueTabPanel {
                 if(commit.has("removed")){
                     JSONArray arrayRemoved = commit.getJSONArray("removed");
 
-                    htmlRemoved = "<table><tr><th><font color='red'>Removed</font></th></tr>";
+                    htmlRemoved = "<div style='color: red;'>Removed</div><ul>";
 
                     for (int i=0; i < arrayRemoved.length(); i++){
-                          String addFilename = arrayRemoved.getString(i);
-                          htmlRemoved += "<tr><td style='padding-left: 20px'>" + addFilename + "</td></tr>";
+                          String removeFilename = arrayRemoved.getString(i);
+                          htmlRemoved += "<li>" + removeFilename + "</li>";
                     }
 
-                    htmlRemoved += "</table>";
+                    htmlRemoved += "</ul>";
 
                 }
 
@@ -124,42 +244,80 @@ public class GitHubCommitsTabPanel extends AbstractIssueTabPanel {
                 if(commit.has("modified")){
                     JSONArray arrayModified = commit.getJSONArray("modified");
 
-                    htmlModified = "<table><tr><th colspan='2'><font color='blue'>Modified</font></th></tr>";
+                    htmlModified = "<div style='color: blue;'>Modified</div><ul>";
 
                     for (int i=0; i < arrayModified.length(); i++){
                           String modFilename = arrayModified.getJSONObject(i).getString("filename");
                           String modDiff = arrayModified.getJSONObject(i).getString("diff");
-                          htmlModified += "<tr><td style='padding-left: 20px'>" + modFilename + " - " + modDiff + "</td></tr>";
+                          htmlModified += "<li>" + extractDiffInformation(modDiff) + " " + modFilename + "</li>";
                     }
 
-                    htmlModified += "</table>";
+                    htmlModified += "</ul>";
                 }
 
-                JSONObject author = commit.getJSONObject("author");
-                String authorName = author.getString("name");
-                String login = author.getString("login");
-                String commitURL = commit.getString("url");
-                String committedDate = commit.getString("committed_date");
-
-                String commitTree = commit.getString("tree");
-                String commitMessage = commit.getString("message");
-                JSONObject githubUser = new JSONObject(getUserDetails(login));
-                JSONObject user = githubUser.getJSONObject("user");
-                String gravatarHash = user.getString("gravatar_id");
-                String gravatarUrl = "http://www.gravatar.com/avatar/" + gravatarHash + "?s=40";
-
-                String htmlCommitTable = "<table><tr><th bgcolor=''><font color=''><strong>Commit:</strong></font></td><td bgcolor='' ><font color=''><a href='https://github.com" + commitURL + "'>" + commit_id + "</a></font></td></tr>";
-                htmlCommitTable += "<tr><td><strong>Tree:</strong></td><td>" + commitTree + "</td></tr></table>";
 
 
-                String htmlUserTable = "<table><tr><td><img src='" + gravatarUrl + "'></td>";
-                htmlUserTable += "<td><strong><a href='https://github.com/"+ login + "'>" + login + "</a></strong><br/>" + committedDate + "</td></tr></table><hr size='5'>";
 
-                return htmlCommitTable + commitMessage + htmlAdded + htmlRemoved + htmlModified + htmlUserTable;
+String htmlCommitEntry = "" +
+    "<table>" +
+        "<tr>" +
+            "<td valign='top'><a href='#user_url' target='_new'><img src='#gravatar_url' border='0'></a></td>" +
+            "<td valign='top'>" +
+                "<div><a href='#user_url' target='_new'>#user_name - #login</a></div>" +
+                "<table>" +
+                    "<tr>" +
+                        "<td>" +
+                            "<div style='border-left: 4px solid #C9D9EF; background-color: #EAF3FF; padding: 5px; margin-bottom: 10px;'>#commit_message</div>" +
+
+                                htmlAdded +
+                                htmlRemoved +
+                                htmlModified +
+
+                            "<div>" +
+                                "<img src='#resource_page_image' align='center'> <span style='color: #cccccc'>#formatted_commit_date</span>" +
+                            "</div>" +
+
+                        "</td>" +
+
+                        "<td>" +
+                            "<div style='border-left: 2px solid #cccccc; margin-left: 10px; margin-top: 0px; padding-top: 0px;'>" +
+                                "<table style='margin-top: -20px; padding-top: 0px;'>" +
+                                    "<tr><td>Commit:</td><td><a href='#commit_url' target='_new'>#commit_hash</a></td></tr>" +
+                                     "<tr><td>Tree:</td><td><a href='#tree_url' target='_new'>#tree_hash</a></td></tr>" +
+                                     htmlParentHashes +
+                                "</table>" +
+                            "</div>" +
+                        "</td>" +
+
+                    "</tr>" +
+                "</table>" +
+        "</td>" +
+    "</tr>" +
+"</table>";
+
+
+                htmlCommitEntry = htmlCommitEntry.replace("#gravatar_url", gravatarUrl);
+                htmlCommitEntry = htmlCommitEntry.replace("#user_url", "https:github.com/" + login);
+                htmlCommitEntry = htmlCommitEntry.replace("#login", login);
+
+                htmlCommitEntry = htmlCommitEntry.replace("#user_name", userName);
+
+                htmlCommitEntry = htmlCommitEntry.replace("#commit_message", commitMessage);
+
+                htmlCommitEntry = htmlCommitEntry.replace("#formatted_commit_time", committedDateString);
+                htmlCommitEntry = htmlCommitEntry.replace("#formatted_commit_date", formattedCommitDate);
+
+                htmlCommitEntry = htmlCommitEntry.replace("#commit_url", "https://github.com" + commitURL);
+                htmlCommitEntry = htmlCommitEntry.replace("#commit_hash", commit_hash);
+
+                htmlCommitEntry = htmlCommitEntry.replace("#tree_url", "https://github.com/" + login + "/" + projectName + "/tree/" + commit_hash);
+
+                htmlCommitEntry = htmlCommitEntry.replace("#tree_hash", commitTree);
+                return htmlCommitEntry;
 
             }catch (JSONException e){
                 e.printStackTrace();
-                return "exception";
+                return "Invalid or removed GitHub Commit ID found";
             }
 
     }

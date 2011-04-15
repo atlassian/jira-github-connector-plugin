@@ -26,7 +26,6 @@ public class ViewProjectRepository extends JiraWebActionSupport{
     }
 
     protected String doExecute() throws Exception {
-
         return "viewrepository";
     }
 

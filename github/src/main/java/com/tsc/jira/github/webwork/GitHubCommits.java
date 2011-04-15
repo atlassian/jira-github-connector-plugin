@@ -132,17 +132,18 @@ public class GitHubCommits {
 
     private Integer incrementCommitCount(String commitType){
 
-        Integer commitCount = 0;
+        int commitCount;
 
-        if ((Integer)pluginSettingsFactory.createSettingsForKey(projectKey).get(commitType + repositoryURL) != null){
+        if (pluginSettingsFactory.createSettingsForKey(projectKey).get(commitType + repositoryURL) == null){
             commitCount = 0;
         }else{
-            commitCount = (Integer)pluginSettingsFactory.createSettingsForKey(projectKey).get(commitType + repositoryURL);
+            String stringCount = (String)pluginSettingsFactory.createSettingsForKey(projectKey).get(commitType + repositoryURL);
+            commitCount = Integer.parseInt(stringCount) + 1;
         }
 
-        commitCount += 1;
+        commitCount = commitCount + 1;
 
-        pluginSettingsFactory.createSettingsForKey(projectKey).put(commitType + repositoryURL, commitCount);
+        pluginSettingsFactory.createSettingsForKey(projectKey).put(commitType + repositoryURL, Integer.toString(commitCount));
 
         return commitCount;
 
@@ -203,10 +204,12 @@ public class GitHubCommits {
 
     }
 
+
+
     public String postReceiveHook(String payload){
 
         Date date = new Date();
-        pluginSettingsFactory.createSettingsForKey(projectKey).put("githubLastSyncTime" + repositoryURL, date);
+        pluginSettingsFactory.createSettingsForKey(projectKey).put("githubLastSyncTime" + repositoryURL, date.toString());
 
         System.out.println("postBack()");
         String messages = "";

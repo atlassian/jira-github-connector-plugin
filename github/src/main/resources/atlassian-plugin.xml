@@ -15,7 +15,7 @@
 
         <description>Show GitHub commits related to an issue in an issue tab panel.</description>
         <label>GitHub Commits</label>
-        <resource type="velocity" name="view" location="templates/com/tsc/jira/github/issuetabpanels/commits-vddddiew.vm"/>
+        <resource type="velocity" name="view" location="templates/com/tsc/jira/github/issuetabpanels/view.vm"/>
     </issue-tabpanel>
 
 
