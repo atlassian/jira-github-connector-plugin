@@ -112,8 +112,8 @@ public class ConfigureRepositories extends JiraWebActionSupport {
                 repositoryCommits.projectKey = projectKey;
 
                 // Reset Commit count
-                pluginSettingsFactory.createSettingsForKey(projectKey).put("NonJIRACommitTotal" + url, 0);
-                pluginSettingsFactory.createSettingsForKey(projectKey).put("JIRACommitTotal" + url, 0);
+                pluginSettingsFactory.createSettingsForKey(projectKey).put("NonJIRACommitTotal" + url, null);
+                pluginSettingsFactory.createSettingsForKey(projectKey).put("JIRACommitTotal" + url, null);
 
                 // Starts actual search of commits via GitAPI, "1" is the first
                 // page of commits to be returned via the API

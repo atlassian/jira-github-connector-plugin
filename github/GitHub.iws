@@ -59,19 +59,19 @@
   </component>
   <component name="FileEditorManager">
     <leaf>
-      <file leaf-file-name="atlassian-plugin.xml" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/resources/atlassian-plugin.xml">
+      <file leaf-file-name="input.vm" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main/resources/templates/com/tsc/jira/github/webwork/input.vm">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="26" column="49" selection-start="1327" selection-end="1327" vertical-scroll-proportion="0.0">
+            <state line="131" column="94" selection-start="4465" selection-end="4465" vertical-scroll-proportion="-12.771428">
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="commits-view.vm" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/resources/templates/com/tsc/jira/github/issuetabpanels/commits-view.vm">
+      <file leaf-file-name="ViewProjectRepository.java" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main/java/com/tsc/jira/github/webwork/ViewProjectRepository.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="0" column="17" selection-start="6" selection-end="6" vertical-scroll-proportion="-0.0">
+            <state line="28" column="0" selection-start="896" selection-end="896" vertical-scroll-proportion="0.0">
               <folding />
             </state>
           </provider>
@@ -80,48 +80,10 @@
       <file leaf-file-name="GitHubCommitsTabPanel.java" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/main/java/com/tsc/jira/github/issuetabpanels/GitHubCommitsTabPanel.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="130" column="89" selection-start="5003" selection-end="5003" vertical-scroll-proportion="0.51473475">
+            <state line="175" column="31" selection-start="6141" selection-end="6141" vertical-scroll-proportion="0.6368243">
               <folding>
                 <element signature="imports" expanded="true" />
               </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="ConfigureGlobalSettings.java" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/java/com/tsc/jira/github/webwork/ConfigureGlobalSettings.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="31" column="26" selection-start="1209" selection-end="1209" vertical-scroll-proportion="0.0">
-              <folding>
-                <element signature="imports" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="pom.xml" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/pom.xml">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="55" column="24" selection-start="1954" selection-end="1954" vertical-scroll-proportion="0.0">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="input.vm" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/resources/templates/com/tsc/jira/github/webwork/global_settings/input.vm">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="40" column="42" selection-start="1268" selection-end="1268" vertical-scroll-proportion="0.0">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="input.vm" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/resources/templates/com/tsc/jira/github/webwork/input.vm">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="102" column="61" selection-start="3262" selection-end="3262" vertical-scroll-proportion="-6.7377048">
-              <folding />
             </state>
           </provider>
         </entry>
@@ -129,7 +91,43 @@
       <file leaf-file-name="GitHubCommits.java" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/java/com/tsc/jira/github/webwork/GitHubCommits.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="147" column="37" selection-start="5001" selection-end="5001" vertical-scroll-proportion="0.0">
+            <state line="28" column="6" selection-start="902" selection-end="930" vertical-scroll-proportion="0.0">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="atlassian-plugin.xml" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main/resources/atlassian-plugin.xml">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="17" column="105" selection-start="997" selection-end="997" vertical-scroll-proportion="0.0">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="commits-view.vm" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main/resources/templates/com/tsc/jira/github/issuetabpanels/commits-view.vm">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="0" column="3" selection-start="3" selection-end="3" vertical-scroll-proportion="-0.0">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="view.vm" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main/resources/templates/com/tsc/jira/github/issuetabpanels/view.vm">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="0" column="30" selection-start="20" selection-end="20" vertical-scroll-proportion="-0.0">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="GitHubPostCommit.java" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main/java/com/tsc/jira/github/webwork/GitHubPostCommit.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="58" column="69" selection-start="1968" selection-end="1968" vertical-scroll-proportion="0.0">
               <folding>
                 <element signature="imports" expanded="true" />
               </folding>
@@ -137,19 +135,10 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="GitHubOAuth2.java" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/java/com/tsc/jira/github/webwork/GitHubOAuth2.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="15" column="13" selection-start="451" selection-end="451" vertical-scroll-proportion="0.0">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
       <file leaf-file-name="ConfigureRepositories.java" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/java/com/tsc/jira/github/webwork/ConfigureRepositories.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="107" column="11" selection-start="4934" selection-end="4934" vertical-scroll-proportion="0.0">
+            <state line="115" column="104" selection-start="5147" selection-end="5147" vertical-scroll-proportion="0.0">
               <folding />
             </state>
           </provider>
@@ -169,20 +158,20 @@
   <component name="IdeDocumentHistory">
     <option name="changedFiles">
       <list>
-        <option value="$PROJECT_DIR$/src/main/resources/templates/com/tsc/jira/github/webwork/viewrepository.vm" />
-        <option value="$PROJECT_DIR$/src/main/java/com/tsc/jira/github/webwork/ViewProjectRepository.java" />
-        <option value="$PROJECT_DIR$/src/main/resources/templates/com/tsc/jira/github/webwork/redirect.vm" />
-        <option value="$PROJECT_DIR$/src/main/resources/templates/com/tsc/jira/github/webwork/githuboauth2/success.vm" />
-        <option value="$PROJECT_DIR$/src/main/java/com/tsc/jira/github/webwork/GitHubOAuth2.java" />
         <option value="$PROJECT_DIR$/src/main/java/com/tsc/jira/github/webwork/ExternalStreamsActivityProvider.java" />
-        <option value="$PROJECT_DIR$/src/main/resources/templates/com/tsc/jira/github/webwork/input.vm" />
-        <option value="$PROJECT_DIR$/src/main/resources/templates/com/tsc/jira/github/webwork/global_settings/input.vm" />
         <option value="$PROJECT_DIR$/pom.xml" />
         <option value="$PROJECT_DIR$/src/main/java/com/tsc/jira/github/issuetabpanels/GitHubCommitMessages.java" />
-        <option value="$PROJECT_DIR$/src/main/java/com/tsc/jira/github/webwork/ConfigureGlobalSettings.java" />
-        <option value="$PROJECT_DIR$/src/main/java/com/tsc/jira/github/webwork/ConfigureRepositories.java" />
         <option value="$PROJECT_DIR$/src/main/resources/templates/com/tsc/jira/github/issuetabpanels/commits-view.vm" />
+        <option value="$PROJECT_DIR$/src/main/java/com/tsc/jira/github/webwork/ConfigureGlobalSettings.java" />
+        <option value="$PROJECT_DIR$/src/main/resources/templates/com/tsc/jira/github/webwork/global_settings/input.vm" />
+        <option value="$PROJECT_DIR$/src/main/resources/templates/com/tsc/jira/github/webwork/postcommit.vm" />
+        <option value="$PROJECT_DIR$/src/main/java/com/tsc/jira/github/webwork/GitHubPostCommit.java" />
+        <option value="$PROJECT_DIR$/src/main/resources/templates/com/tsc/jira/github/webwork/input.vm" />
+        <option value="$PROJECT_DIR$/src/main/java/com/tsc/jira/github/webwork/ViewProjectRepository.java" />
         <option value="$PROJECT_DIR$/src/main/resources/atlassian-plugin.xml" />
+        <option value="$PROJECT_DIR$/src/main/resources/templates/com/tsc/jira/github/issuetabpanels/view.vm" />
+        <option value="$PROJECT_DIR$/src/main/java/com/tsc/jira/github/webwork/ISO8601DateParser.java" />
+        <option value="$PROJECT_DIR$/src/main/java/com/tsc/jira/github/webwork/ConfigureRepositories.java" />
         <option value="$PROJECT_DIR$/src/main/java/com/tsc/jira/github/webwork/GitHubCommits.java" />
         <option value="$PROJECT_DIR$/src/main/java/com/tsc/jira/github/issuetabpanels/GitHubCommitsTabPanel.java" />
       </list>
@@ -229,6 +218,7 @@
     </navigator>
     <panes>
       <pane id="Favorites" />
+      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <PATH>
@@ -306,6 +296,104 @@
             </PATH_ELEMENT>
             <PATH_ELEMENT>
               <option name="myItemId" value="github" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="GitHub" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="github" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="src" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="main" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="resources" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="github" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="webwork" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="GitHub" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="github" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="src" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="main" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="resources" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="github" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="webwork" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="global_settings" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="GitHub" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="github" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="src" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="main" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="resources" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="github" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="webwork" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="githuboauth2" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
@@ -427,7 +515,6 @@
           </PATH>
         </subPane>
       </pane>
-      <pane id="Scope" />
       <pane id="PackagesPane" />
     </panes>
   </component>
@@ -445,9 +532,9 @@
     <property name="GoToClass.toSaveIncludeLibraries" value="false" />
     <property name="MemberChooser.showClasses" value="true" />
     <property name="GoToClass.includeLibraries" value="false" />
-    <property name="dynamic.classpath" value="false" />
-    <property name="options.splitter.details.proportions" value="0.2" />
     <property name="options.searchVisible" value="true" />
+    <property name="options.splitter.details.proportions" value="0.2" />
+    <property name="dynamic.classpath" value="false" />
   </component>
   <component name="RunManager">
     <configuration default="true" type="Remote" factoryName="Remote">
@@ -576,24 +663,24 @@
     </todo-panel>
   </component>
   <component name="ToolWindowManager">
-    <frame x="2560" y="109" width="1920" height="1200" extended-state="6" />
+    <frame x="0" y="22" width="2560" height="1346" extended-state="6" />
     <editor active="true" />
     <layout>
       <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Palette" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
-      <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
-      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32789558" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
-      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
-      <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32952693" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
+      <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="true" content_ui="tabs" />
-      <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.1656868" sideWeight="0.6721044" order="0" side_tool="false" content_ui="tabs" />
+      <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Dependency Viewer" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.14376742" sideWeight="0.0" order="0" side_tool="false" content_ui="tabs" />
+      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
+      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32789558" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
       <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
     </layout>
@@ -635,110 +722,107 @@
     <option name="FILTER_TARGETS" value="false" />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/README">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="6" column="40" selection-start="337" selection-end="337" vertical-scroll-proportion="0.14843006" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/GitHub.iws">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/GitHub.ipr">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/GitHub.iml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="1" column="0" selection-start="39" selection-end="39" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/.classpath">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/resources/templates/com/tsc/jira/github/webwork/global_settings/input.vm">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="40" column="42" selection-start="1268" selection-end="1268" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="jar://$MAVEN_REPOSITORY$/com/atlassian/jira/atlassian-jira/4.3.1/atlassian-jira-4.3.1.jar!/com/atlassian/jira/user/util/UserUtil.class">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="2" column="66" selection-start="113" selection-end="113" vertical-scroll-proportion="0.051332675">
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/pom.xml">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="55" column="24" selection-start="1954" selection-end="1954" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
+        <state line="55" column="24" selection-start="1954" selection-end="1954" vertical-scroll-proportion="0.0" />
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/com/tsc/jira/github/webwork/GitHubOAuth2.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="15" column="13" selection-start="451" selection-end="451" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/resources/templates/com/tsc/jira/github/webwork/input.vm">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="102" column="61" selection-start="3262" selection-end="3262" vertical-scroll-proportion="-6.7377048">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/tsc/jira/github/webwork/ConfigureRepositories.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="107" column="11" selection-start="4934" selection-end="4934" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
+        <state line="15" column="13" selection-start="451" selection-end="451" vertical-scroll-proportion="0.0" />
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/com/tsc/jira/github/webwork/ConfigureGlobalSettings.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="31" column="26" selection-start="1209" selection-end="1209" vertical-scroll-proportion="0.0">
+        <state line="17" column="36" selection-start="675" selection-end="675" vertical-scroll-proportion="0.0">
           <folding>
             <element signature="imports" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/resources/templates/com/tsc/jira/github/issuetabpanels/commits-view.vm">
+    <entry file="file://$PROJECT_DIR$/src/main/resources/templates/com/tsc/jira/github/webwork/githuboauth2/success.vm">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="0" column="17" selection-start="6" selection-end="6" vertical-scroll-proportion="-0.0">
+        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/resources/templates/com/tsc/jira/github/webwork/global_settings/input.vm">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="19" column="63" selection-start="373" selection-end="373" vertical-scroll-proportion="-8.171429">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/resources/templates/com/tsc/jira/github/webwork/postcommit.vm">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="0" column="112" selection-start="24" selection-end="24" vertical-scroll-proportion="-0.0">
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/resources/atlassian-plugin.xml">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="26" column="49" selection-start="1327" selection-end="1327" vertical-scroll-proportion="0.0">
+        <state line="17" column="105" selection-start="997" selection-end="997" vertical-scroll-proportion="0.0">
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/tsc/jira/github/webwork/GitHubCommits.java">
+    <entry file="file://$PROJECT_DIR$/src/main/resources/templates/com/tsc/jira/github/issuetabpanels/commits-view.vm">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="147" column="37" selection-start="5001" selection-end="5001" vertical-scroll-proportion="0.0">
+        <state line="0" column="3" selection-start="3" selection-end="3" vertical-scroll-proportion="-0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/resources/templates/com/tsc/jira/github/issuetabpanels/view.vm">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="0" column="30" selection-start="20" selection-end="20" vertical-scroll-proportion="-0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/resources/templates/com/tsc/jira/github/webwork/input.vm">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="131" column="94" selection-start="4465" selection-end="4465" vertical-scroll-proportion="-12.771428">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/tsc/jira/github/webwork/ViewProjectRepository.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="28" column="0" selection-start="896" selection-end="896" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/tsc/jira/github/webwork/GitHubPostCommit.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="58" column="69" selection-start="1968" selection-end="1968" vertical-scroll-proportion="0.0">
           <folding>
             <element signature="imports" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/tsc/jira/github/webwork/ConfigureRepositories.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="115" column="104" selection-start="5147" selection-end="5147" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/tsc/jira/github/webwork/GitHubCommits.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="28" column="6" selection-start="902" selection-end="930" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/com/tsc/jira/github/issuetabpanels/GitHubCommitsTabPanel.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="130" column="89" selection-start="5003" selection-end="5003" vertical-scroll-proportion="0.51473475">
+        <state line="175" column="31" selection-start="6141" selection-end="6141" vertical-scroll-proportion="0.6368243">
           <folding>
             <element signature="imports" expanded="true" />
           </folding>

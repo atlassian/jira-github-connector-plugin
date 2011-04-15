@@ -47,6 +47,11 @@ public class GitHubCommits {
         return "https://github.com/api/v2/json/commits/show/" + path[3] + "/" + path[4] +"/";
     }
 
+    private String getBranchFromURL(){
+        String[] path = repositoryURL.split("/");
+        return path[5];
+    }
+
     // Only used for Private Github Repositories
     private String getAccessTokenParameter(){
 
@@ -152,7 +157,7 @@ public class GitHubCommits {
     public String syncCommits(Integer pageNumber){
 
         Date date = new Date();
-        pluginSettingsFactory.createSettingsForKey(projectKey).put("githubLastSyncTime" + repositoryURL, date);
+        pluginSettingsFactory.createSettingsForKey(projectKey).put("githubLastSyncTime" + repositoryURL, date.toString());
 
         System.out.println("searchCommits()");
         String commitsAsJSON = getCommitsList(pageNumber);
@@ -174,7 +179,7 @@ public class GitHubCommits {
                         if (!extractProjectKey(message).equals("")){
 
                             String issueId = extractProjectKey(message);
-                            addCommitID(issueId, commit_id);
+                            addCommitID(issueId, commit_id, getBranchFromURL());
                             incrementCommitCount("JIRACommitTotal");
 
                             messages += "<div class='jira_issue'>" + issueId + " " + commit_id + "</div>";
@@ -227,7 +232,7 @@ public class GitHubCommits {
                     if (!extractProjectKey(message).equals("")){
 
                         String issueId = extractProjectKey(message);
-                        addCommitID(issueId, commit_id);
+                        addCommitID(issueId, commit_id, getBranchFromURL());
                         incrementCommitCount("JIRACommitTotal");
 
                         messages += "<div class='jira_issue'>" + issueId + " " + commit_id + "</div>";
@@ -253,9 +258,9 @@ public class GitHubCommits {
 
     }
 
-    // Manages the entry of multiple Github commit id hash urls associated with an issue
-    // urls look like - github.com/api/v2/json/commits/show/mojombo/grit/5071bf9fbfb81778c456d62e111440fdc776f76c
-    private void addCommitID(String issueId, String commitId){
+    // Manages the entry of multiple Github commit id hash ids associated with an issue
+    // urls look like - https://github.com/api/v2/json/commits/show/mojombo/grit/5071bf9fbfb81778c456d62e111440fdc776f76c?branch=master
+    private void addCommitID(String issueId, String commitId, String branch){
         ArrayList<String> commitArray = new ArrayList<String>();
 
         // First Time Repository URL is saved
@@ -266,7 +271,7 @@ public class GitHubCommits {
         Boolean boolExists = false;
 
         for (int i=0; i < commitArray.size(); i++){
-            if ((inferCommitDetailsURL() + commitId).equals(commitArray.get(i))){
+            if ((inferCommitDetailsURL() + commitId + "?branch=" + branch).equals(commitArray.get(i))){
                 System.out.println("Found commit id" + commitArray.get(i));
                 boolExists = true;
             }
@@ -274,7 +279,7 @@ public class GitHubCommits {
 
         if (!boolExists){
             System.out.println("addCommitID: Adding CommitID " + inferCommitDetailsURL() + commitId );
-            commitArray.add(inferCommitDetailsURL() + commitId);
+            commitArray.add(inferCommitDetailsURL() + commitId + "?branch=" + branch);
             pluginSettingsFactory.createSettingsForKey(projectKey).put("githubIssueCommitArray" + issueId, commitArray);
         }else{
             System.out.println("addCommitID: commit id already present");

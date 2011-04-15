@@ -37,6 +37,11 @@ public class GitHubCommitsTabPanel extends AbstractIssueTabPanel {
 
     final PluginSettingsFactory pluginSettingsFactory;
 
+    public String repositoryURL;
+    public String repoLogin;
+    public String repoName;
+    public String branch;
+
     public GitHubCommitsTabPanel(PluginSettingsFactory pluginSettingsFactory){
         this.pluginSettingsFactory = pluginSettingsFactory;
     }
@@ -45,6 +50,32 @@ public class GitHubCommitsTabPanel extends AbstractIssueTabPanel {
     {
         params.put("stringUtils", new StringUtils());
         params.put("github", this);
+    }
+
+    private String getRepositoryURLFromCommitURL(String commitURL){
+
+        // https://github.com/api/v2/json/commits/show/mojombo/grit/5071bf9fbfb81778c456d62e111440fdc776f76c?branch=master
+
+        String[] arrayCommitURL = commitURL.split("/");
+        String[] arrayBranch = commitURL.split("=");
+
+        String branch = "";
+
+        if(arrayBranch.length == 1){
+            branch = "master";
+        }else{
+            branch = arrayBranch[1];
+        }
+
+        String repoBranchURL = "https://github.com/" + arrayCommitURL[8] + "/" + arrayCommitURL[9] + "/" + branch;
+        System.out.println("RepoBranchURL: " + repoBranchURL);
+
+        this.repositoryURL = repoBranchURL;
+        this.repoLogin = arrayCommitURL[8];
+        this.repoName = arrayCommitURL[9];
+        this.branch = branch;
+
+        return repoBranchURL;
     }
 
     public List getActions(Issue issue, User user) {
@@ -67,6 +98,7 @@ public class GitHubCommitsTabPanel extends AbstractIssueTabPanel {
             for (int i=0; i < commitArray.size(); i++){
                     System.out.println("Found commit id" + commitArray.get(i));
 
+                    gitHubCommits.repositoryURL = getRepositoryURLFromCommitURL(commitArray.get(i));
                     String commitDetails = gitHubCommits.getCommitDetails(commitArray.get(i));
 
                     issueCommitActions = this.formatCommitDetails(commitDetails);
@@ -76,8 +108,6 @@ public class GitHubCommitsTabPanel extends AbstractIssueTabPanel {
                     System.out.println("Commit Entry: " + "githubIssueCommitArray" + i );
 
             }
-
-
 
         }
 
@@ -116,7 +146,8 @@ public class GitHubCommitsTabPanel extends AbstractIssueTabPanel {
         return sdfGithub.format(commitDate);
     }
 
-    public String extractDiffInformation(String diff){
+
+    private String extractDiffInformation(String diff){
 
         // the +3 and -1 remove the leading and trailing spaces
         Integer first = diff.indexOf("@@") + 3;
@@ -156,6 +187,13 @@ public class GitHubCommitsTabPanel extends AbstractIssueTabPanel {
 
 
         return addedEntry + " " + removedEntry;
+
+    }
+
+    private String fileCommitURL(String filename, String commitHash){
+        // https://github.com/mbuckbee/projecttest/blob/118f75ca466da85525b79bf9d8836aae64b5f949/file1
+        String fileCommitURL = "https://github.com/" + repoLogin + "/" + repoName + "/blob/" + commitHash + "/" + filename;
+        return fileCommitURL;
 
     }
 
@@ -216,7 +254,7 @@ public class GitHubCommitsTabPanel extends AbstractIssueTabPanel {
 
                     for (int i=0; i < arrayAdded.length(); i++){
                           String addFilename = arrayAdded.getString(i);
-                          htmlAdded += "<li>" + addFilename + "</li>";
+                          htmlAdded += "<li><a href='" + fileCommitURL(addFilename, commit_hash) + "' target='_new'>" + addFilename + "</a></li>";
                     }
 
                     htmlAdded += "</ul>";
@@ -232,7 +270,7 @@ public class GitHubCommitsTabPanel extends AbstractIssueTabPanel {
 
                     for (int i=0; i < arrayRemoved.length(); i++){
                           String removeFilename = arrayRemoved.getString(i);
-                          htmlRemoved += "<li>" + removeFilename + "</li>";
+                          htmlRemoved += "<li><a href='" + fileCommitURL(removeFilename, commit_hash) + "' target='_new'>" + removeFilename + "</a></li>";
                     }
 
                     htmlRemoved += "</ul>";
@@ -249,7 +287,7 @@ public class GitHubCommitsTabPanel extends AbstractIssueTabPanel {
                     for (int i=0; i < arrayModified.length(); i++){
                           String modFilename = arrayModified.getJSONObject(i).getString("filename");
                           String modDiff = arrayModified.getJSONObject(i).getString("diff");
-                          htmlModified += "<li>" + extractDiffInformation(modDiff) + " " + modFilename + "</li>";
+                          htmlModified += "<li>" + extractDiffInformation(modDiff) + " <a href='" + fileCommitURL(modFilename, commit_hash) + "' target='_new'>"+ modFilename + "</a></li>";
                     }
 
                     htmlModified += "</ul>";
