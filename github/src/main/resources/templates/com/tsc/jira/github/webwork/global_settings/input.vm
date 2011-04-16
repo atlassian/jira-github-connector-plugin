@@ -37,7 +37,7 @@
               <p>Additionally, please do <strong>NOT</strong> include a trailing slash "/" on the Callback URL as this will cause the callbacks to fail.</p>
 
               <div>
-                  <img style="border: 10px solid #ddd;" src="https://img.skitch.com/20110318-q71u2j54y29bufi6kkix8bu9eh.jpg">
+                  <img style="border: 10px solid #ddd;" src="/jira/download/resources/com.tsc.jira.github.GitHub/images/github_oauth.jpg">
               </div>
 
                <br/>

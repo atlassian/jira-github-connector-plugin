@@ -88,7 +88,6 @@
                             <td><a href="$repository" target="_new" style="margin-left: 20px">$repository</a></td>
                             <td>$project.key</td>
                             <td width="120px">
-                                <a href="/jira/secure/admin/ViewProjectRepository.jspa?url=$repository&projectKey=$project.key&projectName=$project.name">View</a> |
                                 <a href="/jira/secure/admin/ConfigureRepositories.jspa?url=$repository&projectKey=$project.key&nextAction=SyncRepository">Force Sync</a> |
                                 <a href="#" onclick="confirmation('/jira/secure/admin/ConfigureRepositories.jspa?nextAction=DeleteRepository&url=$repository&projectKey=$project.key')">Delete</a>
                             </td>
@@ -102,6 +101,11 @@
 
                 #if ($action.getMessages() != "")
                     <div style="margin: 10px; border: 2px solid black; background: #ddd; padding: 15px;">
+
+
+
+
+
                            $action.getMessages()
                     </div>
                 #end

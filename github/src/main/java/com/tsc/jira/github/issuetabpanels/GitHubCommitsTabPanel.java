@@ -240,7 +240,7 @@ public class GitHubCommitsTabPanel extends AbstractIssueTabPanel {
 
                     for (int i=0; i < arrayParents.length(); i++){
                         String parentHashID = arrayParents.getJSONObject(i).getString("id");
-                        htmlParentHashes = "<tr><td>Parent:</td><td><a href='" + "https://github.com/" + login + "/" + projectName + "/commit/" + parentHashID +"' target='_new'>" + parentHashID + "</a></td></tr>";
+                        htmlParentHashes = "<tr><td style='color: #757575'>Parent:</td><td><a href='" + "https://github.com/" + login + "/" + projectName + "/commit/" + parentHashID +"' target='_new'>" + parentHashID + "</a></td></tr>";
                     }
 
                 }
@@ -305,23 +305,23 @@ String htmlCommitEntry = "" +
                 "<table>" +
                     "<tr>" +
                         "<td>" +
-                            "<div style='border-left: 4px solid #C9D9EF; background-color: #EAF3FF; padding: 5px; margin-bottom: 10px;'>#commit_message</div>" +
+                            "<div style='border-left: 4px solid #C9D9EF; background-color: #EAF3FF; color: #5D5F62; padding: 5px; margin-bottom: 10px;'>#commit_message</div>" +
 
                                 htmlAdded +
                                 htmlRemoved +
                                 htmlModified +
 
                             "<div>" +
-                                "<img src='#resource_page_image' align='center'> <span style='color: #cccccc'>#formatted_commit_date</span>" +
+                                "<img src='/jira/download/resources/com.tsc.jira.github.GitHub/images/document.jpg' align='center'> <span style='color: #757575; font-size: 9pt;'>#formatted_commit_date</span>" +
                             "</div>" +
 
                         "</td>" +
 
-                        "<td>" +
+                        "<td width='400'>" +
                             "<div style='border-left: 2px solid #cccccc; margin-left: 10px; margin-top: 0px; padding-top: 0px;'>" +
                                 "<table style='margin-top: -20px; padding-top: 0px;'>" +
-                                    "<tr><td>Commit:</td><td><a href='#commit_url' target='_new'>#commit_hash</a></td></tr>" +
-                                     "<tr><td>Tree:</td><td><a href='#tree_url' target='_new'>#tree_hash</a></td></tr>" +
+                                    "<tr><td style='color: #757575'>Commit:</td><td><a href='#commit_url' target='_new'>#commit_hash</a></td></tr>" +
+                                     "<tr><td style='color: #757575'>Tree:</td><td><a href='#tree_url' target='_new'>#tree_hash</a></td></tr>" +
                                      htmlParentHashes +
                                 "</table>" +
                             "</div>" +

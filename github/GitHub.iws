@@ -62,7 +62,16 @@
       <file leaf-file-name="input.vm" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/resources/templates/com/tsc/jira/github/webwork/input.vm">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="131" column="94" selection-start="4465" selection-end="4465" vertical-scroll-proportion="-12.771428">
+            <state line="108" column="31" selection-start="3090" selection-end="3090" vertical-scroll-proportion="-33.42857">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="input.vm" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main/resources/templates/com/tsc/jira/github/webwork/global_settings/input.vm">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="39" column="132" selection-start="1414" selection-end="1414" vertical-scroll-proportion="-20.057142">
               <folding />
             </state>
           </provider>
@@ -77,10 +86,10 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="GitHubCommitsTabPanel.java" pinned="false" current="true" current-in-tab="true">
+      <file leaf-file-name="GitHubCommitsTabPanel.java" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/java/com/tsc/jira/github/issuetabpanels/GitHubCommitsTabPanel.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="175" column="31" selection-start="6141" selection-end="6141" vertical-scroll-proportion="0.6368243">
+            <state line="314" column="111" selection-start="11956" selection-end="12027" vertical-scroll-proportion="0.0">
               <folding>
                 <element signature="imports" expanded="true" />
               </folding>
@@ -91,25 +100,25 @@
       <file leaf-file-name="GitHubCommits.java" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/java/com/tsc/jira/github/webwork/GitHubCommits.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="28" column="6" selection-start="902" selection-end="930" vertical-scroll-proportion="0.0">
+            <state line="213" column="106" selection-start="7557" selection-end="7557" vertical-scroll-proportion="0.0">
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="atlassian-plugin.xml" pinned="false" current="false" current-in-tab="false">
+      <file leaf-file-name="atlassian-plugin.xml" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/main/resources/atlassian-plugin.xml">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="17" column="105" selection-start="997" selection-end="997" vertical-scroll-proportion="0.0">
+            <state line="28" column="105" selection-start="1332" selection-end="1332" vertical-scroll-proportion="0.21804512">
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="commits-view.vm" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/resources/templates/com/tsc/jira/github/issuetabpanels/commits-view.vm">
+      <file leaf-file-name="pom.xml" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/pom.xml">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="0" column="3" selection-start="3" selection-end="3" vertical-scroll-proportion="-0.0">
+            <state line="7" column="30" selection-start="315" selection-end="334" vertical-scroll-proportion="0.0">
               <folding />
             </state>
           </provider>
@@ -138,7 +147,7 @@
       <file leaf-file-name="ConfigureRepositories.java" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/java/com/tsc/jira/github/webwork/ConfigureRepositories.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="115" column="104" selection-start="5147" selection-end="5147" vertical-scroll-proportion="0.0">
+            <state line="119" column="101" selection-start="5293" selection-end="5293" vertical-scroll-proportion="0.0">
               <folding />
             </state>
           </provider>
@@ -163,17 +172,17 @@
         <option value="$PROJECT_DIR$/src/main/java/com/tsc/jira/github/issuetabpanels/GitHubCommitMessages.java" />
         <option value="$PROJECT_DIR$/src/main/resources/templates/com/tsc/jira/github/issuetabpanels/commits-view.vm" />
         <option value="$PROJECT_DIR$/src/main/java/com/tsc/jira/github/webwork/ConfigureGlobalSettings.java" />
-        <option value="$PROJECT_DIR$/src/main/resources/templates/com/tsc/jira/github/webwork/global_settings/input.vm" />
         <option value="$PROJECT_DIR$/src/main/resources/templates/com/tsc/jira/github/webwork/postcommit.vm" />
         <option value="$PROJECT_DIR$/src/main/java/com/tsc/jira/github/webwork/GitHubPostCommit.java" />
-        <option value="$PROJECT_DIR$/src/main/resources/templates/com/tsc/jira/github/webwork/input.vm" />
         <option value="$PROJECT_DIR$/src/main/java/com/tsc/jira/github/webwork/ViewProjectRepository.java" />
-        <option value="$PROJECT_DIR$/src/main/resources/atlassian-plugin.xml" />
         <option value="$PROJECT_DIR$/src/main/resources/templates/com/tsc/jira/github/issuetabpanels/view.vm" />
         <option value="$PROJECT_DIR$/src/main/java/com/tsc/jira/github/webwork/ISO8601DateParser.java" />
+        <option value="$PROJECT_DIR$/src/main/java/com/tsc/jira/github/issuetabpanels/GitHubCommitsTabPanel.java" />
+        <option value="$PROJECT_DIR$/src/main/resources/templates/com/tsc/jira/github/webwork/input.vm" />
         <option value="$PROJECT_DIR$/src/main/java/com/tsc/jira/github/webwork/ConfigureRepositories.java" />
         <option value="$PROJECT_DIR$/src/main/java/com/tsc/jira/github/webwork/GitHubCommits.java" />
-        <option value="$PROJECT_DIR$/src/main/java/com/tsc/jira/github/issuetabpanels/GitHubCommitsTabPanel.java" />
+        <option value="$PROJECT_DIR$/src/main/resources/templates/com/tsc/jira/github/webwork/global_settings/input.vm" />
+        <option value="$PROJECT_DIR$/src/main/resources/atlassian-plugin.xml" />
       </list>
     </option>
   </component>
@@ -722,11 +731,6 @@
     <option name="FILTER_TARGETS" value="false" />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/pom.xml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="55" column="24" selection-start="1954" selection-end="1954" vertical-scroll-proportion="0.0" />
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/com/tsc/jira/github/webwork/GitHubOAuth2.java">
       <provider selected="true" editor-type-id="text-editor">
         <state line="15" column="13" selection-start="451" selection-end="451" vertical-scroll-proportion="0.0" />
@@ -748,23 +752,9 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/resources/templates/com/tsc/jira/github/webwork/global_settings/input.vm">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="19" column="63" selection-start="373" selection-end="373" vertical-scroll-proportion="-8.171429">
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/main/resources/templates/com/tsc/jira/github/webwork/postcommit.vm">
       <provider selected="true" editor-type-id="text-editor">
         <state line="0" column="112" selection-start="24" selection-end="24" vertical-scroll-proportion="-0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/resources/atlassian-plugin.xml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="17" column="105" selection-start="997" selection-end="997" vertical-scroll-proportion="0.0">
           <folding />
         </state>
       </provider>
@@ -783,16 +773,16 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/resources/templates/com/tsc/jira/github/webwork/input.vm">
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/tsc/jira/github/webwork/ViewProjectRepository.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="131" column="94" selection-start="4465" selection-end="4465" vertical-scroll-proportion="-12.771428">
+        <state line="28" column="0" selection-start="896" selection-end="896" vertical-scroll-proportion="0.0">
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/tsc/jira/github/webwork/ViewProjectRepository.java">
+    <entry file="file://$PROJECT_DIR$/pom.xml">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="28" column="0" selection-start="896" selection-end="896" vertical-scroll-proportion="0.0">
+        <state line="7" column="30" selection-start="315" selection-end="334" vertical-scroll-proportion="0.0">
           <folding />
         </state>
       </provider>
@@ -808,24 +798,45 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/com/tsc/jira/github/webwork/ConfigureRepositories.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="115" column="104" selection-start="5147" selection-end="5147" vertical-scroll-proportion="0.0">
+        <state line="119" column="101" selection-start="5293" selection-end="5293" vertical-scroll-proportion="0.0">
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/com/tsc/jira/github/webwork/GitHubCommits.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="28" column="6" selection-start="902" selection-end="930" vertical-scroll-proportion="0.0">
+        <state line="213" column="106" selection-start="7557" selection-end="7557" vertical-scroll-proportion="0.0">
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/com/tsc/jira/github/issuetabpanels/GitHubCommitsTabPanel.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="175" column="31" selection-start="6141" selection-end="6141" vertical-scroll-proportion="0.6368243">
+        <state line="314" column="111" selection-start="11956" selection-end="12027" vertical-scroll-proportion="0.0">
           <folding>
             <element signature="imports" expanded="true" />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/resources/templates/com/tsc/jira/github/webwork/input.vm">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="108" column="31" selection-start="3090" selection-end="3090" vertical-scroll-proportion="-33.42857">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/resources/templates/com/tsc/jira/github/webwork/global_settings/input.vm">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="39" column="132" selection-start="1414" selection-end="1414" vertical-scroll-proportion="-20.057142">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/resources/atlassian-plugin.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="28" column="105" selection-start="1332" selection-end="1332" vertical-scroll-proportion="0.21804512">
+          <folding />
         </state>
       </provider>
     </entry>

@@ -53,7 +53,7 @@
     </webwork1>
 
 
-<resource type="download" name="my_includes/" location="templates/com/tsc/jira/github/includes/"/>
+<resource type="download" name="images/" location="images/"/>
 
 
 </atlassian-plugin>

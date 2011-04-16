@@ -164,6 +164,9 @@ public class GitHubCommits {
 
         String messages = "";
 
+        Integer nonJIRACommits = 0;
+        Integer JIRACommits = 0;
+
         if (commitsAsJSON != ""){
 
             try{
@@ -182,6 +185,8 @@ public class GitHubCommits {
                             addCommitID(issueId, commit_id, getBranchFromURL());
                             incrementCommitCount("JIRACommitTotal");
 
+                            JIRACommits++;
+
                             messages += "<div class='jira_issue'>" + issueId + " " + commit_id + "</div>";
                             //String commitDetailsJSON = getCommitDetails(commit_id);
 
@@ -190,9 +195,12 @@ public class GitHubCommits {
 
                     }else{
                         incrementCommitCount("NonJIRACommitTotal");
+                        nonJIRACommits++;
                         messages += "<div class='no_issue'>No Issue: " + commit_id + "</div>" ;
                     }
                 }
+
+
 
                 messages += this.syncCommits(pageNumber + 1);
 
@@ -201,7 +209,11 @@ public class GitHubCommits {
                 return "exception";
             }
 
-            return messages;
+            String messageHeader = "<h2>Sync Summary</h2>";
+            messageHeader += "<strong>Non JIRA Commits Found: </strong>" + nonJIRACommits.toString() + "<br/>";
+            messageHeader += "<strong>JIRA Commits Found: </strong>" + JIRACommits.toString() + "<br/><p/>";
+
+            return messageHeader + " " + messages;
 
         }
 
