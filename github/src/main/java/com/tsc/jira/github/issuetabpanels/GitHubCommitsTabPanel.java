@@ -2,11 +2,9 @@ package com.tsc.jira.github.issuetabpanels;
 
 import com.atlassian.core.util.StringUtils;
 import com.atlassian.core.util.collection.EasyList;
-import com.atlassian.gadgets.view.View;
 import com.atlassian.jira.issue.Issue;
 import com.atlassian.jira.issue.tabpanels.GenericMessageAction;
 import com.atlassian.jira.plugin.issuetabpanel.AbstractIssueTabPanel;
-import com.atlassian.jira.plugin.issuetabpanel.IssueTabPanelModuleDescriptor;
 import com.atlassian.jira.util.json.JSONArray;
 import com.atlassian.jira.util.json.JSONException;
 import com.atlassian.jira.util.json.JSONObject;
@@ -14,22 +12,14 @@ import com.atlassian.sal.api.pluginsettings.PluginSettingsFactory;
 import com.opensymphony.user.User;
 import com.tsc.jira.github.webwork.GitHubCommits;
 
-import com.tsc.jira.github.webwork.ViewProjectRepository;
-
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
-import java.lang.reflect.Array;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
-import java.util.Date;
 import java.text.ParseException;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.Map;
 import java.text.SimpleDateFormat;
-import java.text.ParseException;
+import java.util.*;
 
 
 
@@ -142,52 +132,61 @@ public class GitHubCommitsTabPanel extends AbstractIssueTabPanel {
     }
 
     private String formatCommitDate(Date commitDate) throws ParseException{
-        SimpleDateFormat sdfGithub = new SimpleDateFormat("MMM d, yyyy k:ma");
+        SimpleDateFormat sdfGithub = new SimpleDateFormat("MMM d yyyy KK:mm:ss");
         return sdfGithub.format(commitDate);
     }
 
 
     private String extractDiffInformation(String diff){
 
-        // the +3 and -1 remove the leading and trailing spaces
-        Integer first = diff.indexOf("@@") + 3;
-        Integer second = diff.indexOf("@@", first) -1;
+        if (!diff.trim().equals("")){
+            // the +3 and -1 remove the leading and trailing spaces
 
-        String[] modLine = diff.substring(first,second).replace("+","").replace("-","").split(" ");
+            //System.out.println("Diff STring: " + diff);
 
-        String[] removedEntryArray = modLine[0].split(",");
-        String[] addedEntryArray = modLine[1].split(",");
+            Integer first = diff.indexOf("@@") + 3;
+            Integer second = diff.indexOf("@@", first) -1;
 
-        String removedEntry = "";
-        String addedEntry = "";
+            //System.out.println("first: " + first.toString());
+            //System.out.println("second: " + second.toString());
 
-        if (removedEntryArray.length == 1){
-            removedEntry = removedEntryArray[0];
+            String[] modLine = diff.substring(first,second).replace("+","").replace("-","").split(" ");
+
+            String[] removedEntryArray = modLine[0].split(",");
+            String[] addedEntryArray = modLine[1].split(",");
+
+            String removedEntry = "";
+            String addedEntry = "";
+
+            if (removedEntryArray.length == 1){
+                removedEntry = removedEntryArray[0];
+            }else{
+                removedEntry = removedEntryArray[1];
+            }
+
+            if (addedEntryArray.length == 1){
+                addedEntry = addedEntryArray[0];
+            }else{
+                addedEntry = addedEntryArray[1];
+            }
+
+            if (addedEntry.trim().equals("0")){
+                addedEntry = "<span style='color: gray'>+" + addedEntry + "</span>";
+            }else{
+                addedEntry = "<span style='color: green'>+" + addedEntry + "</span>";
+            }
+
+            if (removedEntry.trim().equals("0")){
+                removedEntry = "<span style='color: gray'>-" + removedEntry + "</span>";
+            }else{
+                removedEntry = "<span style='color: red'>-" + removedEntry + "</span>";
+            }
+
+
+            return addedEntry + " " + removedEntry;
         }else{
-            removedEntry = removedEntryArray[1];
+            return "<span style='color: gray'>+0 -0</span>";
         }
-
-        if (addedEntryArray.length == 1){
-            addedEntry = addedEntryArray[0];
-        }else{
-            addedEntry = addedEntryArray[1];
-        }
-
-        if (addedEntry == "0"){
-            addedEntry = "<span style='color: gray'>+" + addedEntry + "</span>";
-        }else{
-            addedEntry = "<span style='color: green'>+" + addedEntry + "</span>";
-        }
-
-        if (removedEntry == "0"){
-            removedEntry = "<span style='color: gray'>-" + removedEntry + "</span>";
-        }else{
-            removedEntry = "<span style='color: red'>-" + removedEntry + "</span>";
-        }
-
-
-        return addedEntry + " " + removedEntry;
-
     }
 
     private String fileCommitURL(String filename, String commitHash){
@@ -221,6 +220,7 @@ public class GitHubCommitsTabPanel extends AbstractIssueTabPanel {
                 try{
                     Date committedDate = parseISO8601(committedDateString);
                     formattedCommitDate = formatCommitDate(committedDate);
+
                 }catch (ParseException pe){
 
                 }
@@ -231,7 +231,7 @@ public class GitHubCommitsTabPanel extends AbstractIssueTabPanel {
                 JSONObject user = githubUser.getJSONObject("user");
                 String userName = user.getString("name");
                 String gravatarHash = user.getString("gravatar_id");
-                String gravatarUrl = "http://www.gravatar.com/avatar/" + gravatarHash + "?s=40";
+                String gravatarUrl = "http://www.gravatar.com/avatar/" + gravatarHash + "?s=60";
 
                 String htmlParentHashes = "";
 
@@ -245,19 +245,21 @@ public class GitHubCommitsTabPanel extends AbstractIssueTabPanel {
 
                 }
 
+                Map mapFiles = Collections.synchronizedMap(new TreeMap());
+
                 String htmlAdded = "";
 
                 if(commit.has("added")){
                     JSONArray arrayAdded = commit.getJSONArray("added");
 
-                    htmlAdded = "<div style='color: green;'>Added</div><ul>";
-
                     for (int i=0; i < arrayAdded.length(); i++){
                           String addFilename = arrayAdded.getString(i);
-                          htmlAdded += "<li><a href='" + fileCommitURL(addFilename, commit_hash) + "' target='_new'>" + addFilename + "</a></li>";
+                          htmlAdded = "<li><span style='color:green; font-size: 8pt;'>ADDED</span>  <a href='" + fileCommitURL(addFilename, commit_hash) + "' target='_new'>" + addFilename + "</a></li>";
+                          mapFiles.put(addFilename, htmlAdded);
+
                     }
 
-                    htmlAdded += "</ul>";
+
 
                 }
 
@@ -266,14 +268,11 @@ public class GitHubCommitsTabPanel extends AbstractIssueTabPanel {
                 if(commit.has("removed")){
                     JSONArray arrayRemoved = commit.getJSONArray("removed");
 
-                    htmlRemoved = "<div style='color: red;'>Removed</div><ul>";
-
                     for (int i=0; i < arrayRemoved.length(); i++){
                           String removeFilename = arrayRemoved.getString(i);
-                          htmlRemoved += "<li><a href='" + fileCommitURL(removeFilename, commit_hash) + "' target='_new'>" + removeFilename + "</a></li>";
+                          htmlRemoved = "<li><span style='color:red; font-size: 8pt;'>DELETED</span>  <a href='" + fileCommitURL(removeFilename, commit_hash) + "' target='_new'>" + removeFilename + "</a></li>";
+                          mapFiles.put(removeFilename, htmlRemoved);
                     }
-
-                    htmlRemoved += "</ul>";
 
                 }
 
@@ -282,15 +281,62 @@ public class GitHubCommitsTabPanel extends AbstractIssueTabPanel {
                 if(commit.has("modified")){
                     JSONArray arrayModified = commit.getJSONArray("modified");
 
-                    htmlModified = "<div style='color: blue;'>Modified</div><ul>";
-
                     for (int i=0; i < arrayModified.length(); i++){
                           String modFilename = arrayModified.getJSONObject(i).getString("filename");
                           String modDiff = arrayModified.getJSONObject(i).getString("diff");
-                          htmlModified += "<li>" + extractDiffInformation(modDiff) + " <a href='" + fileCommitURL(modFilename, commit_hash) + "' target='_new'>"+ modFilename + "</a></li>";
+                          htmlModified = "<li><span font-size: 8pt;'>" + extractDiffInformation(modDiff) + "</span>  <a href='" + fileCommitURL(modFilename, commit_hash) + "' target='_new'>"+ modFilename + "</a></li>";
+
+                          mapFiles.put(modFilename, htmlModified);
+
                     }
 
-                    htmlModified += "</ul>";
+                }
+
+                String htmlFiles = "";
+                String htmlFilesHiddenDescription = "";
+                Integer numSeeMore = 0;
+                Random randDivID = new Random(System.currentTimeMillis());
+
+                // Sort and compose all files
+                Iterator it = mapFiles.keySet().iterator();
+                Object obj;
+
+                String htmlHiddenDiv = "";
+
+                if(mapFiles.size() <= 5){
+                    while (it.hasNext()) {
+                      obj = it.next();
+                      htmlFiles += mapFiles.get(obj);
+                    }
+
+                    htmlFilesHiddenDescription = "";
+
+                }else{
+
+                    Integer i = 0;
+
+                    while (it.hasNext()) {
+                        obj = it.next();
+
+                        if(i <= 4){
+                            htmlFiles += mapFiles.get(obj);
+                        }else{
+                            htmlHiddenDiv += mapFiles.get(obj);
+                        }
+
+                        i++;
+                    }
+
+                    numSeeMore = mapFiles.size() - 5;
+                    Integer divID = randDivID.nextInt();
+
+                    htmlFilesHiddenDescription = "<div class='see_more' target_div='" + divID.toString() + "' id='see_more_" + divID.toString() + "' style='color: #3C78B5'>" +
+                                "See " + numSeeMore.toString() + " more" +
+                            "</div>" +
+                            "<div class='hide_more' id='hide_more_" + divID.toString() + "' target_div='" + divID.toString() + "' style='display: none; color: #3C78B5'>Hide " + numSeeMore.toString() + " Files</div>";
+
+                    htmlHiddenDiv = htmlFilesHiddenDescription + "<div id='" + divID.toString() + "' style='display: none;'><ul>" + htmlHiddenDiv + "</ul></div>";
+
                 }
 
 
@@ -299,27 +345,29 @@ public class GitHubCommitsTabPanel extends AbstractIssueTabPanel {
 String htmlCommitEntry = "" +
     "<table>" +
         "<tr>" +
-            "<td valign='top'><a href='#user_url' target='_new'><img src='#gravatar_url' border='0'></a></td>" +
+            "<td valign='top' width='70px'><a href='#user_url' target='_new'><img src='#gravatar_url' border='0'></a></td>" +
             "<td valign='top'>" +
-                "<div><a href='#user_url' target='_new'>#user_name - #login</a></div>" +
+                "<div style='padding-bottom: 6px'><a href='#user_url' target='_new'>#user_name - #login</a></div>" +
                 "<table>" +
                     "<tr>" +
                         "<td>" +
-                            "<div style='border-left: 4px solid #C9D9EF; background-color: #EAF3FF; color: #5D5F62; padding: 5px; margin-bottom: 10px;'>#commit_message</div>" +
+                            "<div style='border-left: 2px solid #C9D9EF; background-color: #EAF3FF; color: #5D5F62; padding: 5px; margin-bottom: 10px;'>#commit_message</div>" +
 
-                                htmlAdded +
-                                htmlRemoved +
-                                htmlModified +
+                                "<ul>" +
+                                    htmlFiles +
+                                "</ul>" +
 
-                            "<div>" +
-                                "<img src='/jira/download/resources/com.tsc.jira.github.GitHub/images/document.jpg' align='center'> <span style='color: #757575; font-size: 9pt;'>#formatted_commit_date</span>" +
+                                htmlHiddenDiv +
+
+                            "<div style='margin-top: 10px'>" +
+                                "<img src='/jira/download/resources/com.tsc.jira.github.GitHub/images/document.jpg' align='center'> <span class='commit_date' style='color: #757575; font-size: 9pt;'>#formatted_commit_date</span>" +
                             "</div>" +
 
                         "</td>" +
 
-                        "<td width='400'>" +
-                            "<div style='border-left: 2px solid #cccccc; margin-left: 10px; margin-top: 0px; padding-top: 0px;'>" +
-                                "<table style='margin-top: -20px; padding-top: 0px;'>" +
+                        "<td width='400' style='padding-top: 0px' valign='top'>" +
+                            "<div style='border-left: 2px solid #cccccc; margin-left: 15px; margin-top: 0px; padding-top: 0px; padding-left: 10px'>" +
+                                "<table style='margin-top: 0px; padding-top: 0px;'>" +
                                     "<tr><td style='color: #757575'>Commit:</td><td><a href='#commit_url' target='_new'>#commit_hash</a></td></tr>" +
                                      "<tr><td style='color: #757575'>Tree:</td><td><a href='#tree_url' target='_new'>#tree_hash</a></td></tr>" +
                                      htmlParentHashes +
@@ -343,6 +391,10 @@ String htmlCommitEntry = "" +
                 htmlCommitEntry = htmlCommitEntry.replace("#commit_message", commitMessage);
 
                 htmlCommitEntry = htmlCommitEntry.replace("#formatted_commit_time", committedDateString);
+
+
+
+
                 htmlCommitEntry = htmlCommitEntry.replace("#formatted_commit_date", formattedCommitDate);
 
                 htmlCommitEntry = htmlCommitEntry.replace("#commit_url", "https://github.com" + commitURL);
@@ -353,9 +405,11 @@ String htmlCommitEntry = "" +
                 htmlCommitEntry = htmlCommitEntry.replace("#tree_hash", commitTree);
                 return htmlCommitEntry;
 
+             // Catches invalid or removed GitHub IDs, but errors are suppressed as they typically
+             // indicate deliberate changes to Git history
             }catch (JSONException e){
                 e.printStackTrace();
-                return "Invalid or removed GitHub Commit ID found";
+                return "";
             }
 
     }

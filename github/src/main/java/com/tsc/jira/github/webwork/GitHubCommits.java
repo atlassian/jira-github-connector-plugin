@@ -105,7 +105,7 @@ public class GitHubCommits {
         String line;
         String result = "";
         try {
-            url = new URL(commit_id_url);
+            url = new URL(commit_id_url + this.getAccessTokenParameter());
             conn = (HttpURLConnection) url.openConnection();
             conn.setInstanceFollowRedirects(true);
             conn.setRequestMethod("GET");
