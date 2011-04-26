@@ -78,8 +78,8 @@ public class ConfigureRepositories extends JiraWebActionSupport {
                         pluginSettingsFactory.createGlobalSettings().put("githubPendingRepositoryURL", url);
 
                         // ToDo: Switch to production (JIRA) URL
-                        //String redirectURI = "http://github.com/login/oauth/authorize?client_id=" + clientID + "&redirect_uri=$action.getBaseURL()/secure/admin/GitHubOAuth2";
-                        String redirectURI = "http://github.com/login/oauth/authorize?client_id=" + clientID + "&redirect_uri=http://www.flickscanapp.com/rails/movies/upc";
+                        String redirectURI = "http://github.com/login/oauth/authorize?client_id=" + clientID + "&redirect_uri=$action.getBaseURL()/secure/admin/GitHubOAuth2";
+                        //String redirectURI = "http://github.com/login/oauth/authorize?client_id=" + clientID + "&redirect_uri=http://testauth/catch";
 
                         // ToDo: Server side redirect
                         //this.forceRedirect(redirectURI);
