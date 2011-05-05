@@ -210,8 +210,8 @@ public class GitHubCommits {
             }
 
             String messageHeader = "<h2>Sync Summary</h2>";
-            messageHeader += "<strong>Non JIRA Commits Found: </strong>" + nonJIRACommits.toString() + "<br/>";
-            messageHeader += "<strong>JIRA Commits Found: </strong>" + JIRACommits.toString() + "<br/><p/>";
+            //messageHeader += "<strong>Non JIRA Commits Found: </strong>" + nonJIRACommits.toString() + "<br/>";
+            //messageHeader += "<strong>JIRA Commits Found: </strong>" + JIRACommits.toString() + "<br/><p/>";
 
             return messageHeader + " " + messages;
 
