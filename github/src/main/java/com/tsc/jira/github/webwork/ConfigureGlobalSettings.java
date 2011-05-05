@@ -1,6 +1,7 @@
 package com.tsc.jira.github.webwork;
 
 import com.atlassian.jira.ComponentManager;
+import com.atlassian.jira.config.properties.PropertiesManager;
 import com.atlassian.jira.issue.comments.CommentManager;
 import com.atlassian.jira.web.action.JiraWebActionSupport;
 import com.atlassian.sal.api.pluginsettings.PluginSettingsFactory;
@@ -123,5 +124,9 @@ public class ConfigureGlobalSettings extends JiraWebActionSupport {
     // Confirmation Messages
     private String messages = "";
     public String getMessages(){return this.messages;}
+
+    // Base URL
+    private String baseURL = PropertiesManager.getInstance().getPropertySet().getString("jira.baseurl");
+    public String getBaseURL(){return this.baseURL;}
 
 }

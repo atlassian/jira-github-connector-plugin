@@ -33,7 +33,7 @@
         }
 
         #gh_config_link a{
-            background: url('/jira/download/resources/com.tsc.jira.github.GitHub/images/pencil_icon.jpg');
+            background: url('$action.getBaseURL()/download/resources/com.tsc.jira.github.GitHub/images/pencil_icon.jpg');
             background-repeat: no-repeat;
             background-position: right center;
             padding-right: 20px;
@@ -43,7 +43,7 @@
         .gh_config_h4{
             font-weight: normal;
             color: #3676B7;
-            background: url('/jira/download/resources/com.tsc.jira.github.GitHub/images/down_gray_arrow.jpg');
+            background: url('$action.getBaseURL()/download/resources/com.tsc.jira.github.GitHub/images/down_gray_arrow.jpg');
             background-repeat: no-repeat;
             background-position: left center;
             padding-left: 18px;
@@ -128,7 +128,7 @@
             -webkit-border-radius: 6px;
             -khtml-border-radius: 6px;
             border-radius: 6px;
-            background-image: url('/jira/download/resources/com.tsc.jira.github.GitHub/images/blue_info_icon.jpg');
+            background-image: url('$action.getBaseURL()/download/resources/com.tsc.jira.github.GitHub/images/blue_info_icon.jpg');
             background-repeat: no-repeat;
             background-position: 10px 10px;
             font-size: 8pt;
@@ -153,7 +153,7 @@
             <h3>GitHub Global Plugin Settings </h3>
 
             <div id='gh_config_link'>
-                <a href="/jira/secure/admin/ConfigureGlobalSettings.jspa">Configure OAuth Settings</a>
+                <a href="$action.getBaseURL()/secure/admin/ConfigureGlobalSettings.jspa">Configure OAuth Settings</a>
             </div>
 
             <h4 class="gh_config_h4">Existing Linked Repositories</h4>
@@ -181,8 +181,8 @@
                             <td><a href="$repository" target="_new">$repository</a></td>
                             <td>$project.key</td>
                             <td width="120px">
-                                <a href="/jira/secure/admin/ConfigureRepositories.jspa?url=$repository&projectKey=$project.key&nextAction=SyncRepository">Force Sync</a> |
-                                <a href="#" onclick="confirmation('/jira/secure/admin/ConfigureRepositories.jspa?nextAction=DeleteRepository&url=$repository&projectKey=$project.key')">Delete</a>
+                                <a href="$action.getBaseURL()/secure/admin/ConfigureRepositories.jspa?url=$repository&projectKey=$project.key&nextAction=SyncRepository">Force Sync</a> |
+                                <a href="#" onclick="confirmation('$action.getBaseURL()/secure/admin/ConfigureRepositories.jspa?nextAction=DeleteRepository&url=$repository&projectKey=$project.key')">Delete</a>
                             </td>
                         </tr>
                     #end
@@ -229,7 +229,7 @@
                         </div>
                     #end
 
-                     <form id="repoEntry" method="post" action="${req.contextPath}/secure/admin/ConfigureRepositories.jspa">
+                     <form id="repoEntry" method="post" action="$action.getBaseURL()/secure/admin/ConfigureRepositories.jspa">
                           <input type="hidden" name="nextAction" value="AddRepository">
                           <table width="500px">
 

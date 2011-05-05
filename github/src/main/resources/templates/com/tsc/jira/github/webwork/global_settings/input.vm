@@ -13,7 +13,7 @@
         }
 
         #gh_config_link a{
-            background: url('/jira/download/resources/com.tsc.jira.github.GitHub/images/pencil_icon.jpg');
+            background: url('$action.getBaseURL()/download/resources/com.tsc.jira.github.GitHub/images/pencil_icon.jpg');
             background-repeat: no-repeat;
             background-position: right center;
             padding-right: 20px;
@@ -23,7 +23,7 @@
         .gh_config_h4{
             font-weight: normal;
             color: #3676B7;
-            background: url('/jira/download/resources/com.tsc.jira.github.GitHub/images/down_gray_arrow.jpg');
+            background: url('$action.getBaseURL()/download/resources/com.tsc.jira.github.GitHub/images/down_gray_arrow.jpg');
             background-repeat: no-repeat;
             background-position: left center;
             padding-left: 18px;
@@ -108,7 +108,7 @@
             -webkit-border-radius: 6px;
             -khtml-border-radius: 6px;
             border-radius: 6px;
-            background-image: url('/jira/download/resources/com.tsc.jira.github.GitHub/images/blue_info_icon.jpg');
+            background-image: url('$action.getBaseURL()/download/resources/com.tsc.jira.github.GitHub/images/blue_info_icon.jpg');
             background-repeat: no-repeat;
             background-position: 5px 5px;
             font-size: 8pt;
@@ -130,7 +130,7 @@
         <h3>GitHub Global Plugin Settings</h3>
 
             <div id='gh_config_link'>
-                <a href="/jira/secure/admin/ConfigureRepositories.jspa">Configure GitHub Repositories</a>
+                <a href="$action.getBaseURL()/secure/admin/ConfigureRepositories.jspa">Configure GitHub Repositories</a>
             </div>
 
               <h4 class="gh_config_h4">GitHub OAuth Application Setup</h4>
@@ -139,12 +139,12 @@
 
                   <p>To sync with private GitHub repositories you will need to <a href="https://github.com/account/applications/new">create a new GitHub OAuth Application.</a></p>
 
-                  <p>For the Callback URL, please enter in your <a href="/jira/secure/admin/ViewSystemInfo.jspa">JIRA Base URL</a>. This is necessary as a portion of the OAuth authentication process will have GitHub redirectina an access token back to your JIRA instance.</p>
+                  <p>For the Callback URL, please enter in your <a href="$action.getBaseURL()/secure/admin/ViewSystemInfo.jspa">JIRA Base URL</a>. This is necessary as a portion of the OAuth authentication process will have GitHub redirectina an access token back to your JIRA instance.</p>
 
                   <p>Additionally, please do <strong>NOT</strong> include a trailing slash "/" on the Callback URL as this will cause the callbacks to fail.</p>
 
                   <div>
-                      <img src="/jira/download/resources/com.tsc.jira.github.GitHub/images/gh_oauth_app.jpg">
+                      <img src="$action.getBaseURL()/download/resources/com.tsc.jira.github.GitHub/images/gh_oauth_app.jpg">
                   </div>
 
               </div>
@@ -167,7 +167,7 @@
                         </div>
                     #end
 
-                     <form id="repoEntry" method="post" action="${req.contextPath}/secure/admin/ConfigureGlobalSettings.jspa">
+                     <form id="repoEntry" method="post" action="$action.getBaseURL()/secure/admin/ConfigureGlobalSettings.jspa">
                           <input type="hidden" name="nextAction" value="SetOAuthValues">
                           <table width="500px">
 
