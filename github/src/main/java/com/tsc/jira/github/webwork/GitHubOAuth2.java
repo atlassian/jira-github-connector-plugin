@@ -71,6 +71,8 @@ public class GitHubOAuth2 extends JiraWebActionSupport {
             e.printStackTrace();
         }
 
+        result = result.replace("&token_type","");
+
         return result;
 
     }

@@ -139,7 +139,14 @@
 
                   <p>To sync with private GitHub repositories you will need to <a href="https://github.com/account/applications/new">create a new GitHub OAuth Application.</a></p>
 
-                  <p>For the Callback URL, please enter in your <a href="$action.getBaseURL()/secure/admin/ViewSystemInfo.jspa">JIRA Base URL</a>. This is necessary as a portion of the OAuth authentication process will have GitHub redirecting an access token back to your JIRA instance.</p>
+                  <p>For the Callback URL field, please enter in the following
+                      <div id="repoEntry">
+                        <input type="text" size="90" value="$action.getBaseURL()/secure/admin/GitHubOAuth2.jspa">
+                      </div>
+                  </p>
+
+                  <p>
+                    This is necessary as a portion of the OAuth authentication process will have GitHub redirecting an access token back to your JIRA instance.</p>
 
                   <p>Additionally, please do <strong>NOT</strong> include a trailing slash "/" on the Callback URL as this will cause the callbacks to fail.</p>
 

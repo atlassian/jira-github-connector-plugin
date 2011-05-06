@@ -69,7 +69,7 @@ public class ConfigureRepositories extends JiraWebActionSupport {
 
                     if(clientID == null){
   //                      System.out.println("No Client ID");
-                        validations = "You will need to setup a new <a href='/jira/secure/admin/ConfigureGlobalSettings.jspa'>GitHub OAuth Application</a> before you can add private repositories";
+                        validations = "You will need to setup a new <a href='/secure/admin/ConfigureGlobalSettings.jspa'>GitHub OAuth Application</a> before you can add private repositories";
                     }else{
                         addRepositoryURL();
                         System.out.println("Add Private Repository URL");
@@ -78,7 +78,7 @@ public class ConfigureRepositories extends JiraWebActionSupport {
                         pluginSettingsFactory.createGlobalSettings().put("githubPendingRepositoryURL", url);
 
                         // ToDo: Switch to production (JIRA) URL
-                        String redirectURI = "http://github.com/login/oauth/authorize?client_id=" + clientID + "&redirect_uri=$action.getBaseURL()/secure/admin/GitHubOAuth2";
+                        String redirectURI = "https://github.com/login/oauth/authorize?scope=repo&client_id=" + clientID;
                         //String redirectURI = "http://github.com/login/oauth/authorize?client_id=" + clientID + "&redirect_uri=http://testauth/catch";
 
                         // ToDo: Server side redirect

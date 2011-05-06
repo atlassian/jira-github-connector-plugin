@@ -37,7 +37,7 @@
                   GitHub Access Token: <strong>$action.access_token</strong>
               </p>
 
-              <p>You can add additional repositories from the <a href="/jira/secure/admin/ConfigureRepositories.jspa">Configure Repositories Page</a></p>
+              <p>You can add additional repositories from the <a href="/secure/admin/ConfigureRepositories.jspa">Configure Repositories Page</a></p>
 
   </body>
 </html>
