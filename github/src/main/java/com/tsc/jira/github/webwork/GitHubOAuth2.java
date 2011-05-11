@@ -34,6 +34,10 @@ public class GitHubOAuth2 extends JiraWebActionSupport {
                 // strips "access_token=" from result returned from GitHub
                 access_token = requestAccessToken().split("=")[1];
                 pluginSettingsFactory.createSettingsForKey(projectKey).put("githubRepositoryAccessToken" + privateRepositoryURL, access_token);
+
+                String[] urlArray = privateRepositoryURL.split("/");
+                postCommitURL = "PostCommit.jspa?projectKey=" + projectKey + "&branch=" + urlArray[urlArray.length-1];
+
         }
 
 
@@ -105,6 +109,10 @@ public class GitHubOAuth2 extends JiraWebActionSupport {
     private String validations = "";
     public String getValidations(){return this.validations;}
 
+    // GitHub Post Commit URL for a specific project and repository
+    private String postCommitURL = "";
+    public void setPostCommitURL(String value){this.postCommitURL = value;}
+    public String getPostCommitURL(){return postCommitURL;}
 
 
 
