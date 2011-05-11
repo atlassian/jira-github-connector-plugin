@@ -154,7 +154,7 @@
                 <p>Please add the URL below to your GitHub Repositories Post-Receive Hooks</p>
 
                 <p>
-                    <input id="gh_post_receive_textbox" type="text" size="100" value="$action.getBaseURL()$action.getPostCommitURL()">
+                    <input id="gh_post_receive_textbox" type="text" size="100" value="$action.getBaseURL()/$action.getPostCommitURL()">
                 </p>
 
                 <div>
