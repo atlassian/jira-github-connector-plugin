@@ -1,5 +1,6 @@
 package com.tsc.jira.github.webwork;
 
+import com.atlassian.jira.config.properties.PropertiesManager;
 import com.atlassian.jira.project.Project;
 
 import com.atlassian.jira.web.action.JiraWebActionSupport;
@@ -114,6 +115,8 @@ public class GitHubOAuth2 extends JiraWebActionSupport {
     public void setPostCommitURL(String value){this.postCommitURL = value;}
     public String getPostCommitURL(){return postCommitURL;}
 
-
+    // Base URL
+    private String baseURL = PropertiesManager.getInstance().getPropertySet().getString("jira.baseurl");
+    public String getBaseURL(){return this.baseURL;}
 
 }
