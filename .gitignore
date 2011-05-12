@@ -7,3 +7,4 @@ github/target/*
 .DS_Store
 /github/src/main/resources/.DS_Store
 /github/src/main/.DS_Store
+/github/src/main/java/com/tsc/jira/github/.DS_Store
