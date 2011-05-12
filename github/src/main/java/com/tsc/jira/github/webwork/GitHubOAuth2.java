@@ -37,7 +37,7 @@ public class GitHubOAuth2 extends JiraWebActionSupport {
                 pluginSettingsFactory.createSettingsForKey(projectKey).put("githubRepositoryAccessToken" + privateRepositoryURL, access_token);
 
                 String[] urlArray = privateRepositoryURL.split("/");
-                postCommitURL = "PostCommit.jspa?projectKey=" + projectKey + "&branch=" + urlArray[urlArray.length-1];
+                postCommitURL = "GitHubPostCommit.jspa?projectKey=" + projectKey + "&branch=" + urlArray[urlArray.length-1];
 
         }
 

@@ -146,14 +146,14 @@
         <h3>GitHub Global Plugin Settings</h3>
 
             <div id='gh_config_link'>
-                <a href="$action.getBaseURL()/secure/admin/ConfigureRepositories.jspa">Configure GitHub Repositories</a>
+                <a href="$action.getBaseURL()/secure/admin/GitHubConfigureRepositories.jspa">Configure GitHub Repositories</a>
             </div>
 
               <h4 class="gh_config_h4">Setting up a GitHub OAuth Application</h4>
 
               <div class="gh_instructions">
 
-                  <p>If you need to sync only with public GitHub repositories, you can skip the this step and proceed directly to <a href="$action.getBaseURL()/secure/admin/ConfigureRepositories.jspa">configuring your repositories</a>.</p>
+                  <p>If you need to sync only with public GitHub repositories, you can skip the this step and proceed directly to <a href="$action.getBaseURL()/secure/admin/GitHubConfigureRepositories.jspa">configuring your repositories</a>.</p>
 
                   <p>For private GitHub repositories, complete the following steps:</p>
 
@@ -245,7 +245,7 @@
 
 
                       <li>
-                          Once you have completed the OAuth Application setup, you can begin <a href="$action.getBaseURL()/secure/admin/ConfigureRepositories.jspa">configuring your repositories</a>
+                          Once you have completed the OAuth Application setup, you can begin <a href="$action.getBaseURL()/secure/admin/GitHubConfigureRepositories.jspa">configuring your repositories</a>
 
                       </li>
 

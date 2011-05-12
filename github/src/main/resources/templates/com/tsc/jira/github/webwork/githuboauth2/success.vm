@@ -164,7 +164,7 @@
         </div>
     #end
 
-      <p>You can add additional repositories from the <a href="$action.getBaseURL()/secure/admin/ConfigureRepositories.jspa">Configure Repositories Page</a></p>
+      <p>You can add additional repositories from the <a href="$action.getBaseURL()/secure/admin/GitHubConfigureRepositories.jspa">Configure Repositories Page</a></p>
 
   </body>
 </html>

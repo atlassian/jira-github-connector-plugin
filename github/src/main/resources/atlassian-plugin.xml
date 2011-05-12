@@ -27,17 +27,17 @@
 
       <actions>
 
-            <action name="com.tsc.jira.github.webwork.ConfigureRepositories" alias="ConfigureRepositories" roles-required="admin">
+            <action name="com.tsc.jira.github.webwork.ConfigureRepositories" alias="GitHubConfigureRepositories" roles-required="admin">
                     <view name="error">/templates/com/tsc/jira/github/webwork/error.vm</view>
                     <view name="input">/templates/com/tsc/jira/github/webwork/input.vm</view>
                     <view name="redirect">/templates/com/tsc/jira/github/webwork/redirect.vm</view>
             </action>
 
-            <action name="com.tsc.jira.github.webwork.ViewProjectRepository" alias="ViewProjectRepository" roles-required="admin">
+            <action name="com.tsc.jira.github.webwork.ViewProjectRepository" alias="GitHubViewProjectRepository" roles-required="admin">
                   <view name="viewrepository">/templates/com/tsc/jira/github/webwork/viewrepository.vm</view>
             </action>
 
-            <action name="com.tsc.jira.github.webwork.GitHubPostCommit" alias="PostCommit">
+            <action name="com.tsc.jira.github.webwork.GitHubPostCommit" alias="GitHubPostCommit">
                   <view name="postcommit">/templates/com/tsc/jira/github/webwork/postcommit.vm</view>
             </action>
 

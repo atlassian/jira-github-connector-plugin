@@ -94,7 +94,7 @@ public class ConfigureRepositories extends JiraWebActionSupport {
                 }
 
                 String[] urlArray = url.split("/");
-                postCommitURL = "PostCommit.jspa?projectKey=" + projectKey + "&branch=" + urlArray[urlArray.length-1];
+                postCommitURL = "GitHubPostCommit.jspa?projectKey=" + projectKey + "&branch=" + urlArray[urlArray.length-1];
 
                 System.out.println(postCommitURL);
 
