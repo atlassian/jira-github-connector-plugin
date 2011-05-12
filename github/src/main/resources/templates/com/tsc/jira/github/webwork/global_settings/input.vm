@@ -84,6 +84,10 @@
             font-size: 6pt;
         }
 
+        #repoEntry{
+            padding-top: 16px;
+        }
+
         #repoEntry select{
             font-size: 8pt;
         }
@@ -121,6 +125,18 @@
             color: #333;
         }
 
+        .gh_setup_steps li{
+            padding-bottom: 10px;
+        }
+
+        #gh_oauth_app_screenshot{
+            padding-top: 16px;
+        }
+
+        #gh_repository_form_table{
+            padding-bottom: 16px;
+        }
+
     </style>
 
   </head>
@@ -133,98 +149,115 @@
                 <a href="$action.getBaseURL()/secure/admin/ConfigureRepositories.jspa">Configure GitHub Repositories</a>
             </div>
 
-              <h4 class="gh_config_h4">GitHub OAuth Application Setup</h4>
+              <h4 class="gh_config_h4">Setting up a GitHub OAuth Application</h4>
 
               <div class="gh_instructions">
 
-                  <p>To sync with private GitHub repositories you will need to <a href="https://github.com/account/applications/new">create a new GitHub OAuth Application.</a></p>
+                  <p>If you need to sync only with public GitHub repositories, you can skip the this step and proceed directly to <a href="$action.getBaseURL()/secure/admin/ConfigureRepositories.jspa">configuring your repositories</a>.</p>
 
-                  <p>For the Callback URL field, please enter in the following
-                      <div id="repoEntry">
-                        <input type="text" size="90" value="$action.getBaseURL()/secure/admin/GitHubOAuth2.jspa">
-                      </div>
-                  </p>
+                  <p>For private GitHub repositories, complete the following steps:</p>
 
-                  <p>
-                    This is necessary as a portion of the OAuth authentication process will have GitHub redirecting an access token back to your JIRA instance.</p>
+                  <ol class="gh_setup_steps">
+                      <li>Copy the following Callback URL:
+                          <div id="repoEntry">
+                            <input type="text" size="90" value="$action.getBaseURL()/secure/admin/GitHubOAuth2.jspa">
+                          </div>
+                      </li>
 
-                  <p>Additionally, please do <strong>NOT</strong> include a trailing slash "/" on the Callback URL as this will cause the callbacks to fail.</p>
+                      <li>
+                         Browse to <a href="https://github.com/account/applications/new" target="_blank">https://github.com/account/applications/new</a> to create a new GitHub OAuth Application.
 
-                  <div>
-                      <img src="$action.getBaseURL()/download/resources/com.tsc.jira.github.GitHub/images/gh_oauth_app.jpg">
-                  </div>
+                          <div id="gh_oauth_app_screenshot">
+                              <img src="$action.getBaseURL()/download/resources/com.tsc.jira.github.GitHub/images/gh_oauth_app.jpg">
+                          </div>
+
+                      </li>
+
+                      <li>
+                          Paste the Callback URL into the Callback URL field of the New OAuth Application form.
+                      </li>
+
+                      <li>
+                         After you create the application, GitHub will provide you with a <strong>Client ID</strong> and a <strong>Client Secret</strong> which you will need to enter below.
+
+                            #if ($action.getMessages() != "")
+                                <div id="gh_messages" >
+                                       <h2>$action.getMessages()</h2>
+                                </div>
+                            #end
+
+                            #if ($action.getValidations() != "")
+                                <div style="margin: 10px; border: 2px solid red; width: 400px; background: #ddd; padding: 15px;">
+                                       <h3>$action.getValidations() </h3>
+                                </div>
+                            #end
+
+                             <form id="repoEntry" method="post" action="$action.getBaseURL()/secure/admin/ConfigureGlobalSettings.jspa">
+                                  <input type="hidden" name="nextAction" value="SetOAuthValues">
+                                  <table width="500px" id="gh_repository_form_table">
+
+                                    <tr>
+                                      <td>Client ID</td>
+                                    </tr>
+                                    <tr>
+                                      <td>
+                                         <input type="text"
+                                         id="clientID"
+                                         name="clientID"
+                                         value="$action.getSavedClientID()"
+                                         size="60"
+                                         />
+
+                                      </td>
+
+                                    </tr>
+
+                                      <tr>
+                                        <td>Client Secret</td>
+                                      </tr>
+                                      <tr>
+                                        <td>
+                                           <input type="text"
+                                           id="clientSecret"
+                                           name="clientSecret"
+                                           value="$action.getSavedClientSecret()"
+                                           size="60"
+                                           />
+
+                                        </td>
+
+                                      </tr>
+
+
+                                    <tr>
+
+                                        <td >
+                                            <input type="submit" name="Submit" id="Submit" value="Add/Update Keys"
+                                            class="spaced"
+                                            />
+                                        </td>
+                                    </tr>
+
+                                  <table>
+                             </form>
+
+                      </li>
+
+
+                      <li>
+                          Once you have completed the OAuth Application setup, you can begin <a href="$action.getBaseURL()/secure/admin/ConfigureRepositories.jspa">configuring your repositories</a>
+
+                      </li>
+
+                  </ol>
+
+
+
 
               </div>
 
 
-              <h4 class="gh_config_h4">GitHub OAuth Client ID Entry</h4>
-              <div class="gh_instructions">
-                  <p>After you create the application, GitHub will provide you with a <strong>Client ID</strong> and a <strong>Client Secret</strong> which you will need to enter below.</p>
 
-
-                    #if ($action.getMessages() != "")
-                        <div id="gh_messages" >
-                               <h2>$action.getMessages()</h2>
-                        </div>
-                    #end
-
-                    #if ($action.getValidations() != "")
-                        <div style="margin: 10px; border: 2px solid red; width: 400px; background: #ddd; padding: 15px;">
-                               <h3>$action.getValidations() </h3>
-                        </div>
-                    #end
-
-                     <form id="repoEntry" method="post" action="$action.getBaseURL()/secure/admin/ConfigureGlobalSettings.jspa">
-                          <input type="hidden" name="nextAction" value="SetOAuthValues">
-                          <table width="500px">
-
-                            <tr>
-                              <td>Client ID</td>
-                            </tr>
-                            <tr>
-                              <td>
-                                 <input type="text"
-                                 id="clientID"
-                                 name="clientID"
-                                 value="$action.getSavedClientID()"
-                                 size="60"
-                                 />
-
-                              </td>
-
-                            </tr>
-
-                              <tr>
-                                <td>Client Secret</td>
-                              </tr>
-                              <tr>
-                                <td>
-                                   <input type="text"
-                                   id="clientSecret"
-                                   name="clientSecret"
-                                   value="$action.getSavedClientSecret()"
-                                   size="60"
-                                   />
-
-                                </td>
-
-                              </tr>
-
-
-                            <tr>
-
-                                <td >
-                                    <input type="submit" name="Submit" id="Submit" value="Add/Update Keys"
-                                    class="spaced"
-                                    />
-                                </td>
-                            </tr>
-
-                          <table>
-                     </form>
-
-
-                  </div>
 
   </body>
 </html>
