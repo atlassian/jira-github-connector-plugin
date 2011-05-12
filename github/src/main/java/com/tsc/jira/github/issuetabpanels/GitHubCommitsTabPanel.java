@@ -383,7 +383,7 @@ String htmlCommitEntry = "" +
 
 
                 htmlCommitEntry = htmlCommitEntry.replace("#gravatar_url", gravatarUrl);
-                htmlCommitEntry = htmlCommitEntry.replace("#user_url", "https:github.com/" + login);
+                htmlCommitEntry = htmlCommitEntry.replace("#user_url", "https://github.com/" + login);
                 htmlCommitEntry = htmlCommitEntry.replace("#login", login);
 
                 htmlCommitEntry = htmlCommitEntry.replace("#user_name", userName);
