@@ -3,7 +3,7 @@
         <description>${project.description}</description>
         <version>${project.version}</version>
         <vendor name="${project.organization.name}" url="${project.organization.url}" />
-        <param name="configure.url">/secure/admin/ConfigureGlobalSettings.jspa</param>
+        <param name="configure.url">/secure/admin/GitHubConfigureGlobalSettings.jspa</param>
     </plugin-info>
 
     <component-import key="pluginSettingsFactory">
@@ -11,11 +11,11 @@
     </component-import>
 
     <issue-tabpanel key="github-commits-tabpanel" name="GitHub Commits Tab Panel"
-        class="com.tsc.jira.github.issuetabpanels.GitHubCommitsTabPanel">
+        class="com.atlassian.jira.plugins.github.issuetabpanels.GitHubCommitsTabPanel">
 
         <description>Show GitHub commits related to an issue in an issue tab panel.</description>
         <label>GitHub Commits</label>
-        <resource type="velocity" name="view" location="templates/com/tsc/jira/github/issuetabpanels/view.vm"/>
+        <resource type="velocity" name="view" location="templates/com/atlassian/jira/plugins/github/issuetabpanels/view.vm"/>
     </issue-tabpanel>
 
 
@@ -27,26 +27,26 @@
 
       <actions>
 
-            <action name="com.tsc.jira.github.webwork.ConfigureRepositories" alias="GitHubConfigureRepositories" roles-required="admin">
-                    <view name="error">/templates/com/tsc/jira/github/webwork/error.vm</view>
-                    <view name="input">/templates/com/tsc/jira/github/webwork/input.vm</view>
-                    <view name="redirect">/templates/com/tsc/jira/github/webwork/redirect.vm</view>
+            <action name="com.atlassian.jira.plugins.github.webwork.GitHubConfigureRepositories" alias="GitHubConfigureRepositories" roles-required="admin">
+                    <view name="error">/templates/com/atlassian/jira/plugins/github/webwork/error.vm</view>
+                    <view name="input">/templates/com/atlassian/jira/plugins/github/webwork/input.vm</view>
+                    <view name="redirect">/templates/com/atlassian/jira/plugins/github/webwork/redirect.vm</view>
             </action>
 
-            <action name="com.tsc.jira.github.webwork.ViewProjectRepository" alias="GitHubViewProjectRepository" roles-required="admin">
-                  <view name="viewrepository">/templates/com/tsc/jira/github/webwork/viewrepository.vm</view>
+            <action name="com.atlassian.jira.plugins.github.webwork.ViewProjectRepository" alias="GitHubViewProjectRepository" roles-required="admin">
+                  <view name="viewrepository">/templates/com/atlassian/jira/plugins/github/webwork/viewrepository.vm</view>
             </action>
 
-            <action name="com.tsc.jira.github.webwork.GitHubPostCommit" alias="GitHubPostCommit">
-                  <view name="postcommit">/templates/com/tsc/jira/github/webwork/postcommit.vm</view>
+            <action name="com.atlassian.jira.plugins.github.webwork.GitHubPostCommit" alias="GitHubPostCommit">
+                  <view name="postcommit">/templates/com/atlassian/jira/plugins/github/webwork/postcommit.vm</view>
             </action>
 
-            <action name="com.tsc.jira.github.webwork.GitHubOAuth2" alias="GitHubOAuth2">
-                <view name="success">/templates/com/tsc/jira/github/webwork/githuboauth2/success.vm</view>
+            <action name="com.atlassian.jira.plugins.github.webwork.GitHubOAuth2" alias="GitHubOAuth2">
+                <view name="success">/templates/com/atlassian/jira/plugins/github/webwork/githuboauth2/success.vm</view>
             </action>
 
-            <action name="com.tsc.jira.github.webwork.ConfigureGlobalSettings" alias="ConfigureGlobalSettings">
-                <view name="input">/templates/com/tsc/jira/github/webwork/global_settings/input.vm</view>
+            <action name="com.atlassian.jira.plugins.github.webwork.ConfigureGlobalSettings" alias="ConfigureGlobalSettings">
+                <view name="input">/templates/com/atlassian/jira/plugins/github/webwork/global_settings/input.vm</view>
             </action>
 
       </actions>

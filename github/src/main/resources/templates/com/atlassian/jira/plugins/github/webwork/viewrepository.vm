@@ -1,0 +1,24 @@
+<html>
+  <head>
+    <title>GitHub Repositories > </title>
+
+
+  </head>
+
+  <body>
+  <div style="background: #FFFFFF">
+
+
+
+     <table class="jiraform maxWidth">
+       <tr>
+         <td class="jiraformheader">
+           <h3 class="formtitle"><a href="/jira/secure/admin/ConfigureRepositories.jspa">GitHub Repositories</a> > ${action.getProjectName()}</h3>
+         </td>
+       </tr>
+     </table>
+  </div>
+
+
+  </body>
+</html>
