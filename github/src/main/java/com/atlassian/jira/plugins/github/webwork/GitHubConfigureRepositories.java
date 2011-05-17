@@ -61,6 +61,13 @@ public class GitHubConfigureRepositories extends JiraWebActionSupport {
             url = url.replaceFirst("http:","https:");
         }
 
+        // Add default branch of 'master' to URL if missing
+        String[] urlArray = url.split("/");
+
+        if(urlArray.length == 5){
+            url += "/master";
+        }
+
         if (validations.equals("")){
             if (nextAction.equals("AddRepository")){
 
@@ -69,21 +76,15 @@ public class GitHubConfigureRepositories extends JiraWebActionSupport {
                     String clientID = (String)pluginSettingsFactory.createGlobalSettings().get("githubRepositoryClientID");
 
                     if(clientID == null){
-  //                      System.out.println("No Client ID");
+                        //System.out.println("No Client ID");
                         validations = "You will need to setup a new <a href='/secure/admin/ConfigureGlobalSettings.jspa'>GitHub OAuth Application</a> before you can add private repositories";
                     }else{
                         addRepositoryURL();
-                        System.out.println("Add Private Repository URL");
-
                         pluginSettingsFactory.createGlobalSettings().put("githubPendingProjectKey", projectKey);
                         pluginSettingsFactory.createGlobalSettings().put("githubPendingRepositoryURL", url);
 
-                        // ToDo: Switch to production (JIRA) URL
                         String redirectURI = "https://github.com/login/oauth/authorize?scope=repo&client_id=" + clientID;
                         //String redirectURI = "http://github.com/login/oauth/authorize?client_id=" + clientID + "&redirect_uri=http://testauth/catch";
-
-                        // ToDo: Server side redirect
-                        //this.forceRedirect(redirectURI);
 
                         redirectURL = redirectURI;
 
@@ -94,7 +95,6 @@ public class GitHubConfigureRepositories extends JiraWebActionSupport {
                     addRepositoryURL();
                 }
 
-                String[] urlArray = url.split("/");
                 postCommitURL = "GitHubPostCommit.jspa?projectKey=" + projectKey + "&branch=" + urlArray[urlArray.length-1];
 
                 System.out.println(postCommitURL);
