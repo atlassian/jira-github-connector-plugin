@@ -30,77 +30,6 @@
             margin-top: 18px;
         }
 
-        #gh_post_receive_header{
-            font-weight: normal;
-            font-size: 10pt;
-            color: #666;
-            margin-top: 18px;
-            margin-bottom: 10px;
-        }
-
-        #gh_post_receive_textbox{
-            font-size: 6pt;
-            padding: 4px;
-        }
-
-        #gh_post_receive{
-            margin-bottom: 10px;
-        }
-
-        .gh_table{
-            margin-left: 16px;
-            width: 100%
-        }
-
-        .gh_table_project_name{
-            font-size: 10pt;
-            color: #5F6262;
-            padding-top: 14px;
-        }
-
-        .gh_table th{
-            font-weight: normal;
-            color: #656565;
-            border-bottom: 1px solid #cccccc;
-            font-size: 8pt;
-        }
-
-        .gh_table td{
-            border-bottom: 1px solid #cccccc;
-            font-size: 8pt;
-        }
-
-        .gh_table_td_pname{
-            border-bottom: none !important;
-        }
-
-        .gh_instructions{
-            margin-left: 18px;
-            font-size: 8pt;
-            color: #656565;
-        }
-
-        #gh_example_link{
-            font-size: 6pt;
-        }
-
-        #repoEntry{
-            padding-top: 16px;
-        }
-
-        #repoEntry select{
-            font-size: 8pt;
-        }
-
-        #repoEntry input{
-            font-size: 6pt;
-            padding: 4px;
-        }
-
-        #gh_submit{
-            font-size: 8pt;
-        }
-
         #gh_messages{
             background-color: #DFEFFE;
             margin-left: 18px;
@@ -125,17 +54,15 @@
             color: #333;
         }
 
-        .gh_setup_steps li{
-            padding-bottom: 10px;
-        }
 
         #gh_oauth_app_screenshot{
             padding-top: 16px;
         }
 
-        #gh_repository_form_table{
-            padding-bottom: 16px;
+        .gh_steps li{
+            padding-top: 10px;
         }
+
 
     </style>
 
@@ -151,16 +78,18 @@
 
               <h4 class="gh_config_h4">Setting up a GitHub OAuth Application</h4>
 
-              <div class="gh_instructions">
 
-                  <p>If you need to sync only with public GitHub repositories, you can skip the this step and proceed directly to <a href="$action.getBaseURL()/secure/admin/GitHubConfigureRepositories.jspa">configuring your repositories</a>.</p>
 
-                  <p>For private GitHub repositories, complete the following steps:</p>
 
-                  <ol class="gh_setup_steps">
+                <form class="aui" method="post" action="$action.getBaseURL()/secure/admin/ConfigureGlobalSettings.jspa">
+                  If you need to sync only with public GitHub repositories, you can skip the this step and proceed directly to <a href="$action.getBaseURL()/secure/admin/GitHubConfigureRepositories.jspa">configuring your repositories</a>.
+
+                  For private GitHub repositories, complete the following steps:
+
+                  <ol class="gh_steps">
                       <li>Copy the following Callback URL:
                           <div id="repoEntry">
-                            <input type="text" size="90" value="$action.getBaseURL()/secure/admin/GitHubOAuth2.jspa">
+                            <input type="text" class="text long-field" value="$action.getBaseURL()/secure/admin/GitHubOAuth2.jspa">
                           </div>
                       </li>
 
@@ -187,14 +116,14 @@
                             #end
 
                             #if ($action.getValidations() != "")
-                                <div style="margin: 10px; border: 2px solid red; width: 400px; background: #ddd; padding: 15px;">
+                                <div class="aui-message error shadowed">
                                        <h3>$action.getValidations() </h3>
                                 </div>
                             #end
 
-                             <form id="repoEntry" method="post" action="$action.getBaseURL()/secure/admin/ConfigureGlobalSettings.jspa">
+
                                   <input type="hidden" name="nextAction" value="SetOAuthValues">
-                                  <table width="500px" id="gh_repository_form_table">
+                                  <table width="500px">
 
                                     <tr>
                                       <td>Client ID</td>
@@ -202,6 +131,7 @@
                                     <tr>
                                       <td>
                                          <input type="text"
+                                         class="text"
                                          id="clientID"
                                          name="clientID"
                                          value="$action.getSavedClientID()"
@@ -213,11 +143,12 @@
                                     </tr>
 
                                       <tr>
-                                        <td>Client Secret</td>
+                                        <td><label for='clientSecret'>Client Secret</label></td>
                                       </tr>
                                       <tr>
                                         <td>
                                            <input type="text"
+                                           class="text"
                                            id="clientSecret"
                                            name="clientSecret"
                                            value="$action.getSavedClientSecret()"
@@ -241,7 +172,6 @@
                                   <table>
                              </form>
 
-                      </li>
 
 
                       <li>
@@ -251,10 +181,6 @@
 
                   </ol>
 
-
-
-
-              </div>
 
 
 

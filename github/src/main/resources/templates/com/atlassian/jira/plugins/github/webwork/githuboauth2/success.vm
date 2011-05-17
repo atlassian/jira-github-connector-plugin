@@ -23,7 +23,7 @@
         .gh_config_h4{
             font-weight: normal;
             color: #3676B7;
-            background: url('$action.getBaseURL()/download/resources/com.atlassian.jira.plugins.jira.github.GitHub/images/down_gray_arrow.jpg');
+            background: url('$action.getBaseURL()/download/resources/com.atlassian.jira.plugins.github.GitHub/images/down_gray_arrow.jpg');
             background-repeat: no-repeat;
             background-position: left center;
             padding-left: 18px;
@@ -36,65 +36,6 @@
             color: #666;
             margin-top: 18px;
             margin-bottom: 10px;
-        }
-
-        #gh_post_receive_textbox{
-            font-size: 6pt;
-            padding: 4px;
-        }
-
-        #gh_post_receive{
-            margin-bottom: 10px;
-        }
-
-        .gh_table{
-            margin-left: 16px;
-            width: 100%
-        }
-
-        .gh_table_project_name{
-            font-size: 10pt;
-            color: #5F6262;
-            padding-top: 14px;
-        }
-
-        .gh_table th{
-            font-weight: normal;
-            color: #656565;
-            border-bottom: 1px solid #cccccc;
-            font-size: 8pt;
-        }
-
-        .gh_table td{
-            border-bottom: 1px solid #cccccc;
-            font-size: 8pt;
-        }
-
-        .gh_table_td_pname{
-            border-bottom: none !important;
-        }
-
-        #gh_add_repositories{
-            margin-left: 18px;
-            font-size: 8pt;
-            color: #656565;
-        }
-
-        #gh_example_link{
-            font-size: 6pt;
-        }
-
-        #repoEntry select{
-            font-size: 8pt;
-        }
-
-        #repoEntry input{
-            font-size: 6pt;
-            padding: 4px;
-        }
-
-        #gh_submit{
-            font-size: 8pt;
         }
 
         #gh_messages{
@@ -110,14 +51,13 @@
             border-radius: 6px;
             background-image: url('$action.getBaseURL()/download/resources/com.atlassian.jira.plugins.github.GitHub/images/blue_info_icon.jpg');
             background-repeat: no-repeat;
-            background-position: 10px 10px;
+            background-position: 5px 5px;
             font-size: 8pt;
+            width: 400px;
+            margin-bottom: 12px;
         }
 
-        #gh_messages h2{
-            font-size: 8pt;
-            color: #333;
-        }
+
 
     </style>
 
@@ -131,7 +71,9 @@
 
     <h4 class="gh_config_h4">GitHub Private Repository OAuth Success</h4>
 
-      <p>You have successfully linked the following:</p>
+
+    <div id="gh_messages">
+    <p>You have successfully linked the following:</p>
 
       <p>
           Private Repository: <strong>$action.getPrivateRepositoryURL()</strong>
@@ -145,6 +87,8 @@
           GitHub Access Token: <strong>$action.access_token</strong>
       </p>
 
+    </div>
+
 
     #if ($action.getPostCommitURL() != "")
         <div id="gh_post_receive">
@@ -154,7 +98,9 @@
                 <p>Please add the URL below to your GitHub Repositories Post-Receive Hooks</p>
 
                 <p>
-                    <input id="gh_post_receive_textbox" type="text" size="100" value="$action.getBaseURL()/$action.getPostCommitURL()">
+                    <form class="aui">
+                        <input id="gh_post_receive_textbox" class="text long-field" type="text" value="$action.getBaseURL()/$action.getPostCommitURL()">
+                    </form>
                 </p>
 
                 <div>

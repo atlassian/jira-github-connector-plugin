@@ -58,11 +58,6 @@
             margin-bottom: 10px;
         }
 
-        #gh_post_receive_textbox{
-            font-size: 6pt;
-            padding: 4px;
-        }
-
         #gh_post_receive{
             margin-bottom: 10px;
         }
@@ -102,15 +97,6 @@
 
         #gh_example_link{
             font-size: 6pt;
-        }
-
-        #repoEntry select{
-            font-size: 8pt;
-        }
-
-        #repoEntry input{
-            font-size: 6pt;
-            padding: 4px;
         }
 
         #gh_submit{
@@ -181,8 +167,8 @@
                             <td><a href="$repository" target="_new">$repository</a></td>
                             <td>$project.key</td>
                             <td width="120px">
-                                <a href="$action.getBaseURL()/secure/admin/ConfigureRepositories.jspa?url=$repository&projectKey=$project.key&nextAction=SyncRepository">Force Sync</a> |
-                                <a href="#" onclick="confirmation('$action.getBaseURL()/secure/admin/ConfigureRepositories.jspa?nextAction=DeleteRepository&url=$repository&projectKey=$project.key')">Delete</a>
+                                <a href="$action.getBaseURL()/secure/admin/GitHubConfigureRepositories.jspa?url=$repository&projectKey=$project.key&nextAction=SyncRepository">Force Sync</a> |
+                                <a href="#" onclick="confirmation('$action.getBaseURL()/secure/admin/GitHubConfigureRepositories.jspa?nextAction=DeleteRepository&url=$repository&projectKey=$project.key')">Delete</a>
                             </td>
                         </tr>
                     #end
@@ -206,7 +192,7 @@
                     Please Enter the JIRA Project and GitHub Repository URL (including branch) you would like linked.</p>
 
                     #if ($action.getValidations() != "")
-                        <div style="margin: 10px; border: 2px solid red; width: 400px; background: #ddd; padding: 15px;">
+                        <div class="aui-message error shadowed">
                                <h3>$action.getValidations() </h3>
                         </div>
                     #end
@@ -219,7 +205,7 @@
                                 <p>Please add the URL below to your GitHub Repositories Post-Receive Hooks</p>
 
                                 <p>
-                                    <input id="gh_post_receive_textbox" type="text" size="100" value="$action.getBaseURL()/$action.getPostCommitURL()">
+                                    <input type="text" class="text" size="100" value="$action.getBaseURL()/$action.getPostCommitURL()">
                                 </p>
 
                                 <div>
@@ -229,13 +215,13 @@
                         </div>
                     #end
 
-                     <form id="repoEntry" method="post" action="$action.getBaseURL()/secure/admin/ConfigureRepositories.jspa">
+                     <form class="aui" method="post" action="$action.getBaseURL()/secure/admin/GitHubConfigureRepositories.jspa">
                           <input type="hidden" name="nextAction" value="AddRepository">
                           <table width="500px">
 
                             <tr>
                               <td valign="top">
-                                  <select name="projectKey">
+                                  <select name="projectKey" class="select medium-field">
                                     #foreach ($project in $action.getProjects())
                                       <option value="${project.key}">${project.name}</option>
                                     #end
@@ -243,7 +229,7 @@
                               </td>
 
                               <td valign="top">
-                                  <select name="repoVisibility" id="repoVisibility">
+                                  <select name="repoVisibility" id="repoVisibility" class="select short-field">
                                       <option value="public">Public</option>
                                       <option value="private">Private</option>
                                   </select>
@@ -251,6 +237,7 @@
 
                               <td valign="top">
                                  <input type="text"
+                                 class="text"
                                  id="url"
                                  name="url"
                                  value="$action.getURL()"
