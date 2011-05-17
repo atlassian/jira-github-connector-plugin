@@ -3,7 +3,7 @@
         <description>${project.description}</description>
         <version>${project.version}</version>
         <vendor name="${project.organization.name}" url="${project.organization.url}" />
-        <param name="configure.url">/secure/admin/GitHubConfigureGlobalSettings.jspa</param>
+        <param name="configure.url">/secure/admin/ConfigureGlobalSettings.jspa</param>
     </plugin-info>
 
     <component-import key="pluginSettingsFactory">
@@ -33,16 +33,13 @@
                     <view name="redirect">/templates/com/atlassian/jira/plugins/github/webwork/redirect.vm</view>
             </action>
 
-            <action name="com.atlassian.jira.plugins.github.webwork.ViewProjectRepository" alias="GitHubViewProjectRepository" roles-required="admin">
-                  <view name="viewrepository">/templates/com/atlassian/jira/plugins/github/webwork/viewrepository.vm</view>
-            </action>
-
             <action name="com.atlassian.jira.plugins.github.webwork.GitHubPostCommit" alias="GitHubPostCommit">
                   <view name="postcommit">/templates/com/atlassian/jira/plugins/github/webwork/postcommit.vm</view>
             </action>
 
             <action name="com.atlassian.jira.plugins.github.webwork.GitHubOAuth2" alias="GitHubOAuth2">
                 <view name="success">/templates/com/atlassian/jira/plugins/github/webwork/githuboauth2/success.vm</view>
+                <view name="cancelled">/templates/com/atlassian/jira/plugins/github/webwork/githuboauth2/cancelled.vm</view>
             </action>
 
             <action name="com.atlassian.jira.plugins.github.webwork.ConfigureGlobalSettings" alias="ConfigureGlobalSettings">

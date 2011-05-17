@@ -24,25 +24,36 @@ public class GitHubOAuth2 extends JiraWebActionSupport {
 
     protected void doValidation() {
 
+        if(!error.equals("")){
+            if(error.equals("user_denied")){
+                validations = "user_denied";
+            }
+        }
+
     }
 
     protected String doExecute() throws Exception {
 
-        if(code.length() > 0){
-                projectKey = (String)pluginSettingsFactory.createGlobalSettings().get("githubPendingProjectKey");
-                privateRepositoryURL = (String)pluginSettingsFactory.createGlobalSettings().get("githubPendingRepositoryURL");
+        if(validations.equals("user_denied")){
+            return "cancelled";
+        }else{
 
-                // strips "access_token=" from result returned from GitHub
-                access_token = requestAccessToken().split("=")[1];
-                pluginSettingsFactory.createSettingsForKey(projectKey).put("githubRepositoryAccessToken" + privateRepositoryURL, access_token);
+            if(code.length() > 0){
+                    projectKey = (String)pluginSettingsFactory.createGlobalSettings().get("githubPendingProjectKey");
+                    privateRepositoryURL = (String)pluginSettingsFactory.createGlobalSettings().get("githubPendingRepositoryURL");
 
-                String[] urlArray = privateRepositoryURL.split("/");
-                postCommitURL = "GitHubPostCommit.jspa?projectKey=" + projectKey + "&branch=" + urlArray[urlArray.length-1];
+                    // strips "access_token=" from result returned from GitHub
+                    access_token = requestAccessToken().split("=")[1];
+                    pluginSettingsFactory.createSettingsForKey(projectKey).put("githubRepositoryAccessToken" + privateRepositoryURL, access_token);
 
+                    String[] urlArray = privateRepositoryURL.split("/");
+                    postCommitURL = "GitHubPostCommit.jspa?projectKey=" + projectKey + "&branch=" + urlArray[urlArray.length-1];
+
+            }
+
+            return "success";
         }
 
-
-        return "success";
     }
 
     private String requestAccessToken(){
@@ -92,6 +103,11 @@ public class GitHubOAuth2 extends JiraWebActionSupport {
     // GitHub Access Token
     private String access_token;
     public String getAccess_token(){return access_token;}
+
+    // GitHub OAuth2 Error message parameter
+    private String error;
+    public void setError(String value){this.error = value;}
+    public String getError(){return error;}
 
     // Project Key
     private String projectKey = "";
