@@ -87,9 +87,10 @@ public class GitHubCommits {
             rd.close();
         }catch (MalformedURLException e){
             e.printStackTrace();
+            result = "GitHub Repository can't be found or incorrect credentials.";
         } catch (Exception e) {
             System.out.println("CommitList Exception");
-            //e.printStackTrace();
+            result = "GitHub Repository can't be found or incorrect credentials.";
         }
 
         return result;
@@ -206,7 +207,7 @@ public class GitHubCommits {
 
             }catch (JSONException e){
                 e.printStackTrace();
-                return "exception";
+                messages = "GitHub Repository can't be found or incorrect credentials.";
             }
 
             String messageHeader = "<h2>Sync Summary</h2>";
