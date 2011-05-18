@@ -223,15 +223,15 @@
                               <td valign="top">
                                   <select name="projectKey" class="select medium-field">
                                     #foreach ($project in $action.getProjects())
-                                      <option value="${project.key}">${project.name}</option>
+                                      <option value="${project.key}" #if ($action.getProjectKey() == $project.key) selected #end>${project.name}</option>
                                     #end
                                   </select>
                               </td>
 
                               <td valign="top">
                                   <select name="repoVisibility" id="repoVisibility" class="select short-field">
-                                      <option value="public">Public</option>
-                                      <option value="private">Private</option>
+                                      <option value="public" #if ($action.getRepoVisibility() == 'public') selected #end >Public</option>
+                                      <option value="private" #if ($action.getRepoVisibility() == 'private') selected #end >Private</option>
                                   </select>
                               </td>
 
