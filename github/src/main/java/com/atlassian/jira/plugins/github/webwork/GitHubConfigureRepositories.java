@@ -75,17 +75,15 @@ public class GitHubConfigureRepositories extends JiraWebActionSupport {
                     System.out.println("Private Add Repository");
                     String clientID = (String)pluginSettingsFactory.createGlobalSettings().get("githubRepositoryClientID");
 
-                    if(clientID == null){
+                    if(clientID.equals(null) || clientID.equals("")){
                         //System.out.println("No Client ID");
-                        validations = "You will need to setup a new <a href='/secure/admin/ConfigureGlobalSettings.jspa'>GitHub OAuth Application</a> before you can add private repositories";
+                        validations = "You will need to setup a <a href='/secure/admin/ConfigureGlobalSettings.jspa'>GitHub OAuth Application</a> before you can add private repositories";
                     }else{
                         addRepositoryURL();
                         pluginSettingsFactory.createGlobalSettings().put("githubPendingProjectKey", projectKey);
                         pluginSettingsFactory.createGlobalSettings().put("githubPendingRepositoryURL", url);
 
                         String redirectURI = "https://github.com/login/oauth/authorize?scope=repo&client_id=" + clientID;
-                        //String redirectURI = "http://github.com/login/oauth/authorize?client_id=" + clientID + "&redirect_uri=http://testauth/catch";
-
                         redirectURL = redirectURI;
 
                         return "redirect";
@@ -93,6 +91,7 @@ public class GitHubConfigureRepositories extends JiraWebActionSupport {
                 }else{
                     System.out.println("PUBLIC Add Repository");
                     addRepositoryURL();
+                    syncRepository();
                 }
 
                 postCommitURL = "GitHubPostCommit.jspa?projectKey=" + projectKey + "&branch=" + urlArray[urlArray.length-1];
@@ -106,26 +105,29 @@ public class GitHubConfigureRepositories extends JiraWebActionSupport {
             }
 
             if (nextAction.equals("SyncRepository")){
-                System.out.println("Staring Repository Sync");
-
-                GitHubCommits repositoryCommits = new GitHubCommits(pluginSettingsFactory);
-                repositoryCommits.repositoryURL = url;
-                repositoryCommits.projectKey = projectKey;
-
-                // Reset Commit count
-                pluginSettingsFactory.createSettingsForKey(projectKey).put("NonJIRACommitTotal" + url, null);
-                pluginSettingsFactory.createSettingsForKey(projectKey).put("JIRACommitTotal" + url, null);
-
-
-                // Starts actual search of commits via GitAPI, "1" is the first
-                // page of commits to be returned via the API
-
-                messages = repositoryCommits.syncCommits(1);
+                syncRepository();
 
             }
         }
 
         return INPUT;
+    }
+
+    private void syncRepository(){
+        System.out.println("Staring Repository Sync");
+
+        GitHubCommits repositoryCommits = new GitHubCommits(pluginSettingsFactory);
+        repositoryCommits.repositoryURL = url;
+        repositoryCommits.projectKey = projectKey;
+
+        // Reset Commit count
+        pluginSettingsFactory.createSettingsForKey(projectKey).put("NonJIRACommitTotal" + url, null);
+        pluginSettingsFactory.createSettingsForKey(projectKey).put("JIRACommitTotal" + url, null);
+
+        // Starts actual search of commits via GitAPI, "1" is the first
+        // page of commits to be returned via the API
+        messages = repositoryCommits.syncCommits(1);
+
     }
 
     // Manages the entry of multiple repository URLs in a single pluginSetting Key
