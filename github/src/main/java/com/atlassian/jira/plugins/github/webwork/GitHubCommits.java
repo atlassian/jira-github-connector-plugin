@@ -87,11 +87,14 @@ public class GitHubCommits {
             rd.close();
         }catch (MalformedURLException e){
             e.printStackTrace();
-            result = "GitHub Repository can't be found or incorrect credentials.";
-
+            if(pageNumber.equals(1)){
+                result = "GitHub Repository can't be found or incorrect credentials.";
+            }
         } catch (Exception e) {
-            System.out.println("CommitList Exception");
-            result = "GitHub Repository can't be found or incorrect credentials.";
+            //System.out.println("CommitList Exception");
+            if(pageNumber.equals(1)){
+                result = "GitHub Repository can't be found or incorrect credentials.";
+            }
         }
 
         return result;
