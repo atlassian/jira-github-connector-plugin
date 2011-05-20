@@ -129,7 +129,7 @@ public class GitHubCommits {
     }
 
     private String extractProjectKey(String message){
-        Pattern projectKeyPattern = Pattern.compile("(" + this.projectKey + "-\\d*)");
+        Pattern projectKeyPattern = Pattern.compile("(" + this.projectKey + "-\\d*)", Pattern.CASE_INSENSITIVE);
         Matcher match = projectKeyPattern.matcher(message);
         Boolean boolFound = match.find();
 
