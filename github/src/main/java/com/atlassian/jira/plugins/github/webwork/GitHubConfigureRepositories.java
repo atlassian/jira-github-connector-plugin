@@ -142,13 +142,13 @@ public class GitHubConfigureRepositories extends JiraWebActionSupport {
         Boolean boolExists = false;
 
         for (int i=0; i < urlArray.size(); i++){
-            if (url.equals(urlArray.get(i))){
+            if (url.toLowerCase().equals(urlArray.get(i).toLowerCase())){
                 boolExists = true;
             }
         }
 
         if (!boolExists){
-            urlArray.add(url.toLowerCase());
+            urlArray.add(url);
             pluginSettingsFactory.createSettingsForKey(projectKey).put("githubRepositoryURLArray", urlArray);
         }
 
