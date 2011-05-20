@@ -222,8 +222,8 @@ public class GitHubCommits {
                 messages += this.syncCommits(pageNumber + 1);
 
             }catch (JSONException e){
-                e.printStackTrace();
-                messages = "GitHub Repository can't be found or incorrect credentials.";
+                //e.printStackTrace();
+                //messages = "GitHub Repository can't be found or incorrect credentials.";
             }
 
             String messageHeader = "<h2>Sync Summary</h2>";
