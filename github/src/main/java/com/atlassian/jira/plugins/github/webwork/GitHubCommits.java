@@ -11,6 +11,7 @@ import com.atlassian.sal.api.pluginsettings.PluginSettingsFactory;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
+import java.lang.reflect.Array;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
@@ -128,16 +129,22 @@ public class GitHubCommits {
         return result;
     }
 
-    private String extractProjectKey(String message){
+    private ArrayList extractProjectKey(String message){
         Pattern projectKeyPattern = Pattern.compile("(" + this.projectKey + "-\\d*)", Pattern.CASE_INSENSITIVE);
         Matcher match = projectKeyPattern.matcher(message);
-        Boolean boolFound = match.find();
 
-        if(boolFound){
-            return match.group(0);
-        }else{
-            return "";
+        boolean matchFound = match.find();
+
+        ArrayList<String> matches = new ArrayList<String>();
+
+        if (matchFound) {
+            // Get all groups for this match
+            for (int i=0; i<=match.groupCount(); i++) {
+                matches.add(match.group(i));
+            }
         }
+
+        return matches;
     }
 
     private Integer incrementCommitCount(String commitType){
@@ -184,18 +191,17 @@ public class GitHubCommits {
 
                     // Detect presence of JIRA Issue Key
                     if (message.indexOf(this.projectKey) > -1){
-                        if (!extractProjectKey(message).equals("")){
 
-                            String issueId = extractProjectKey(message);
+                        ArrayList extractedIssues = extractProjectKey(message);
+
+                        for (int j=0; j < extractedIssues.size(); ++j){
+                            String issueId = (String)extractedIssues.get(j);
                             addCommitID(issueId, commit_id, getBranchFromURL());
                             incrementCommitCount("JIRACommitTotal");
 
                             JIRACommits++;
 
                             messages += "<div class='jira_issue'>" + issueId + " " + commit_id + "</div>";
-                            //String commitDetailsJSON = getCommitDetails(commit_id);
-
-                            //deleteCommitId(issueId);
                         }
 
                     }else{
@@ -246,17 +252,16 @@ public class GitHubCommits {
 
                 // Detect presence of JIRA Issue Key
                 if (message.indexOf(this.projectKey) > -1){
-                    if (!extractProjectKey(message).equals("")){
 
-                        String issueId = extractProjectKey(message);
-                        addCommitID(issueId, commit_id, getBranchFromURL());
-                        incrementCommitCount("JIRACommitTotal");
+                        ArrayList extractedIssues = extractProjectKey(message);
 
-                        messages += "<div class='jira_issue'>" + issueId + " " + commit_id + "</div>";
-                        //String commitDetailsJSON = getCommitDetails(commit_id);
+                        for (int j=0; j < extractedIssues.size(); ++j){
+                            String issueId = (String)extractedIssues.get(j);
+                            addCommitID(issueId, commit_id, getBranchFromURL());
+                            incrementCommitCount("JIRACommitTotal");
 
-                        //deleteCommitId(issueId);
-                    }
+                            messages += "<div class='jira_issue'>" + issueId + " " + commit_id + "</div>";
+                        }
 
                 }else{
                     incrementCommitCount("NonJIRACommitTotal");
