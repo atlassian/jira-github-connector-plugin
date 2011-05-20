@@ -180,18 +180,23 @@
 
                 #if ($action.getMessages() != "")
                     <div id='gh_messages'>
+                           <h2>Sync Summary</h2>
                            $action.getMessages()
                     </div>
                 #end
 
             <h4 class="gh_config_h4">Add additional GitHub repositories</h4>
 
-                <div id='gh_add_repositories'>
+                <div>
                     <p>Add additional GitHub repositories to the projects to link their commits with JIRA Issue IDs.<br/>
 
-                    Please Enter the JIRA Project and GitHub Repository URL (including branch) you would like linked.</p>
+                    #if ($action.getMode() == 'single')
+                        Please Enter the GitHub Repository URL (including branch) you would like linked.</p>
+                    #else
+                        Please Enter the JIRA Project and GitHub Repository URL (including branch) you would like linked.</p>
+                    #end
 
-                    #if ($action.getValidations() != "")
+                    #if ($action.getValidations() != "" && $action.getNextAction() != "")
                         <div class="aui-message error shadowed">
                                <h3>$action.getValidations() </h3>
                         </div>

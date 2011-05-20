@@ -223,14 +223,10 @@ public class GitHubCommits {
 
             }catch (JSONException e){
                 //e.printStackTrace();
-                //messages = "GitHub Repository can't be found or incorrect credentials.";
+                messages = "GitHub Repository can't be found or incorrect credentials.";
             }
 
-            String messageHeader = "<h2>Sync Summary</h2>";
-            //messageHeader += "<strong>Non JIRA Commits Found: </strong>" + nonJIRACommits.toString() + "<br/>";
-            //messageHeader += "<strong>JIRA Commits Found: </strong>" + JIRACommits.toString() + "<br/><p/>";
-
-            return messageHeader + " " + messages;
+            return messages;
 
         }
 
