@@ -100,6 +100,10 @@ public class GitHubConfigureRepositories extends JiraWebActionSupport {
 
             }
 
+            if (nextAction.equals("ShowPostCommitURL")){
+                postCommitURL = "GitHubPostCommit.jspa?projectKey=" + projectKey + "&branch=" + urlArray[urlArray.length-1];
+            }
+
             if (nextAction.equals("DeleteRepository")){
                 deleteRepositoryURL();
             }

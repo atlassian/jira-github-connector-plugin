@@ -166,8 +166,9 @@
                         <tr>
                             <td><a href="$repository" target="_new">$repository</a></td>
                             <td>$project.key</td>
-                            <td width="120px">
+                            <td width="260px">
                                 <a href="$action.getBaseURL()/secure/admin/GitHubConfigureRepositories.jspa?url=$repository&projectKey=$project.key&nextAction=SyncRepository">Force Sync</a> |
+                                <a href="$action.getBaseURL()/secure/admin/GitHubConfigureRepositories.jspa?url=$repository&projectKey=$project.key&nextAction=ShowPostCommitURL">Post Commit</a> |
                                 <a href="#" onclick="confirmation('$action.getBaseURL()/secure/admin/GitHubConfigureRepositories.jspa?nextAction=DeleteRepository&url=$repository&projectKey=$project.key')">Delete</a>
                             </td>
                         </tr>
