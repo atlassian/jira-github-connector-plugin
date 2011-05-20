@@ -21,6 +21,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import java.util.HashSet;
 
 import com.atlassian.jira.issue.comments.CommentManager;
 import com.atlassian.jira.issue.MutableIssue;
@@ -193,6 +194,11 @@ public class GitHubCommits {
                     if (message.indexOf(this.projectKey) > -1){
 
                         ArrayList extractedIssues = extractProjectKey(message);
+
+                        // Remove duplicate IssueIDs
+                        HashSet h = new HashSet(extractedIssues);
+                        extractedIssues.clear();
+                        extractedIssues.addAll(h);
 
                         for (int j=0; j < extractedIssues.size(); ++j){
                             String issueId = (String)extractedIssues.get(j);
