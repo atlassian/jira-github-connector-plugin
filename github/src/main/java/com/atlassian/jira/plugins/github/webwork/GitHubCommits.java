@@ -187,11 +187,11 @@ public class GitHubCommits {
                 JSONArray commits = jsonCommits.getJSONArray("commits");
 
                 for (int i = 0; i < commits.length(); ++i) {
-                    String message = commits.getJSONObject(i).getString("message");
+                    String message = commits.getJSONObject(i).getString("message").toLowerCase();
                     String commit_id = commits.getJSONObject(i).getString("id");
 
                     // Detect presence of JIRA Issue Key
-                    if (message.indexOf(this.projectKey) > -1){
+                    if (message.indexOf(this.projectKey.toLowerCase()) > -1){
 
                         ArrayList extractedIssues = extractProjectKey(message);
 
@@ -201,7 +201,7 @@ public class GitHubCommits {
                         extractedIssues.addAll(h);
 
                         for (int j=0; j < extractedIssues.size(); ++j){
-                            String issueId = (String)extractedIssues.get(j);
+                            String issueId = (String)extractedIssues.get(j).toString().toUpperCase();
                             addCommitID(issueId, commit_id, getBranchFromURL());
                             incrementCommitCount("JIRACommitTotal");
 
@@ -253,16 +253,16 @@ public class GitHubCommits {
             JSONArray commits = jsonCommits.getJSONArray("commits");
 
             for (int i = 0; i < commits.length(); ++i) {
-                String message = commits.getJSONObject(i).getString("message");
+                String message = commits.getJSONObject(i).getString("message").toLowerCase();
                 String commit_id = commits.getJSONObject(i).getString("id");
 
                 // Detect presence of JIRA Issue Key
-                if (message.indexOf(this.projectKey) > -1){
+                if (message.indexOf(this.projectKey.toLowerCase()) > -1){
 
                         ArrayList extractedIssues = extractProjectKey(message);
 
                         for (int j=0; j < extractedIssues.size(); ++j){
-                            String issueId = (String)extractedIssues.get(j);
+                            String issueId = (String)extractedIssues.get(j).toString().toUpperCase();
                             addCommitID(issueId, commit_id, getBranchFromURL());
                             incrementCommitCount("JIRACommitTotal");
 
