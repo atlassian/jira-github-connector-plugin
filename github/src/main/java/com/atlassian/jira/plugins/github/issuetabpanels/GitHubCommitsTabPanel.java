@@ -413,10 +413,9 @@ String htmlCommitEntry = "" +
                 return htmlCommitEntry;
 
              // Catches invalid or removed GitHub IDs, but errors are suppressed as they typically
-             // indicate deliberate changes to Git history
             }catch (JSONException e){
                 e.printStackTrace();
-                return "";
+                return "Information can't be retrieved from GitHub. Please contact your administrator.";
             }
 
     }
