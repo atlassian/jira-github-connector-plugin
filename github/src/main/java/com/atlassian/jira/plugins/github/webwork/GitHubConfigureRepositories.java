@@ -159,13 +159,20 @@ public class GitHubConfigureRepositories extends JiraWebActionSupport {
         ArrayList<String> urlArray = new ArrayList<String>();
 
         // Remove associated access key (if any) for private repos
-        pluginSettingsFactory.createSettingsForKey(projectKey).put("githubRepositoryAccessToken" + url, null);
+        pluginSettingsFactory.createSettingsForKey(projectKey).remove("githubRepositoryAccessToken" + url);
 
         urlArray = (ArrayList<String>)pluginSettingsFactory.createSettingsForKey(projectKey).get("githubRepositoryURLArray");
 
         for (int i=0; i < urlArray.size(); i++){
             if (url.equals(urlArray.get(i))){
                 urlArray.remove(i);
+
+                GitHubCommits repositoryCommits = new GitHubCommits(pluginSettingsFactory);
+                repositoryCommits.repositoryURL = url;
+                repositoryCommits.projectKey = projectKey;
+
+                repositoryCommits.removeRepositoryIssueIDs();
+
             }
         }
 

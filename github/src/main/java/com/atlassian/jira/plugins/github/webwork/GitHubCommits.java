@@ -297,6 +297,7 @@ public class GitHubCommits {
         if (!boolExists){
             System.out.println("addCommitID: Adding CommitID " + inferCommitDetailsURL() + commitId );
             commitArray.add(inferCommitDetailsURL() + commitId + "?branch=" + branch);
+            addIssueId(issueId);
             pluginSettingsFactory.createSettingsForKey(projectKey).put("githubIssueCommitArray" + issueId, commitArray);
         }else{
             System.out.println("addCommitID: commit id already present");
@@ -307,9 +308,49 @@ public class GitHubCommits {
 
     }
 
-    // Removes all of the associated commits from an issue
-    private void deleteCommitId(String issueId){
-        pluginSettingsFactory.createSettingsForKey(projectKey).put("githubIssueCommitArray" + issueId, null);
+    // Manages the recording of items ids for a JIRA project + Repository Pair so that we know
+    // which issues within a project have commits associated with them
+    private void addIssueId(String issueId){
+        ArrayList<String> idsArray = new ArrayList<String>();
+
+        // First Time Repository URL is saved
+        if ((ArrayList<String>)pluginSettingsFactory.createSettingsForKey(projectKey).get("githubIssueIDs" + repositoryURL) != null){
+            idsArray = (ArrayList<String>)pluginSettingsFactory.createSettingsForKey(projectKey).get("githubIssueIDs" + repositoryURL);
+        }
+
+        Boolean boolExists = false;
+
+        for (int i=0; i < idsArray.size(); i++){
+            if ((issueId).equals(idsArray.get(i))){
+                System.out.println("Found existing issue id" + idsArray.get(i));
+                boolExists = true;
+            }
+        }
+
+        if (!boolExists){
+            System.out.println("addIssueId: Adding IssueID " + issueId);
+            idsArray.add(issueId);
+            pluginSettingsFactory.createSettingsForKey(projectKey).put("githubIssueIDs" + repositoryURL, idsArray);
+        }else{
+            System.out.println("addIssueId: commit id already present");
+        }
+
+    }
+
+    // Removes all record of issues associated with this project and repository URL
+    public void removeRepositoryIssueIDs(){
+
+        ArrayList<String> idsArray = new ArrayList<String>();
+
+        // First Time Repository URL is saved
+        if ((ArrayList<String>)pluginSettingsFactory.createSettingsForKey(projectKey).get("githubIssueIDs" + repositoryURL) != null){
+            idsArray = (ArrayList<String>)pluginSettingsFactory.createSettingsForKey(projectKey).get("githubIssueIDs" + repositoryURL);
+        }
+
+        for (int i=0; i < idsArray.size(); i++){
+            pluginSettingsFactory.createSettingsForKey(projectKey).remove("githubIssueCommitArray" + idsArray.get(i));
+        }
+
     }
 
 }
