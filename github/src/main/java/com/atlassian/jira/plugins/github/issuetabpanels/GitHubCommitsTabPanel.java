@@ -12,6 +12,8 @@ import com.atlassian.sal.api.pluginsettings.PluginSettingsFactory;
 import com.opensymphony.user.User;
 import com.atlassian.jira.plugins.github.webwork.GitHubCommits;
 
+import com.atlassian.jira.web.action.JiraWebActionSupport;
+
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
@@ -198,6 +200,11 @@ public class GitHubCommitsTabPanel extends AbstractIssueTabPanel {
 
     private String formatCommitDetails(String jsonDetails){
             try{
+
+                JiraWebActionSupport jwas = new JiraWebActionSupport();
+
+                jwas.htmlEncode("heyo");
+
                 JSONObject jsonCommits = new JSONObject(jsonDetails);
                 JSONObject commit = jsonCommits.getJSONObject("commit");
 
@@ -240,7 +247,7 @@ public class GitHubCommitsTabPanel extends AbstractIssueTabPanel {
 
                     for (int i=0; i < arrayParents.length(); i++){
                         String parentHashID = arrayParents.getJSONObject(i).getString("id");
-                        htmlParentHashes = "<tr><td style='color: #757575'>Parent:</td><td><a href='" + "https://github.com/" + login + "/" + projectName + "/commit/" + parentHashID +"' target='_new'>" + parentHashID + "</a></td></tr>";
+                        htmlParentHashes = "<tr><td style='color: #757575'>Parent:</td><td><a href='" + "https://github.com/" + jwas.htmlEncode(login) + "/" + jwas.htmlEncode(projectName) + "/commit/" + parentHashID +"' target='_new'>" + parentHashID + "</a></td></tr>";
                     }
 
                 }
@@ -253,7 +260,7 @@ public class GitHubCommitsTabPanel extends AbstractIssueTabPanel {
                     JSONArray arrayAdded = commit.getJSONArray("added");
 
                     for (int i=0; i < arrayAdded.length(); i++){
-                          String addFilename = arrayAdded.getString(i);
+                          String addFilename = jwas.htmlEncode(arrayAdded.getString(i));
                           htmlAdded = "<li><span style='color:green; font-size: 8pt;'>ADDED</span>  <a href='" + fileCommitURL(addFilename, commit_hash) + "' target='_new'>" + addFilename + "</a></li>";
                           mapFiles.put(addFilename, htmlAdded);
 
@@ -269,7 +276,7 @@ public class GitHubCommitsTabPanel extends AbstractIssueTabPanel {
                     JSONArray arrayRemoved = commit.getJSONArray("removed");
 
                     for (int i=0; i < arrayRemoved.length(); i++){
-                          String removeFilename = arrayRemoved.getString(i);
+                          String removeFilename = jwas.htmlEncode(arrayRemoved.getString(i));
                           htmlRemoved = "<li><span style='color:red; font-size: 8pt;'>DELETED</span>  <a href='" + fileCommitURL(removeFilename, commit_hash) + "' target='_new'>" + removeFilename + "</a></li>";
                           mapFiles.put(removeFilename, htmlRemoved);
                     }
@@ -282,7 +289,7 @@ public class GitHubCommitsTabPanel extends AbstractIssueTabPanel {
                     JSONArray arrayModified = commit.getJSONArray("modified");
 
                     for (int i=0; i < arrayModified.length(); i++){
-                          String modFilename = arrayModified.getJSONObject(i).getString("filename");
+                          String modFilename = jwas.htmlEncode(arrayModified.getJSONObject(i).getString("filename"));
                           String modDiff = arrayModified.getJSONObject(i).getString("diff");
                           htmlModified = "<li><span font-size: 8pt;'>" + extractDiffInformation(modDiff) + "</span>  <a href='" + fileCommitURL(modFilename, commit_hash) + "' target='_new'>"+ modFilename + "</a></li>";
 
@@ -383,12 +390,12 @@ String htmlCommitEntry = "" +
 
 
                 htmlCommitEntry = htmlCommitEntry.replace("#gravatar_url", gravatarUrl);
-                htmlCommitEntry = htmlCommitEntry.replace("#user_url", "https://github.com/" + login);
-                htmlCommitEntry = htmlCommitEntry.replace("#login", login);
+                htmlCommitEntry = htmlCommitEntry.replace("#user_url", "https://github.com/" + jwas.htmlEncode(login));
+                htmlCommitEntry = htmlCommitEntry.replace("#login", jwas.htmlEncode(login));
 
-                htmlCommitEntry = htmlCommitEntry.replace("#user_name", userName);
+                htmlCommitEntry = htmlCommitEntry.replace("#user_name", jwas.htmlEncode(userName));
 
-                htmlCommitEntry = htmlCommitEntry.replace("#commit_message", commitMessage);
+                htmlCommitEntry = htmlCommitEntry.replace("#commit_message", jwas.htmlEncode(commitMessage));
 
                 htmlCommitEntry = htmlCommitEntry.replace("#formatted_commit_time", committedDateString);
 
