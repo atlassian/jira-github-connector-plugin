@@ -22,7 +22,7 @@ public class ConfigureGlobalSettings extends JiraWebActionSupport {
     protected void doValidation() {
         if(nextAction.equals("SetOAuthValues")){
             if(clientSecret.equals("") || clientID.equals("")){
-                validations = "Please enter both the GitHub OAuth Client ID and Client Secret";
+                validations = "Please enter both the GitHub OAuth Client ID and Client Secret.";
             }
         }
 
