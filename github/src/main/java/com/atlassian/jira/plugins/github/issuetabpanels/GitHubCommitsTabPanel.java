@@ -235,8 +235,15 @@ public class GitHubCommitsTabPanel extends AbstractIssueTabPanel {
                 String commitTree = commit.getString("tree");
                 String commitMessage = commit.getString("message");
                 JSONObject githubUser = new JSONObject(getUserDetails(login));
+
                 JSONObject user = githubUser.getJSONObject("user");
-                String userName = user.getString("name");
+                String userName = "";
+                try{
+                    userName = user.getString("name");
+                }catch (JSONException je){
+                     System.out.println("Missing Username");
+                }
+
                 String gravatarHash = user.getString("gravatar_id");
                 String gravatarUrl = "http://www.gravatar.com/avatar/" + gravatarHash + "?s=60";
 
