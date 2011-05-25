@@ -1,9 +1,8 @@
-<atlassian-plugin key="${project.groupId}.${project.artifactId}" name="${project.artifactId}" plugins-version="2">
+<atlassian-plugin key="${project.groupId}.${project.artifactId}" name="GitHub Connector" plugins-version="2">
     <plugin-info>
         <description>${project.description}</description>
         <version>${project.version}</version>
         <vendor name="${project.organization.name}" url="${project.organization.url}" />
-
     </plugin-info>
 
     <component-import key="pluginSettingsFactory">
