@@ -1,6 +1,5 @@
 package com.atlassian.jira.plugins.github.links;
 
-import com.atlassian.crowd.integration.seraph.v22.JIRAAuthenticator;
 import com.atlassian.jira.config.properties.PropertiesManager;
 import com.atlassian.jira.plugin.projectoperation.AbstractPluggableProjectOperation;
 import com.atlassian.jira.project.Project;
