@@ -3,7 +3,7 @@
         <description>${project.description}</description>
         <version>${project.version}</version>
         <vendor name="${project.organization.name}" url="${project.organization.url}" />
-        <param name="configure.url">/secure/admin/ConfigureGlobalSettings.jspa</param>
+
     </plugin-info>
 
     <component-import key="pluginSettingsFactory">
@@ -14,7 +14,7 @@
         class="com.atlassian.jira.plugins.github.issuetabpanels.GitHubCommitsTabPanel">
 
         <description>Show GitHub commits related to an issue in an issue tab panel.</description>
-        <label>GitHub Commits</label>
+        <label>GitHub</label>
         <resource type="velocity" name="view" location="templates/com/atlassian/jira/plugins/github/issuetabpanels/view.vm"/>
     </issue-tabpanel>
 
