@@ -24,7 +24,7 @@ public class GitHubOAuth2 extends JiraWebActionSupport {
 
     protected void doValidation() {
 
-        if(!error.equals("")){
+        if(error != null){
             if(error.equals("user_denied")){
                 validations = "user_denied";
             }
