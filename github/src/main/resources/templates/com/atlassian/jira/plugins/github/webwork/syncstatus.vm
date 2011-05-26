@@ -2,7 +2,7 @@
 
     #if ($action.getCurrentSyncPage() == 'complete')
         <strong>Sync Processing Complete</strong>
-        <div>$action.getJIRACommitTotal() Commits with JIRA Issue IDs found</div>
+        <div>$action.getJIRACommitTotal() Commits with JIRA Project Key $action.getProjectKey() found</div>
     #else
          Currently Processing Commits Page $action.getCurrentSyncPage()<p/>
         <img src='$action.getBaseURL()/download/resources/com.atlassian.jira.plugins.github.GitHub/images/loading_barber_pole_horz.gif'>
