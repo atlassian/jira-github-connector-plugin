@@ -28,6 +28,8 @@
 
             <action name="com.atlassian.jira.plugins.github.webwork.GitHubConfigureRepositories" alias="GitHubConfigureRepositories" roles-required="admin">
                     <view name="error">/templates/com/atlassian/jira/plugins/github/webwork/error.vm</view>
+                    <view name="syncstatus">/templates/com/atlassian/jira/plugins/github/webwork/syncstatus.vm</view>
+                    <view name="syncmessage">/templates/com/atlassian/jira/plugins/github/webwork/syncmessage.vm</view>
                     <view name="input">/templates/com/atlassian/jira/plugins/github/webwork/input.vm</view>
                     <view name="redirect">/templates/com/atlassian/jira/plugins/github/webwork/redirect.vm</view>
             </action>
@@ -46,14 +48,55 @@
             </action>
 
       </actions>
+
     </webwork1>
+
+    <project-operation key="com.atlassian.jira.plugins.projectlink" name="GitHub Project Link"
+                       class="com.atlassian.jira.plugins.github.links.ProjectSettings">
+       <resource type="velocity" name="view" location="/templates/com/atlassian/jira/plugins/projectlinks/view.vm"/>
+       <order>100</order>
+    </project-operation>
+
+    <web-section key="github" name="GitHub Admin" location="system.admin" weight="105">
+        <description key="section.github.admin.desc">Authentication and Repository setup for the GitHub Connector</description>
+        <label>GitHub</label>
+        <name>GitHub Name Section</name>
+    </web-section>
+
+    <web-item key="github_global" name="GitHub Global" section="system.admin/github" weight="10">
+        <description>Static link to github.com.</description>
+        <label>OAuth Settings</label>
+
+        <name>GitHub Name Item</name>
+
+        <link>/secure/admin/ConfigureGlobalSettings.jspa</link>
+        <condition class="com.atlassian.jira.plugin.webfragment.conditions.UserLoggedInCondition" />
+
+    </web-item>
+
+
+    <web-item key="github_bulk_repo" name="GitHub Bulk Repository" section="system.admin/github" weight="10">
+        <description>Bulk Configure GitHub Repositories </description>
+        <label>Bulk Configure Repositories</label>
+
+        <name>GitHub Name Item</name>
+
+        <link>/secure/admin/GitHubConfigureRepositories.jspa</link>
+        <condition class="com.atlassian.jira.plugin.webfragment.conditions.UserLoggedInCondition" />
+
+    </web-item>
+
+
+
+
 
 
     <resource type="download" name="images/" location="images/"/>
 
     <web-resource name="Resources" key="resources">
-        <!--
+<!--
             <resource name="javascripts/atlassian.js" type="download" location="javascripts/atlassian.js"/>
+
             <resource name="javascripts/datejs/date.js" type="download" location="javascripts/datejs/date.js"/>
             <resource name="javascripts/ajs.date.js" type="download" location="javascripts/ajs.date.js"/>
         -->

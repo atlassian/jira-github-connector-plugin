@@ -2,9 +2,6 @@
   <head>
     <title>GitHub Global Plugin Settings</title>
 
-    <script type="text/javascript">
-    </script>
-
     <style type="text/css">
 
 
@@ -44,13 +41,13 @@
             background-image: url('$action.getBaseURL()/download/resources/com.atlassian.jira.plugins.github.GitHub/images/blue_info_icon.jpg');
             background-repeat: no-repeat;
             background-position: 5px 5px;
-            font-size: 8pt;
+            font-size: 10pt;
             width: 400px;
             margin-bottom: 12px;
         }
 
         #gh_messages h2{
-            font-size: 8pt;
+            font-size: 10pt;
             color: #333;
         }
 
@@ -73,7 +70,7 @@
         <h3>GitHub Global Plugin Settings</h3>
 
             <div id='gh_config_link'>
-                <a href="$action.getBaseURL()/secure/admin/GitHubConfigureRepositories.jspa">Configure GitHub Repositories</a>
+                <a href="$action.getBaseURL()/secure/admin/GitHubConfigureRepositories.jspa">Bulk Configure GitHub Repositories</a>
             </div>
 
               <h4 class="gh_config_h4">Setting up a GitHub OAuth Application</h4>

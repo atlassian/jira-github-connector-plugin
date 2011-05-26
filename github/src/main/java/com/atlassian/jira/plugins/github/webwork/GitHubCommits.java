@@ -87,16 +87,26 @@ public class GitHubCommits {
                 result += line;
             }
             rd.close();
+
+            // Sets current page status for UI feedback
+            pluginSettingsFactory.createSettingsForKey(projectKey).put("currentsync" + repositoryURL + projectKey, pageNumber.toString());
+
         }catch (MalformedURLException e){
             e.printStackTrace();
             if(pageNumber.equals(1)){
                 result = "GitHub Repository can't be found or incorrect credentials.";
             }
+
+            pluginSettingsFactory.createSettingsForKey(projectKey).put("currentsync" + repositoryURL + projectKey, "complete");
+
         } catch (Exception e) {
             //System.out.println("CommitList Exception");
             if(pageNumber.equals(1)){
                 result = "GitHub Repository can't be found or incorrect credentials.";
             }
+
+            pluginSettingsFactory.createSettingsForKey(projectKey).put("currentsync" + repositoryURL + projectKey, "complete");
+
         }
 
         return result;
@@ -217,9 +227,8 @@ public class GitHubCommits {
                     }
                 }
 
-
-
-                messages += this.syncCommits(pageNumber + 1);
+                Integer nextCommitPage = pageNumber + 1;
+                messages += this.syncCommits(nextCommitPage);
 
             }catch (JSONException e){
                 //e.printStackTrace();
@@ -296,21 +305,21 @@ public class GitHubCommits {
 
         for (int i=0; i < commitArray.size(); i++){
             if ((inferCommitDetailsURL() + commitId + "?branch=" + branch).equals(commitArray.get(i))){
-                System.out.println("Found commit id" + commitArray.get(i));
+                //System.out.println("Found commit id" + commitArray.get(i));
                 boolExists = true;
             }
         }
 
         if (!boolExists){
-            System.out.println("addCommitID: Adding CommitID " + inferCommitDetailsURL() + commitId );
+            //System.out.println("addCommitID: Adding CommitID " + inferCommitDetailsURL() + commitId );
             commitArray.add(inferCommitDetailsURL() + commitId + "?branch=" + branch);
             addIssueId(issueId);
             pluginSettingsFactory.createSettingsForKey(projectKey).put("githubIssueCommitArray" + issueId, commitArray);
         }else{
-            System.out.println("addCommitID: commit id already present");
+            //System.out.println("addCommitID: commit id already present");
         }
 
-        System.out.println("arrayKey: " + "githubIssueCommitArray" + issueId);
+        //System.out.println("arrayKey: " + "githubIssueCommitArray" + issueId);
         //System.out.println("addCommitID: " + issueId + " - " + commitId);
 
     }

@@ -73,25 +73,31 @@ public class GitHubConfigureRepositories extends JiraWebActionSupport {
 
                 if (repoVisibility.equals("private")){
                     System.out.println("Private Add Repository");
-                    String clientID = (String)pluginSettingsFactory.createGlobalSettings().get("githubRepositoryClientID");
+                    String clientID = "";
+                    clientID = (String)pluginSettingsFactory.createGlobalSettings().get("githubRepositoryClientID");
 
-                    if(clientID.equals(null) || clientID.equals("")){
+                    if(clientID == null){
                         //System.out.println("No Client ID");
-                        validations = "You will need to setup a <a href='/secure/admin/ConfigureGlobalSettings.jspa'>GitHub OAuth Application</a> before you can add private repositories";
+                        validations = "You will need to setup a <a href='" + baseURL + "/secure/admin/ConfigureGlobalSettings.jspa'>GitHub OAuth Application</a> before you can add private repositories";
                     }else{
-                        addRepositoryURL();
-                        pluginSettingsFactory.createGlobalSettings().put("githubPendingProjectKey", projectKey);
-                        pluginSettingsFactory.createGlobalSettings().put("githubPendingRepositoryURL", url);
+                        if(clientID.equals("")){
+                            validations = "You will need to setup a <a href='" + baseURL + "/secure/admin/ConfigureGlobalSettings.jspa'>GitHub OAuth Application</a> before you can add private repositories";
+                        }else{
+                            addRepositoryURL();
+                            pluginSettingsFactory.createGlobalSettings().put("githubPendingProjectKey", projectKey);
+                            pluginSettingsFactory.createGlobalSettings().put("githubPendingRepositoryURL", url);
 
-                        String redirectURI = "https://github.com/login/oauth/authorize?scope=repo&client_id=" + clientID;
-                        redirectURL = redirectURI;
+                            String redirectURI = "https://github.com/login/oauth/authorize?scope=repo&client_id=" + clientID;
+                            redirectURL = redirectURI;
 
-                        return "redirect";
+                            return "redirect";
+                        }
                     }
                 }else{
                     System.out.println("PUBLIC Add Repository");
                     addRepositoryURL();
-                    syncRepository();
+                    nextAction = "ForceSync";
+
                 }
 
                 postCommitURL = "GitHubPostCommit.jspa?projectKey=" + projectKey + "&branch=" + urlArray[urlArray.length-1];
@@ -108,8 +114,19 @@ public class GitHubConfigureRepositories extends JiraWebActionSupport {
                 deleteRepositoryURL();
             }
 
+            if (nextAction.equals("CurrentSyncStatus")){
+
+                currentSyncPage = (String)pluginSettingsFactory.createSettingsForKey(projectKey).get("currentsync" + url + projectKey);
+
+                nonJIRACommitTotal = (String)pluginSettingsFactory.createSettingsForKey(projectKey).get("NonJIRACommitTotal" + url);
+                JIRACommitTotal = (String)pluginSettingsFactory.createSettingsForKey(projectKey).get("JIRACommitTotal" + url);
+
+                return "syncstatus";
+            }
+
             if (nextAction.equals("SyncRepository")){
                 syncRepository();
+                return "syncmessage";
 
             }
         }
@@ -118,6 +135,7 @@ public class GitHubConfigureRepositories extends JiraWebActionSupport {
     }
 
     private void syncRepository(){
+
         System.out.println("Staring Repository Sync");
 
         GitHubCommits repositoryCommits = new GitHubCommits(pluginSettingsFactory);
@@ -125,12 +143,12 @@ public class GitHubConfigureRepositories extends JiraWebActionSupport {
         repositoryCommits.projectKey = projectKey;
 
         // Reset Commit count
-        pluginSettingsFactory.createSettingsForKey(projectKey).put("NonJIRACommitTotal" + url, null);
-        pluginSettingsFactory.createSettingsForKey(projectKey).put("JIRACommitTotal" + url, null);
+        pluginSettingsFactory.createSettingsForKey(projectKey).put("NonJIRACommitTotal" + url, "0");
+        pluginSettingsFactory.createSettingsForKey(projectKey).put("JIRACommitTotal" + url, "0");
 
         // Starts actual search of commits via GitAPI, "1" is the first
         // page of commits to be returned via the API
-        messages = repositoryCommits.syncCommits(1);
+        repositoryCommits.syncCommits(1);
 
     }
 
@@ -192,10 +210,20 @@ public class GitHubConfigureRepositories extends JiraWebActionSupport {
         return projects;
     }
 
+    public String getProjectName(){
+        return cm.getProjectManager().getProjectObjByKey(projectKey).getName();
+    }
+
     // Stored Repository + JIRA Projects
     public ArrayList<String> getProjectRepositories(String pKey){
         return (ArrayList<String>)pluginSettingsFactory.createSettingsForKey(pKey).get("githubRepositoryURLArray");
     }
+
+    // Mode setting to 'single' indicates that this is administration of a single JIRA project
+    // Bulk setting indicates multiple projects
+    private String mode = "";
+    public void setMode(String value){this.mode = value;}
+    public String getMode(){return mode;}
 
     // GitHub Repository URL
     private String url = "";
@@ -237,5 +265,17 @@ public class GitHubConfigureRepositories extends JiraWebActionSupport {
     // Redirect URL
     private String redirectURL = "";
     public String getRedirectURL(){return this.redirectURL;}
+
+    // Current page of commits that is being processed
+    private String currentSyncPage = "";
+    public String getCurrentSyncPage(){return this.currentSyncPage;}
+
+
+    private String nonJIRACommitTotal = "";
+    public String getNonJIRACommitTotal(){return this.nonJIRACommitTotal;}
+
+    // Current page of commits that is being processed
+    private String JIRACommitTotal = "";
+    public String getJIRACommitTotal(){return this.JIRACommitTotal;}
 
 }

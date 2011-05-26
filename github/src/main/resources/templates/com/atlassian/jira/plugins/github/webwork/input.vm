@@ -1,29 +1,13 @@
 <html>
   <head>
-    <title>GitHub Repositories</title>
+    <title> #if ($action.getMode() == 'single')
+                GitHub Repositories
+            #else
+                Bulk Configure GitHub Repositories
+            #end
+    </title>
 
-    <script type="text/javascript">
 
-        function confirmation(delete_url) {
-            var answer = confirm("Are you sure you want to remove this repository?")
-            if (answer){
-                window.location = delete_url;
-            }
-        }
-
-        // private repositories require oauth permission
-        function checkRepoVisiblity(){
-
-            var repoVisibility = document.getElementById("repoVisibility").value;
-
-            if(repoVisibility == "private"){
-                initOAuth();
-            }else{
-                document.forms["myform"].submit();
-            }
-        }
-
-    </script>
 
     <style type="text/css">
 
@@ -37,7 +21,7 @@
             background-repeat: no-repeat;
             background-position: right center;
             padding-right: 20px;
-            font-size: 8pt;
+            font-size: 10pt;
         }
 
         .gh_config_h4{
@@ -77,12 +61,12 @@
             font-weight: normal;
             color: #656565;
             border-bottom: 1px solid #cccccc;
-            font-size: 8pt;
+            font-size: 10pt;
         }
 
         .gh_table td{
             border-bottom: 1px solid #cccccc;
-            font-size: 8pt;
+            font-size: 10pt;
         }
 
         .gh_table_td_pname{
@@ -91,7 +75,7 @@
 
         #gh_add_repositories{
             margin-left: 18px;
-            font-size: 8pt;
+            font-size: 10pt;
             color: #656565;
         }
 
@@ -100,7 +84,7 @@
         }
 
         #gh_submit{
-            font-size: 8pt;
+            font-size: 10pt;
         }
 
         #gh_messages{
@@ -117,11 +101,11 @@
             background-image: url('$action.getBaseURL()/download/resources/com.atlassian.jira.plugins.github.GitHub/images/blue_info_icon.jpg');
             background-repeat: no-repeat;
             background-position: 10px 10px;
-            font-size: 8pt;
+            font-size: 10pt;
         }
 
         #gh_messages h2{
-            font-size: 8pt;
+            font-size: 10pt;
             color: #333;
         }
 
@@ -129,14 +113,37 @@
 
 
 
+    <script type="text/javascript">
 
+        function forceSync(url, projectKey){
+            AJS.$('#gh_messages').css('display','block');
+            AJS.$('#connector_sync_message').html("");
+            AJS.$('#connector_sync_status').html("");
+
+            AJS.$('#connector_sync_message').load('$action.getBaseURL()/GitHubConfigureRepositories.jspa?nextAction=SyncRepository&url=' + url + '&projectKey=' + projectKey);
+
+            console.log('url ' +  '/secure/admin/GitHubConfigureRepositories.jspa?nextAction=SyncRepository&url=' + url + '&projectKey=' + projectKey);
+
+            window.setInterval(function(){
+                AJS.$('#connector_sync_status').load('$action.getBaseURL()/GitHubConfigureRepositories.jspa?nextAction=CurrentSyncStatus&url=' + url + '&projectKey=' + projectKey);
+            }, 500);
+        }
+
+        var url = '$action.getURL()';
+        var projectKey = '$action.getProjectKey()';
+
+    </script>
   </head>
 
   <body>
 
 
 
-            <h3>GitHub Global Plugin Settings </h3>
+            <h3>#if ($action.getMode() == 'single')
+                Existing Repositories Linked to $action.getProjectName()
+            #else
+                Bulk Configure GitHub Repositories
+            #end</h3>
 
             <div id='gh_config_link'>
                 <a href="$action.getBaseURL()/secure/admin/ConfigureGlobalSettings.jspa">Configure OAuth Settings</a>
@@ -167,9 +174,9 @@
                             <td><a href="$repository" target="_new">$repository</a></td>
                             <td>$project.key</td>
                             <td width="260px">
-                                <a href="$action.getBaseURL()/secure/admin/GitHubConfigureRepositories.jspa?url=$repository&projectKey=$project.key&nextAction=SyncRepository">Force Sync</a> |
-                                <a href="$action.getBaseURL()/secure/admin/GitHubConfigureRepositories.jspa?url=$repository&projectKey=$project.key&nextAction=ShowPostCommitURL">Post Commit</a> |
-                                <a href="#" onclick="confirmation('$action.getBaseURL()/secure/admin/GitHubConfigureRepositories.jspa?nextAction=DeleteRepository&url=$repository&projectKey=$project.key')">Delete</a>
+                                <a href="$action.getBaseURL()/secure/admin/GitHubConfigureRepositories.jspa?url=$repository&projectKey=$project.key&nextAction=ForceSync&mode=$action.getMode()">Force Sync</a> |
+                                <a href="$action.getBaseURL()/secure/admin/GitHubConfigureRepositories.jspa?url=$repository&projectKey=$project.key&nextAction=ShowPostCommitURL&mode=$action.getMode()">Post Commit</a> |
+                                <a href="#" onclick="confirmation('$action.getBaseURL()/secure/admin/GitHubConfigureRepositories.jspa?nextAction=DeleteRepository&url=$repository&projectKey=$project.key&mode=$action.getMode()')">Delete</a>
                             </td>
                         </tr>
                     #end
@@ -179,12 +186,14 @@
             </table>
 
 
-                #if ($action.getMessages() != "")
-                    <div id='gh_messages'>
-                           <h2>Sync Summary</h2>
-                           $action.getMessages()
-                    </div>
-                #end
+
+            #if ($action.nextAction == 'ForceSync')
+                <div id='gh_messages' style="display: none;">
+                    <h2>Sync Summary</h2>
+                    <div id='connector_sync_status'></div>
+                    <div id='connector_sync_message'></div>
+                </div>
+            #end
 
             <h4 class="gh_config_h4">Add additional GitHub repositories</h4>
 
@@ -227,11 +236,20 @@
 
                             <tr>
                               <td valign="top">
+
+                                #if ($action.getMode() == 'single')
+                                    <input type='hidden' name='projectKey' value='$action.getProjectKey()'>
+                                    <input type='hidden' name='mode' value='single'>
+                                #else
                                   <select name="projectKey" class="select medium-field">
                                     #foreach ($project in $action.getProjects())
                                       <option value="${project.key}" #if ($action.getProjectKey() == $project.key) selected #end>${project.name}</option>
                                     #end
                                   </select>
+                                  <input type='hidden' name='mode' value='bulk'>
+                                #end
+
+
                               </td>
 
                               <td valign="top">
