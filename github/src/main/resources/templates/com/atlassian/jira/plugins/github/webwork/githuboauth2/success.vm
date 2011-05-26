@@ -107,7 +107,7 @@
 
 
     <div id='gh_messages' class='gh_messages' style="display: none;">
-        <h2>Sync Summary</h2>
+        <strong>Sync Summary</strong>
         <div id='connector_sync_status'></div>
         <div id='connector_sync_message'></div>
     </div>
