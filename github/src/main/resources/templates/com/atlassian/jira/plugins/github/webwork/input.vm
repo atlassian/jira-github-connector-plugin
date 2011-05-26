@@ -126,7 +126,7 @@
 
             window.setInterval(function(){
                 AJS.$('#connector_sync_status').load('$action.getBaseURL()/GitHubConfigureRepositories.jspa?nextAction=CurrentSyncStatus&url=' + url + '&projectKey=' + projectKey);
-            }, 500);
+            }, 1000);
         }
 
         var url = '$action.getURL()';
