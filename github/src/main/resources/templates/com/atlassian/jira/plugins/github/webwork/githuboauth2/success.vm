@@ -54,7 +54,7 @@
             margin-bottom: 10px;
         }
 
-        #gh_messages{
+        .gh_messages{
             background-color: #DFEFFE;
             margin-left: 18px;
             margin-top: 18px;
@@ -88,7 +88,7 @@
     <h4 class="gh_config_h4">GitHub Private Repository OAuth Success</h4>
 
 
-    <div id="gh_messages">
+    <div class="gh_messages">
     <p>You have successfully linked the following:</p>
 
       <p>
@@ -106,7 +106,7 @@
     </div>
 
 
-    <div id='gh_messages' style="display: none;">
+    <div id='gh_messages' class='gh_messages' style="display: none;">
         <h2>Sync Summary</h2>
         <div id='connector_sync_status'></div>
         <div id='connector_sync_message'></div>
