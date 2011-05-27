@@ -39,11 +39,13 @@ public class GitHubConfigureRepositories extends JiraWebActionSupport {
                 Pattern p = Pattern.compile("^(https|http)://github.com/[-a-zA-Z0-9+&@#/%?=~_|!:,.;]*[-a-zA-Z0-9+&@#/%=~_|]");
                 Matcher m = p.matcher(url);
                 if (!m.matches()){
-                    validations = "URL must be for a valid GitHub.com repository.";
+                    validations = "Please supply a valid GitHub repository URL.";
                 }
             }
         }else{
-                validations = "Please supply a valid GitHub repository.";
+            if (nextAction.equals("AddRepository") || nextAction.equals("DeleteReposiory")){
+                validations = "Please supply a valid GitHub repository URL.";
+            }
         }
 
     }
