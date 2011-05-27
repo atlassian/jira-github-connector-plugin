@@ -173,8 +173,6 @@ public class GitHubCommits {
             commitCount = Integer.parseInt(stringCount) + 1;
         }
 
-        commitCount = commitCount + 1;
-
         pluginSettingsFactory.createSettingsForKey(projectKey).put(commitType + repositoryURL, Integer.toString(commitCount));
 
         return commitCount;
