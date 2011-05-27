@@ -295,6 +295,27 @@ public class GitHubCommits {
 
     }
 
+    private String getRepositoryURLFromCommitURL(String commitURL){
+
+        // Commit URL example
+        // https://github.com/api/v2/json/commits/show/mojombo/grit/5071bf9fbfb81778c456d62e111440fdc776f76c?branch=master
+
+        String[] arrayCommitURL = commitURL.split("/");
+        String[] arrayBranch = commitURL.split("=");
+
+        String branch = "";
+
+        if(arrayBranch.length == 1){
+            branch = "master";
+        }else{
+            branch = arrayBranch[1];
+        }
+
+        String repoBranchURL = "https://github.com/" + arrayCommitURL[8] + "/" + arrayCommitURL[9] + "/" + branch;
+        logger.debug("GitHubCommits.getRepositoryURLFromCommitURL() - RepoBranchURL: " + repoBranchURL);
+        return repoBranchURL;
+    }
+
     // Manages the entry of multiple Github commit id hash ids associated with an issue
     // urls look like - https://github.com/api/v2/json/commits/show/mojombo/grit/5071bf9fbfb81778c456d62e111440fdc776f76c?branch=master
     private void addCommitID(String issueId, String commitId, String branch){
@@ -322,6 +343,34 @@ public class GitHubCommits {
         }
 
     }
+
+
+    // Removes a specific commit_id (URL) from the saved array
+    private void removeCommitID(String issueId, String URLCommitID){
+        ArrayList<String> commitArray = new ArrayList<String>();
+
+        // First Time Repository URL is saved
+        if ((ArrayList<String>)pluginSettingsFactory.createSettingsForKey(projectKey).get("githubIssueCommitArray" + issueId) != null){
+            commitArray = (ArrayList<String>)pluginSettingsFactory.createSettingsForKey(projectKey).get("githubIssueCommitArray" + issueId);
+        }
+
+        Boolean boolExists = false;
+        ArrayList<String> newCommitArray = new ArrayList<String>();
+        for (int i=0; i < commitArray.size(); i++){
+
+            //logger.debug("GitHubCommits().removeCommitID - URLCommitID: " + URLCommitID);
+            //logger.debug("GitHubCommits().removeCommitID - commitArray: " + commitArray.get(i));
+
+            if (!URLCommitID.equals(commitArray.get(i))){
+                newCommitArray.add(commitArray.get(i));
+            }
+        }
+
+        pluginSettingsFactory.createSettingsForKey(projectKey).put("githubIssueCommitArray" + issueId, newCommitArray);
+
+    }
+
+
 
     // Manages the recording of items ids for a JIRA project + Repository Pair so that we know
     // which issues within a project have commits associated with them
@@ -358,9 +407,26 @@ public class GitHubCommits {
             idsArray = (ArrayList<String>)pluginSettingsFactory.createSettingsForKey(projectKey).get("githubIssueIDs" + repositoryURL);
         }
 
+        // Array of JIRA Issue IDS like ['PONE-4','PONE-10']
         for (int i=0; i < idsArray.size(); i++){
-            logger.debug("GitHubCommits.removeRepositoryIssueIDs() - " + idsArray.get(i));
-            pluginSettingsFactory.createSettingsForKey(projectKey).remove("githubIssueCommitArray" + idsArray.get(i));
+            //logger.debug("GitHubCommits.removeRepositoryIssueIDs() - " + idsArray.get(i));
+
+            ArrayList<String> commitIDsArray = new ArrayList<String>();
+            if ((ArrayList<String>)pluginSettingsFactory.createSettingsForKey(projectKey).get("githubIssueCommitArray" + idsArray.get(i)) != null){
+                commitIDsArray = (ArrayList<String>)pluginSettingsFactory.createSettingsForKey(projectKey).get("githubIssueCommitArray" + idsArray.get(i));
+
+                // Array of Commit URL IDs like ['http://github.com/...']
+                for (int j=0; j < commitIDsArray.size(); j++){
+                    //logger.debug("GitHubCommits.removeRepositoryIssueIDs() - Commit ID: " + commitIDsArray.get(j));
+                    //logger.debug("GitHubCommits.removeRepositoryIssueIDs() - " + getRepositoryURLFromCommitURL(commitIDsArray.get(j)));
+
+                    if (repositoryURL.equals(getRepositoryURLFromCommitURL(commitIDsArray.get(j)))){
+                        //logger.debug("match");
+                        removeCommitID(idsArray.get(i), commitIDsArray.get(j));
+                    }
+                }
+            }
+
         }
 
     }
