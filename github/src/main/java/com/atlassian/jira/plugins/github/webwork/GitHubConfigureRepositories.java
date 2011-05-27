@@ -154,7 +154,7 @@ public class GitHubConfigureRepositories extends JiraWebActionSupport {
 
         // Starts actual search of commits via GitAPI, "1" is the first
         // page of commits to be returned via the API
-        repositoryCommits.syncCommits(1);
+        messages = repositoryCommits.syncCommits(1);
 
     }
 

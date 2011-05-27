@@ -1,1 +1,1 @@
-$action.getMessages()
+<div style="text-align: center">$action.getMessages()</div>

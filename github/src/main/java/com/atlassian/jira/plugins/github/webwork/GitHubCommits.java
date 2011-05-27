@@ -220,14 +220,11 @@ public class GitHubCommits {
                             incrementCommitCount("JIRACommitTotal");
 
                             JIRACommits++;
-
-                            messages += "<div class='jira_issue'>" + issueId + " " + commit_id + "</div>";
                         }
 
                     }else{
                         incrementCommitCount("NonJIRACommitTotal");
                         nonJIRACommits++;
-                        messages += "<div class='no_issue'>No Issue: " + commit_id + "</div>" ;
                     }
                 }
 
@@ -239,11 +236,9 @@ public class GitHubCommits {
                 messages = "GitHub Repository can't be found or incorrect credentials.";
             }
 
-            return messages;
-
         }
 
-        return "";
+        return messages;
 
     }
 
@@ -274,13 +269,10 @@ public class GitHubCommits {
                             String issueId = (String)extractedIssues.get(j).toString().toUpperCase();
                             addCommitID(issueId, commit_id, getBranchFromURL());
                             incrementCommitCount("JIRACommitTotal");
-
-                            messages += "<div class='jira_issue'>" + issueId + " " + commit_id + "</div>";
                         }
 
                 }else{
                     incrementCommitCount("NonJIRACommitTotal");
-                    messages += "<div class='no_issue'>No Issue: " + commit_id + "</div>" ;
                 }
             }
 
