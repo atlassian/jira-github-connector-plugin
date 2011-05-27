@@ -155,7 +155,30 @@
 
             <table class="gh_table">
 
+            #if ($action.getMode() == 'single')
+                        <tr>
+                            <td colspan="3" class="gh_table_td_pname"><div class="gh_table_project_name">$action.getProjectName()</div></td>
+                        </tr>
 
+                        <tr>
+                            <th>Repository URL</th>
+                            <th>Key</th>
+                            <th>Operations</th>
+                        </tr>
+
+                    #foreach ($repository in $action.getProjectRepositories($action.getProjectKey()))
+                        <tr>
+                            <td><a href="$repository" target="_new">$repository</a></td>
+                            <td>$action.getProjectKey()</td>
+                            <td width="260px">
+                                <a href="$action.getBaseURL()/secure/admin/GitHubConfigureRepositories.jspa?url=$repository&projectKey=$action.getProjectKey()&nextAction=ForceSync&mode=$action.getMode()">Force Sync</a> |
+                                <a href="$action.getBaseURL()/secure/admin/GitHubConfigureRepositories.jspa?url=$repository&projectKey=$action.getProjectKey()&nextAction=ShowPostCommitURL&mode=$action.getMode()">Post Commit</a> |
+                                <a href="#" onclick="confirmation('$action.getBaseURL()/secure/admin/GitHubConfigureRepositories.jspa?nextAction=DeleteRepository&url=$repository&projectKey=$action.getProjectKey()&mode=$action.getMode()')">Delete</a>
+                            </td>
+                        </tr>
+                    #end
+
+            #else
                 #foreach ($project in $action.getProjects())
                     #if ($action.getProjectRepositories($project.key))
 
@@ -183,6 +206,9 @@
                         </tr>
                     #end
                 #end
+
+            #end
+
 
 
             </table>
