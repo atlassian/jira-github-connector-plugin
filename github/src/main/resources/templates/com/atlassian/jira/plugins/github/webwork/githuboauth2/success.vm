@@ -8,18 +8,23 @@
         var projectKey = '$action.getProjectKey()';
         var syncComplete = false;
 
+        // Function is located in velocity template not the global bitbucket.js include as
+        // we need to dynamically insert URLs
         function forceSync(url, projectKey){
             AJS.$('#gh_messages').css('display','block');
             AJS.$('#connector_sync_message').html("");
             AJS.$('#connector_sync_status').html("");
 
-            AJS.$('#connector_sync_message').load('$action.getBaseURL()/GitHubConfigureRepositories.jspa?nextAction=SyncRepository&url=' + url + '&projectKey=' + projectKey);
+            AJS.$('#connector_sync_message').load('$action.getBaseURL()/ConfigureBitbucketRepositories.jspa?nextAction=SyncRepository&url=' + url + '&projectKey=' + projectKey);
+
+            console.log('url ' +  '/secure/admin/ConfigureBitbucketRepositories.jspa?nextAction=SyncRepository&url=' + url + '&projectKey=' + projectKey);
 
             window.setInterval(function(){
-                AJS.$('#connector_sync_status').load('$action.getBaseURL()/GitHubConfigureRepositories.jspa?nextAction=CurrentSyncStatus&url=' + url + '&projectKey=' + projectKey);
+                if(syncComplete == false){
+                    AJS.$('#connector_sync_status').load('$action.getBaseURL()/ConfigureBitbucketRepositories.jspa?nextAction=CurrentSyncStatus&url=' + url + '&projectKey=' + projectKey);
+                }
             }, 1000);
         }
-
 
     </script>
 

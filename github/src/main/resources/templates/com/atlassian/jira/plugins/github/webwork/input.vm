@@ -128,7 +128,9 @@
             console.log('url ' +  '/secure/admin/GitHubConfigureRepositories.jspa?nextAction=SyncRepository&url=' + url + '&projectKey=' + projectKey);
 
             window.setInterval(function(){
-                AJS.$('#connector_sync_status').load('$action.getBaseURL()/GitHubConfigureRepositories.jspa?nextAction=CurrentSyncStatus&url=' + url + '&projectKey=' + projectKey);
+                if(syncComplete == false){
+                    AJS.$('#connector_sync_status').load('$action.getBaseURL()/GitHubConfigureRepositories.jspa?nextAction=CurrentSyncStatus&url=' + url + '&projectKey=' + projectKey);
+                }
             }, 1000);
         }
 
