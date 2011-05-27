@@ -14,20 +14,15 @@ function confirmation(delete_url) {
     }
 }
 
+function toggleMoreFiles(target_div){
+        AJS.$('#' + target_div).toggle();
+        AJS.$('#see_more_' + target_div).toggle();
+        AJS.$('#hide_more_' + target_div).toggle();
+}
+
 AJS.$(document).ready(function(){
 
-    AJS.$(".see_more").bind("click",function(A){var B=AJS.$(this).attr("target_div");
-    console.log("target_div: "+B);
-    AJS.$("#"+B).toggle();
-    AJS.$("#see_more_"+B).toggle();
-    AJS.$("#hide_more_"+B).toggle()
-    });
 
-    AJS.$(".hide_more").bind("click",function(A){var B=AJS.$(this).attr("target_div");
-    AJS.$("#"+B).toggle();
-    AJS.$("#see_more_"+B).toggle();
-    AJS.$("#hide_more_"+B).toggle()
-    });
 
 
 

@@ -344,10 +344,10 @@ public class GitHubCommitsTabPanel extends AbstractIssueTabPanel {
                     numSeeMore = mapFiles.size() - 5;
                     Integer divID = randDivID.nextInt();
 
-                    htmlFilesHiddenDescription = "<div class='see_more' target_div='" + divID.toString() + "' id='see_more_" + divID.toString() + "' style='color: #3C78B5'>" +
+                    htmlFilesHiddenDescription = "<div class='see_more'  id='see_more_" + divID.toString() + "' style='color: #3C78B5; cursor: pointer; text-decoration: underline;' onclick='toggleMoreFiles(" + divID.toString() + ")'>" +
                                 "See " + numSeeMore.toString() + " more" +
                             "</div>" +
-                            "<div class='hide_more' id='hide_more_" + divID.toString() + "' target_div='" + divID.toString() + "' style='display: none; color: #3C78B5'>Hide " + numSeeMore.toString() + " Files</div>";
+                            "<div class='hide_more' id='hide_more_" + divID.toString() + "' style='display: none; color: #3C78B5;  cursor: pointer; text-decoration: underline;' onclick='toggleMoreFiles(" + divID.toString() + ")'>Hide " + numSeeMore.toString() + " Files</div>";
 
                     htmlHiddenDiv = htmlFilesHiddenDescription + "<div id='" + divID.toString() + "' style='display: none;'><ul>" + htmlHiddenDiv + "</ul></div>";
 
