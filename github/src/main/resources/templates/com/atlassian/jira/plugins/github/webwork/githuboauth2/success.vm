@@ -4,6 +4,10 @@
 
     <script type="text/javascript">
 
+        var url = '$action.getPrivateRepositoryURL()';
+        var projectKey = '$action.getProjectKey()';
+        var syncComplete = false;
+
         function forceSync(url, projectKey){
             AJS.$('#gh_messages').css('display','block');
             AJS.$('#connector_sync_message').html("");
@@ -16,8 +20,6 @@
             }, 1000);
         }
 
-        var url = '$action.getPrivateRepositoryURL()';
-        var projectKey = '$action.getProjectKey()';
 
     </script>
 

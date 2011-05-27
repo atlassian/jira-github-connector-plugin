@@ -114,6 +114,9 @@
 
 
     <script type="text/javascript">
+        var url = '$action.getURL()';
+        var projectKey = '$action.getProjectKey()';
+        var syncComplete = false;
 
         function forceSync(url, projectKey){
             AJS.$('#gh_messages').css('display','block');
@@ -129,8 +132,7 @@
             }, 1000);
         }
 
-        var url = '$action.getURL()';
-        var projectKey = '$action.getProjectKey()';
+
 
     </script>
   </head>
