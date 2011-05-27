@@ -8,6 +8,9 @@ import java.util.Enumeration;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 /**
  * Created by IntelliJ IDEA.
  * User: michaelbuckbee
@@ -18,6 +21,7 @@ import java.util.regex.Pattern;
 public class GitHubPostCommit extends JiraWebActionSupport {
 
     final PluginSettingsFactory pluginSettingsFactory;
+    final Logger logger = LoggerFactory.getLogger(GitHubPostCommit.class);
 
     public GitHubPostCommit(PluginSettingsFactory pluginSettingsFactory){
         this.pluginSettingsFactory = pluginSettingsFactory;
@@ -42,7 +46,7 @@ public class GitHubPostCommit extends JiraWebActionSupport {
     protected String doExecute() throws Exception {
 
         if (validations.equals("")){
-            System.out.println("Staring PostCommitUpdate");
+            logger.debug("Staring PostCommitUpdate");
 
             JSONObject jsonPayload = new JSONObject(payload);
             JSONObject jsonRepository = jsonPayload.getJSONObject("repository");

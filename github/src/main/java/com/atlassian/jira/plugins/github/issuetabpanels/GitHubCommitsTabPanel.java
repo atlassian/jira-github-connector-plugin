@@ -23,11 +23,13 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.*;
 
-
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class GitHubCommitsTabPanel extends AbstractIssueTabPanel {
 
     final PluginSettingsFactory pluginSettingsFactory;
+    final Logger logger = LoggerFactory.getLogger(GitHubCommitsTabPanel.class);
 
     public String repositoryURL;
     public String repoLogin;
@@ -60,7 +62,7 @@ public class GitHubCommitsTabPanel extends AbstractIssueTabPanel {
         }
 
         String repoBranchURL = "https://github.com/" + arrayCommitURL[8] + "/" + arrayCommitURL[9] + "/" + branch;
-        System.out.println("RepoBranchURL: " + repoBranchURL);
+        logger.debug("RepoBranchURL: " + repoBranchURL);
 
         this.repositoryURL = repoBranchURL;
         this.repoLogin = arrayCommitURL[8];
@@ -88,7 +90,7 @@ public class GitHubCommitsTabPanel extends AbstractIssueTabPanel {
             commitArray = (ArrayList<String>)pluginSettingsFactory.createSettingsForKey(projectKey).get("githubIssueCommitArray" + issueId);
 
             for (int i=0; i < commitArray.size(); i++){
-                    System.out.println("Found commit id" + commitArray.get(i));
+                    logger.debug("Found commit id" + commitArray.get(i));
 
                     gitHubCommits.repositoryURL = getRepositoryURLFromCommitURL(commitArray.get(i));
                     String commitDetails = gitHubCommits.getCommitDetails(commitArray.get(i));
@@ -97,7 +99,7 @@ public class GitHubCommitsTabPanel extends AbstractIssueTabPanel {
                     GenericMessageAction action = new GenericMessageAction(issueCommitActions);
                     githubActions.add(action);
 
-                    System.out.println("Commit Entry: " + "githubIssueCommitArray" + i );
+                    logger.debug("Commit Entry: " + "githubIssueCommitArray" + i );
 
             }
 
@@ -144,13 +146,13 @@ public class GitHubCommitsTabPanel extends AbstractIssueTabPanel {
         if (!diff.trim().equals("")){
             // the +3 and -1 remove the leading and trailing spaces
 
-            //System.out.println("Diff STring: " + diff);
+            //logger.debug("Diff STring: " + diff);
 
             Integer first = diff.indexOf("@@") + 3;
             Integer second = diff.indexOf("@@", first) -1;
 
-            //System.out.println("first: " + first.toString());
-            //System.out.println("second: " + second.toString());
+            //logger.debug("first: " + first.toString());
+            //logger.debug("second: " + second.toString());
 
             String[] modLine = diff.substring(first,second).replace("+","").replace("-","").split(" ");
 
@@ -241,7 +243,7 @@ public class GitHubCommitsTabPanel extends AbstractIssueTabPanel {
                 try{
                     userName = user.getString("name");
                 }catch (JSONException je){
-                     System.out.println("Missing Username");
+                     logger.debug("Missing Username");
                 }
 
                 String gravatarHash = user.getString("gravatar_id");

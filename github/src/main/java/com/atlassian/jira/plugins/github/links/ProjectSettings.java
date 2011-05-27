@@ -6,7 +6,12 @@ import com.atlassian.jira.project.Project;
 
 import com.opensymphony.user.User;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 public class ProjectSettings extends AbstractPluggableProjectOperation{
+
+    final Logger logger = LoggerFactory.getLogger(ProjectSettings.class);
 
    public String getHtml(final Project project, final User user){
 

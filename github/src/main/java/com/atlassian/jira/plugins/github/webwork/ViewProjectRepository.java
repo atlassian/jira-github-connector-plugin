@@ -10,9 +10,13 @@ import java.util.regex.Matcher;
 
 import com.atlassian.sal.api.pluginsettings.PluginSettingsFactory;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 public class ViewProjectRepository extends JiraWebActionSupport{
 
     final PluginSettingsFactory pluginSettingsFactory;
+    final Logger logger = LoggerFactory.getLogger(ViewProjectRepository.class);
 
     public ViewProjectRepository(PluginSettingsFactory pluginSettingsFactory){
         this.pluginSettingsFactory = pluginSettingsFactory;

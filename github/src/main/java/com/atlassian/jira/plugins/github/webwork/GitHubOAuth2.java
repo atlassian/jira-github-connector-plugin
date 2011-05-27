@@ -14,9 +14,13 @@ import java.net.URL;
 
 import com.atlassian.sal.api.pluginsettings.PluginSettingsFactory;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 public class GitHubOAuth2 extends JiraWebActionSupport {
 
     final PluginSettingsFactory pluginSettingsFactory;
+    final Logger logger = LoggerFactory.getLogger(GitHubOAuth2.class);
 
     public GitHubOAuth2(PluginSettingsFactory pluginSettingsFactory){
         this.pluginSettingsFactory = pluginSettingsFactory;

@@ -23,6 +23,9 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.HashSet;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import com.atlassian.jira.issue.comments.CommentManager;
 import com.atlassian.jira.issue.MutableIssue;
 
@@ -32,6 +35,7 @@ public class GitHubCommits {
     public String projectKey;
 
     final PluginSettingsFactory pluginSettingsFactory;
+    final Logger logger = LoggerFactory.getLogger(GitHubCommits.class);
 
     public GitHubCommits(PluginSettingsFactory pluginSettingsFactory){
         this.pluginSettingsFactory = pluginSettingsFactory;
@@ -68,7 +72,7 @@ public class GitHubCommits {
     }
 
     private String getCommitsList(Integer pageNumber){
-        System.out.println("getCommitsList()");
+        logger.debug("getCommitsList()");
         URL url;
         HttpURLConnection conn;
 
@@ -77,7 +81,7 @@ public class GitHubCommits {
         String result = "";
         try {
 
-            System.out.println("Commits URL - " + this.inferCommitsURL() + "?page=" + Integer.toString(pageNumber) + this.getAccessTokenParameter() );
+            logger.debug("Commits URL - " + this.inferCommitsURL() + "?page=" + Integer.toString(pageNumber) + this.getAccessTokenParameter() );
             url = new URL(this.inferCommitsURL() + "?page=" + Integer.toString(pageNumber) + this.getAccessTokenParameter());
             conn = (HttpURLConnection) url.openConnection();
             conn.setInstanceFollowRedirects(true);
@@ -100,7 +104,7 @@ public class GitHubCommits {
             pluginSettingsFactory.createSettingsForKey(projectKey).put("currentsync" + repositoryURL + projectKey, "complete");
 
         } catch (Exception e) {
-            //System.out.println("CommitList Exception");
+            //logger.debug("CommitList Exception");
             if(pageNumber.equals(1)){
                 result = "GitHub Repository can't be found or incorrect credentials.";
             }
@@ -182,7 +186,7 @@ public class GitHubCommits {
         Date date = new Date();
         pluginSettingsFactory.createSettingsForKey(projectKey).put("githubLastSyncTime" + repositoryURL, date.toString());
 
-        System.out.println("searchCommits()");
+        logger.debug("searchCommits()");
         String commitsAsJSON = getCommitsList(pageNumber);
 
         String messages = "";
@@ -250,7 +254,7 @@ public class GitHubCommits {
         Date date = new Date();
         pluginSettingsFactory.createSettingsForKey(projectKey).put("githubLastSyncTime" + repositoryURL, date.toString());
 
-        System.out.println("postBack()");
+        logger.debug("postBack()");
         String messages = "";
 
         try{
@@ -305,22 +309,17 @@ public class GitHubCommits {
 
         for (int i=0; i < commitArray.size(); i++){
             if ((inferCommitDetailsURL() + commitId + "?branch=" + branch).equals(commitArray.get(i))){
-                //System.out.println("Found commit id" + commitArray.get(i));
+                //logger.debug("Found commit id" + commitArray.get(i));
                 boolExists = true;
             }
         }
 
         if (!boolExists){
-            //System.out.println("addCommitID: Adding CommitID " + inferCommitDetailsURL() + commitId );
+            //logger.debug("addCommitID: Adding CommitID " + inferCommitDetailsURL() + commitId );
             commitArray.add(inferCommitDetailsURL() + commitId + "?branch=" + branch);
             addIssueId(issueId);
             pluginSettingsFactory.createSettingsForKey(projectKey).put("githubIssueCommitArray" + issueId, commitArray);
-        }else{
-            //System.out.println("addCommitID: commit id already present");
         }
-
-        //System.out.println("arrayKey: " + "githubIssueCommitArray" + issueId);
-        //System.out.println("addCommitID: " + issueId + " - " + commitId);
 
     }
 
@@ -338,17 +337,15 @@ public class GitHubCommits {
 
         for (int i=0; i < idsArray.size(); i++){
             if ((issueId).equals(idsArray.get(i))){
-                System.out.println("Found existing issue id" + idsArray.get(i));
+                logger.debug("GitHubCommits.addIssueId() Found existing issue id - " + idsArray.get(i));
                 boolExists = true;
             }
         }
 
         if (!boolExists){
-            System.out.println("addIssueId: Adding IssueID " + issueId);
+            logger.debug("GitHubCommits.addIssueId() - " + issueId);
             idsArray.add(issueId);
             pluginSettingsFactory.createSettingsForKey(projectKey).put("githubIssueIDs" + repositoryURL, idsArray);
-        }else{
-            System.out.println("addIssueId: commit id already present");
         }
 
     }
@@ -357,13 +354,12 @@ public class GitHubCommits {
     public void removeRepositoryIssueIDs(){
 
         ArrayList<String> idsArray = new ArrayList<String>();
-
-        // First Time Repository URL is saved
         if ((ArrayList<String>)pluginSettingsFactory.createSettingsForKey(projectKey).get("githubIssueIDs" + repositoryURL) != null){
             idsArray = (ArrayList<String>)pluginSettingsFactory.createSettingsForKey(projectKey).get("githubIssueIDs" + repositoryURL);
         }
 
         for (int i=0; i < idsArray.size(); i++){
+            logger.debug("GitHubCommits.removeRepositoryIssueIDs() - " + idsArray.get(i));
             pluginSettingsFactory.createSettingsForKey(projectKey).remove("githubIssueCommitArray" + idsArray.get(i));
         }
 

@@ -9,11 +9,15 @@ import com.atlassian.sal.api.pluginsettings.PluginSettingsFactory;
 import com.atlassian.jira.user.util.UserManager;
 import com.atlassian.crowd.embedded.api.User;
 
-// JIRA GitHub user left in preparation for use with Activity Streams
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+
 
 public class ConfigureGlobalSettings extends JiraWebActionSupport {
 
     final PluginSettingsFactory pluginSettingsFactory;
+    final Logger logger = LoggerFactory.getLogger(ConfigureGlobalSettings.class);
 
     public ConfigureGlobalSettings(PluginSettingsFactory pluginSettingsFactory){
         this.pluginSettingsFactory = pluginSettingsFactory;
@@ -24,16 +28,6 @@ public class ConfigureGlobalSettings extends JiraWebActionSupport {
             if(clientSecret.equals("") || clientID.equals("")){
                 validations = "Please enter both the GitHub OAuth Client ID and Client Secret.";
             }
-        }
-
-        if(nextAction.equals("SetJiraGitHubUser")){
-
-            User githubUser = ComponentManager.getInstance().getUserUtil().getUserObject(jiraGitHubUser);
-
-            if(githubUser == null){
-                validations = "Please specify an existing JIRA user for your GitHub actions.";
-            }
-
         }
 
     }

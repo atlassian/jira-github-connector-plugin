@@ -15,16 +15,20 @@ import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 public class GitHubConfigureRepositories extends JiraWebActionSupport {
 
     final PluginSettingsFactory pluginSettingsFactory;
+    final Logger logger = LoggerFactory.getLogger(GitHubConfigureRepositories.class);
 
     public GitHubConfigureRepositories(PluginSettingsFactory pluginSettingsFactory){
         this.pluginSettingsFactory = pluginSettingsFactory;
     }
 
     protected void doValidation() {
-        //System.out.println("GitHubConfigureRepositories - doValidation()");
+        //logger.debug("GitHubConfigureRepositories - doValidation()");
         for (Enumeration e =  request.getParameterNames(); e.hasMoreElements() ;) {
             String n = (String)e.nextElement();
             String[] vals = request.getParameterValues(n);
@@ -33,7 +37,7 @@ public class GitHubConfigureRepositories extends JiraWebActionSupport {
 
         // GitHub URL Validation
         if (!url.equals("")){
-            System.out.println("URL for Evaluation: " + url + " - NA: " + nextAction);
+            logger.debug("URL for Evaluation: " + url + " - NA: " + nextAction);
             if (nextAction.equals("AddRepository") || nextAction.equals("DeleteReposiory")){
                 // Valid URL and URL starts with github.com domain
                 Pattern p = Pattern.compile("^(https|http)://github.com/[-a-zA-Z0-9+&@#/%?=~_|!:,.;]*[-a-zA-Z0-9+&@#/%=~_|]");
@@ -51,7 +55,7 @@ public class GitHubConfigureRepositories extends JiraWebActionSupport {
     }
 
     protected String doExecute() throws Exception {
-        System.out.println("NextAction: " + nextAction);
+        logger.debug("NextAction: " + nextAction);
 
         // Remove trailing slashes from URL
         if (url.endsWith("/")){
@@ -74,12 +78,12 @@ public class GitHubConfigureRepositories extends JiraWebActionSupport {
             if (nextAction.equals("AddRepository")){
 
                 if (repoVisibility.equals("private")){
-                    System.out.println("Private Add Repository");
+                    logger.debug("Private Add Repository");
                     String clientID = "";
                     clientID = (String)pluginSettingsFactory.createGlobalSettings().get("githubRepositoryClientID");
 
                     if(clientID == null){
-                        //System.out.println("No Client ID");
+                        //logger.debug("No Client ID");
                         validations = "You will need to setup a <a href='" + baseURL + "/secure/admin/ConfigureGlobalSettings.jspa'>GitHub OAuth Application</a> before you can add private repositories";
                     }else{
                         if(clientID.equals("")){
@@ -96,7 +100,7 @@ public class GitHubConfigureRepositories extends JiraWebActionSupport {
                         }
                     }
                 }else{
-                    System.out.println("PUBLIC Add Repository");
+                    logger.debug("PUBLIC Add Repository");
                     addRepositoryURL();
                     nextAction = "ForceSync";
 
@@ -104,7 +108,7 @@ public class GitHubConfigureRepositories extends JiraWebActionSupport {
 
                 postCommitURL = "GitHubPostCommit.jspa?projectKey=" + projectKey + "&branch=" + urlArray[urlArray.length-1];
 
-                System.out.println(postCommitURL);
+                logger.debug(postCommitURL);
 
             }
 
@@ -138,7 +142,7 @@ public class GitHubConfigureRepositories extends JiraWebActionSupport {
 
     private void syncRepository(){
 
-        System.out.println("Staring Repository Sync");
+        logger.debug("Staring Repository Sync");
 
         GitHubCommits repositoryCommits = new GitHubCommits(pluginSettingsFactory);
         repositoryCommits.repositoryURL = url;
