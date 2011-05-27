@@ -48,6 +48,7 @@ public class GitHubCommitsTabPanel extends AbstractIssueTabPanel {
 
     private String getRepositoryURLFromCommitURL(String commitURL){
 
+        // Commit URL example
         // https://github.com/api/v2/json/commits/show/mojombo/grit/5071bf9fbfb81778c456d62e111440fdc776f76c?branch=master
 
         String[] arrayCommitURL = commitURL.split("/");
