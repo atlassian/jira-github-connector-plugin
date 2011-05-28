@@ -220,6 +220,15 @@ public class GitHubConfigureRepositories extends JiraWebActionSupport {
         return cm.getProjectManager().getProjectObjByKey(projectKey).getName();
     }
 
+    // Used to provide URLs on the repository management screen that go to actual pages
+    // as the service does not support repo urls with branches
+    public String getRepositoryURLWithoutBranch(String repoURL){
+
+        Integer lastSlash = repoURL.lastIndexOf("/");
+        return repoURL.substring(0,lastSlash);
+    }
+
+
     // Stored Repository + JIRA Projects
     public ArrayList<String> getProjectRepositories(String pKey){
         return (ArrayList<String>)pluginSettingsFactory.createSettingsForKey(pKey).get("githubRepositoryURLArray");

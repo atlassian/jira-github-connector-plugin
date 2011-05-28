@@ -96,7 +96,7 @@ public class GitHubCommits {
             pluginSettingsFactory.createSettingsForKey(projectKey).put("currentsync" + repositoryURL + projectKey, pageNumber.toString());
 
         }catch (MalformedURLException e){
-            e.printStackTrace();
+            //e.printStackTrace();
             if(pageNumber.equals(1)){
                 result = "GitHub Repository can't be found or incorrect credentials.";
             }
