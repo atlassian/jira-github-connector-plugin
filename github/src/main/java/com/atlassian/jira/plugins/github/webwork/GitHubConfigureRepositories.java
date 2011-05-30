@@ -140,6 +140,11 @@ public class GitHubConfigureRepositories extends JiraWebActionSupport {
         return INPUT;
     }
 
+    private void resetCommitTotals(){
+        pluginSettingsFactory.createSettingsForKey(projectKey).put("NonJIRACommitTotal" + url, "0");
+        pluginSettingsFactory.createSettingsForKey(projectKey).put("JIRACommitTotal" + url, "0");
+    }
+
     private void syncRepository(){
 
         logger.debug("Staring Repository Sync");
@@ -149,8 +154,7 @@ public class GitHubConfigureRepositories extends JiraWebActionSupport {
         repositoryCommits.projectKey = projectKey;
 
         // Reset Commit count
-        pluginSettingsFactory.createSettingsForKey(projectKey).put("NonJIRACommitTotal" + url, "0");
-        pluginSettingsFactory.createSettingsForKey(projectKey).put("JIRACommitTotal" + url, "0");
+        resetCommitTotals();
 
         // Starts actual search of commits via GitAPI, "1" is the first
         // page of commits to be returned via the API
@@ -178,6 +182,7 @@ public class GitHubConfigureRepositories extends JiraWebActionSupport {
         if (!boolExists){
             urlArray.add(url);
             pluginSettingsFactory.createSettingsForKey(projectKey).put("githubRepositoryURLArray", urlArray);
+            resetCommitTotals();
         }
 
     }
