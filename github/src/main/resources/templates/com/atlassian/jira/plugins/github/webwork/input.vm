@@ -170,7 +170,7 @@
 
                     #foreach ($repository in $action.getProjectRepositories($action.getProjectKey()))
                         <tr>
-                            <td><a href="$repository" target="_new">$repository</a></td>
+                            <td><a href="$action.getRepositoryURLWithoutBranch($repository)" target="_new">$repository</a></td>
                             <td>$action.getProjectKey()</td>
                             <td width="260px">
                                 <a href="$action.getBaseURL()/secure/admin/GitHubConfigureRepositories.jspa?url=$repository&projectKey=$action.getProjectKey()&nextAction=ForceSync&mode=$action.getMode()">Force Sync</a> |
@@ -198,7 +198,7 @@
 
                     #foreach ($repository in $action.getProjectRepositories($project.key))
                         <tr>
-                            <td><a href="$repository" target="_new">$repository</a></td>
+                            <td><a href="$action.getRepositoryURLWithoutBranch($repository)" target="_new">$repository</a></td>
                             <td>$project.key</td>
                             <td width="260px">
                                 <a href="$action.getBaseURL()/secure/admin/GitHubConfigureRepositories.jspa?url=$repository&projectKey=$project.key&nextAction=ForceSync&mode=$action.getMode()">Force Sync</a> |

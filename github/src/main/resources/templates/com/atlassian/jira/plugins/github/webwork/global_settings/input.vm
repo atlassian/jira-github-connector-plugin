@@ -1,6 +1,6 @@
 <html>
   <head>
-    <title>GitHub Global Plugin Settings</title>
+    <title>GitHub OAuth Settings</title>
 
     <style type="text/css">
 
@@ -67,7 +67,7 @@
 
   <body>
 
-        <h3>GitHub Global Plugin Settings</h3>
+        <h3>GitHub Oauth Settings</h3>
 
             <div id='gh_config_link'>
                 <a href="$action.getBaseURL()/secure/admin/GitHubConfigureRepositories.jspa">Bulk Configure GitHub Repositories</a>

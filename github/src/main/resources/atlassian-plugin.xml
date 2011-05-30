@@ -41,6 +41,7 @@
             <action name="com.atlassian.jira.plugins.github.webwork.GitHubOAuth2" alias="GitHubOAuth2">
                 <view name="success">/templates/com/atlassian/jira/plugins/github/webwork/githuboauth2/success.vm</view>
                 <view name="cancelled">/templates/com/atlassian/jira/plugins/github/webwork/githuboauth2/cancelled.vm</view>
+                <view name="error">/templates/com/atlassian/jira/plugins/github/webwork/githuboauth2/error.vm</view>
             </action>
 
             <action name="com.atlassian.jira.plugins.github.webwork.ConfigureGlobalSettings" alias="ConfigureGlobalSettings">
@@ -85,10 +86,6 @@
         <condition class="com.atlassian.jira.plugin.webfragment.conditions.UserLoggedInCondition" />
 
     </web-item>
-
-
-
-
 
 
     <resource type="download" name="images/" location="images/"/>

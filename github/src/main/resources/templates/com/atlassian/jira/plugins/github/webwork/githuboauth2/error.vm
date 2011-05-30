@@ -1,0 +1,77 @@
+<html>
+  <head>
+    <title>GitHub Private Repository OAuth Error</title>
+
+
+    <style type="text/css">
+
+
+        #gh_config_link{
+            margin-top: 10px;
+        }
+
+        #gh_config_link a{
+            background: url('$action.getBaseURL()/download/resources/com.atlassian.jira.plugins.github.GitHub/images/pencil_icon.jpg');
+            background-repeat: no-repeat;
+            background-position: right center;
+            padding-right: 20px;
+            font-size: 8pt;
+        }
+
+        .gh_config_h4{
+            font-weight: normal;
+            color: #3676B7;
+            background: url('$action.getBaseURL()/download/resources/com.atlassian.jira.plugins.github.GitHub/images/down_gray_arrow.jpg');
+            background-repeat: no-repeat;
+            background-position: left center;
+            padding-left: 18px;
+            margin-top: 18px;
+        }
+
+        #gh_post_receive_header{
+            font-weight: normal;
+            font-size: 10pt;
+            color: #666;
+            margin-top: 18px;
+            margin-bottom: 10px;
+        }
+
+        .gh_messages{
+            background-color: #DFEFFE;
+            margin-left: 18px;
+            margin-top: 18px;
+            border: 2px solid #bbb;
+            padding: 10px;
+            padding-left: 36px;
+            -moz-border-radius: 6px;
+            -webkit-border-radius: 6px;
+            -khtml-border-radius: 6px;
+            border-radius: 6px;
+            background-image: url('$action.getBaseURL()/download/resources/com.atlassian.jira.plugins.github.GitHub/images/blue_info_icon.jpg');
+            background-repeat: no-repeat;
+            background-position: 5px 5px;
+            font-size: 8pt;
+            width: 400px;
+            margin-bottom: 12px;
+        }
+
+
+
+    </style>
+
+  </head>
+
+  <body>
+
+
+    <h3>GitHub Private Repository OAuth Error</h3>
+
+    <h4 class="gh_config_h4">Error Retrieving Access Code</h4>
+
+    <p>The final step of the OAuth Application Authentication process did not complete successfully.</p>
+    <p>Most likely this is due to errors with the configuration of your OAuth Client or OAuth Secret. </p>
+    <p>Please verify the correct values and re-enter them on the <a href="$action.getBaseURL()/secure/admin/ConfigureGlobalSettings.jspa">OAuth Settings Page</a>.</p>
+
+
+  </body>
+</html>

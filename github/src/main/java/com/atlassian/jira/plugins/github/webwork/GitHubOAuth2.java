@@ -48,11 +48,19 @@ public class GitHubOAuth2 extends JiraWebActionSupport {
 
                     // strips "access_token=" from result returned from GitHub
                     access_token = requestAccessToken().split("=")[1];
-                    pluginSettingsFactory.createSettingsForKey(projectKey).put("githubRepositoryAccessToken" + privateRepositoryURL, access_token);
 
-                    String[] urlArray = privateRepositoryURL.split("/");
-                    postCommitURL = "GitHubPostCommit.jspa?projectKey=" + projectKey + "&branch=" + urlArray[urlArray.length-1];
+                    if (access_token.equals("incorrect_client_credentials") || access_token.equals("bad_verification_code")){
 
+                        return "error";
+
+                    }else{
+
+                    // Verification Success
+                        pluginSettingsFactory.createSettingsForKey(projectKey).put("githubRepositoryAccessToken" + privateRepositoryURL, access_token);
+
+                        String[] urlArray = privateRepositoryURL.split("/");
+                        postCommitURL = "GitHubPostCommit.jspa?projectKey=" + projectKey + "&branch=" + urlArray[urlArray.length-1];
+                    }
             }
 
             return "success";
