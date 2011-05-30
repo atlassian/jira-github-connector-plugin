@@ -2,6 +2,7 @@ package com.atlassian.jira.plugins.github.issuetabpanels;
 
 import com.atlassian.core.util.StringUtils;
 import com.atlassian.core.util.collection.EasyList;
+import com.atlassian.jira.config.properties.PropertiesManager;
 import com.atlassian.jira.issue.Issue;
 import com.atlassian.jira.issue.tabpanels.GenericMessageAction;
 import com.atlassian.jira.plugin.issuetabpanel.AbstractIssueTabPanel;
@@ -35,6 +36,8 @@ public class GitHubCommitsTabPanel extends AbstractIssueTabPanel {
     public String repoLogin;
     public String repoName;
     public String branch;
+
+    private String baseurl = PropertiesManager.getInstance().getPropertySet().getString("jira.baseurl");
 
     public GitHubCommitsTabPanel(PluginSettingsFactory pluginSettingsFactory){
         this.pluginSettingsFactory = pluginSettingsFactory;
@@ -248,7 +251,7 @@ public class GitHubCommitsTabPanel extends AbstractIssueTabPanel {
                 }
 
                 String gravatarHash = user.getString("gravatar_id");
-                String gravatarUrl = "http://www.gravatar.com/avatar/" + gravatarHash + "?s=60";
+                String gravatarUrl = "https://secure.gravatar.com/avatar/" + gravatarHash + "?s=60";
 
                 String htmlParentHashes = "";
 
@@ -377,7 +380,7 @@ String htmlCommitEntry = "" +
                                 htmlHiddenDiv +
 
                             "<div style='margin-top: 10px'>" +
-                                "<img src='/download/resources/com.atlassian.jira.plugins.github.GitHub/images/document.jpg' align='center'> <span class='commit_date' style='color: #757575; font-size: 9pt;'>#formatted_commit_date</span>" +
+                                "<img src='" + baseurl + "/download/resources/com.atlassian.jira.plugins.github.GitHub/images/document.jpg' align='center'> <span class='commit_date' style='color: #757575; font-size: 9pt;'>#formatted_commit_date</span>" +
                             "</div>" +
 
                         "</td>" +
