@@ -109,8 +109,12 @@ public class GitHubCommitsTabPanel extends AbstractIssueTabPanel {
 
         }
 
-        return EasyList.build(githubActions);
+        if (githubActions.equals(null)){
+            GenericMessageAction blankAction = new GenericMessageAction("");
+            githubActions.add(blankAction);
+        }
 
+        return EasyList.build(githubActions);
 
     }
 
