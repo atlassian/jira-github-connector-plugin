@@ -213,8 +213,6 @@ public class GitHubCommitsTabPanel extends AbstractIssueTabPanel {
 
                 JiraWebActionSupport jwas = new JiraWebActionSupport();
 
-                jwas.htmlEncode("heyo");
-
                 JSONObject jsonCommits = new JSONObject(jsonDetails);
                 JSONObject commit = jsonCommits.getJSONObject("commit");
 
