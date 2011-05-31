@@ -17,7 +17,7 @@ public class ProjectSettings extends AbstractPluggableProjectOperation{
 
        String baseURL = PropertiesManager.getInstance().getPropertySet().getString("jira.baseurl");
 
-       return "<strong>GitHub Connector: </strong> (<a href='" + baseURL + "/secure/admin/GitHubConfigureRepositories.jspa?projectKey=" + project.getKey() + "&mode=single'>Manage Repositories</a>)";
+       return "<strong>GitHub Connector: </strong> (<a href='" + baseURL + "/secure/admin/GitHubConfigureRepositories!default.jspa?projectKey=" + project.getKey() + "&mode=single'>Manage Repositories</a>)";
 
    }
 
