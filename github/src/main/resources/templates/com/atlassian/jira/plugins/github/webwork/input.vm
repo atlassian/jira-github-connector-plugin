@@ -168,14 +168,14 @@
                             <th>Operations</th>
                         </tr>
 
-                    #foreach ($repository in $action.getProjectRepositories($action.getProjectKey()))
+                    #foreach ($repository in $action.getProjectRepositories($action.escape($action.getProjectKey())))
                         <tr>
-                            <td><a href="$action.getRepositoryURLWithoutBranch($repository)" target="_new">$repository</a></td>
+                            <td><a href="$action.getRepositoryURLWithoutBranch($repository)" target="_new">$action.escape($repository)</a></td>
                             <td>$action.escape($action.getProjectKey())</td>
                             <td width="260px">
-                                <a href="$action.getBaseURL()/secure/admin/GitHubConfigureRepositories.jspa?url=$repository&projectKey=$action.escape($action.getProjectKey())&nextAction=ForceSync&mode=$action.getMode()">Force Sync</a> |
-                                <a href="$action.getBaseURL()/secure/admin/GitHubConfigureRepositories.jspa?url=$repository&projectKey=$action.escape($action.getProjectKey())&nextAction=ShowPostCommitURL&mode=$action.getMode()">Post Commit</a> |
-                                <a href="#" onclick="confirmation('$action.getBaseURL()/secure/admin/GitHubConfigureRepositories.jspa?nextAction=DeleteRepository&url=$action.escape($repository)&projectKey=$action.getProjectKey()&mode=$action.getMode()')">Delete</a>
+                                <a href="$action.getBaseURL()/secure/admin/GitHubConfigureRepositories.jspa?url=$repository&projectKey=$action.escape($action.getProjectKey())&nextAction=ForceSync&mode=$action.escape($action.getMode())">Force Sync</a> |
+                                <a href="$action.getBaseURL()/secure/admin/GitHubConfigureRepositories.jspa?url=$repository&projectKey=$action.escape($action.getProjectKey())&nextAction=ShowPostCommitURL&mode=$action.escape($action.getMode())">Post Commit</a> |
+                                <a href="#" onclick="confirmation('$action.getBaseURL()/secure/admin/GitHubConfigureRepositories.jspa?nextAction=DeleteRepository&url=$action.escape($repository)&projectKey=$action.getProjectKey()&mode=$action.escape($action.getMode())')">Delete</a>
                             </td>
                         </tr>
                     #end
