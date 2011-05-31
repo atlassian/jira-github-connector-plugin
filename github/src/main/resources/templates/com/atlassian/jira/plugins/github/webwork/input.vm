@@ -114,8 +114,8 @@
 
 
     <script type="text/javascript">
-        var url = '$action.getURL()';
-        var projectKey = '$action.getProjectKey()';
+        var url = '$action.escape($action.getURL())';
+        var projectKey = '$action.escape($action.getProjectKey())';
         var syncComplete = false;
 
         function forceSync(url, projectKey){
@@ -125,7 +125,7 @@
 
             AJS.$('#connector_sync_message').load('$action.getBaseURL()/GitHubConfigureRepositories.jspa?nextAction=SyncRepository&url=' + url + '&projectKey=' + projectKey);
 
-            console.log('url ' +  '/secure/admin/GitHubConfigureRepositories.jspa?nextAction=SyncRepository&url=' + url + '&projectKey=' + projectKey);
+            //console.log('url ' +  '/secure/admin/GitHubConfigureRepositories.jspa?nextAction=SyncRepository&url=' + url + '&projectKey=' + projectKey);
 
             window.setInterval(function(){
                 if(syncComplete == false){
@@ -144,7 +144,7 @@
 
 
             <h3>#if ($action.getMode() == 'single')
-                Existing Repositories Linked to $action.getProjectName()
+                Existing Repositories Linked to $action.escape($action.getProjectName())
             #else
                 Bulk Configure GitHub Repositories
             #end</h3>
@@ -159,7 +159,7 @@
 
             #if ($action.getMode() == 'single')
                         <tr>
-                            <td colspan="3" class="gh_table_td_pname"><div class="gh_table_project_name">$action.getProjectName()</div></td>
+                            <td colspan="3" class="gh_table_td_pname"><div class="gh_table_project_name">$action.escape($action.getProjectName())</div></td>
                         </tr>
 
                         <tr>
@@ -171,11 +171,11 @@
                     #foreach ($repository in $action.getProjectRepositories($action.getProjectKey()))
                         <tr>
                             <td><a href="$action.getRepositoryURLWithoutBranch($repository)" target="_new">$repository</a></td>
-                            <td>$action.getProjectKey()</td>
+                            <td>$action.escape($action.getProjectKey())</td>
                             <td width="260px">
-                                <a href="$action.getBaseURL()/secure/admin/GitHubConfigureRepositories.jspa?url=$repository&projectKey=$action.getProjectKey()&nextAction=ForceSync&mode=$action.getMode()">Force Sync</a> |
-                                <a href="$action.getBaseURL()/secure/admin/GitHubConfigureRepositories.jspa?url=$repository&projectKey=$action.getProjectKey()&nextAction=ShowPostCommitURL&mode=$action.getMode()">Post Commit</a> |
-                                <a href="#" onclick="confirmation('$action.getBaseURL()/secure/admin/GitHubConfigureRepositories.jspa?nextAction=DeleteRepository&url=$repository&projectKey=$action.getProjectKey()&mode=$action.getMode()')">Delete</a>
+                                <a href="$action.getBaseURL()/secure/admin/GitHubConfigureRepositories.jspa?url=$repository&projectKey=$action.escape($action.getProjectKey())&nextAction=ForceSync&mode=$action.getMode()">Force Sync</a> |
+                                <a href="$action.getBaseURL()/secure/admin/GitHubConfigureRepositories.jspa?url=$repository&projectKey=$action.escape($action.getProjectKey())&nextAction=ShowPostCommitURL&mode=$action.getMode()">Post Commit</a> |
+                                <a href="#" onclick="confirmation('$action.getBaseURL()/secure/admin/GitHubConfigureRepositories.jspa?nextAction=DeleteRepository&url=$action.escape($repository)&projectKey=$action.getProjectKey()&mode=$action.getMode()')">Delete</a>
                             </td>
                         </tr>
                     #end
@@ -185,7 +185,7 @@
                     #if ($action.getProjectRepositories($project.key))
 
                         <tr>
-                            <td colspan="3" class="gh_table_td_pname"><div class="gh_table_project_name">${project.name}</div></td>
+                            <td colspan="3" class="gh_table_td_pname"><div class="gh_table_project_name">$action.escape(${project.name})</div></td>
                         </tr>
 
                         <tr>
@@ -198,12 +198,12 @@
 
                     #foreach ($repository in $action.getProjectRepositories($project.key))
                         <tr>
-                            <td><a href="$action.getRepositoryURLWithoutBranch($repository)" target="_new">$repository</a></td>
-                            <td>$project.key</td>
+                            <td><a href="$action.getRepositoryURLWithoutBranch($repository)" target="_new">$action.escape($repository)</a></td>
+                            <td>$action.escape($project.key)</td>
                             <td width="260px">
-                                <a href="$action.getBaseURL()/secure/admin/GitHubConfigureRepositories.jspa?url=$repository&projectKey=$project.key&nextAction=ForceSync&mode=$action.getMode()">Force Sync</a> |
-                                <a href="$action.getBaseURL()/secure/admin/GitHubConfigureRepositories.jspa?url=$repository&projectKey=$project.key&nextAction=ShowPostCommitURL&mode=$action.getMode()">Post Commit</a> |
-                                <a href="#" onclick="confirmation('$action.getBaseURL()/secure/admin/GitHubConfigureRepositories.jspa?nextAction=DeleteRepository&url=$repository&projectKey=$project.key&mode=$action.getMode()')">Delete</a>
+                                <a href="$action.getBaseURL()/secure/admin/GitHubConfigureRepositories.jspa?url=$action.escape($repository)&projectKey=$action.escape($project.key)&nextAction=ForceSync&mode=$action.escape($action.getMode())">Force Sync</a> |
+                                <a href="$action.getBaseURL()/secure/admin/GitHubConfigureRepositories.jspa?url=$action.escape($repository)&projectKey=$action.escape($project.key)&nextAction=ShowPostCommitURL&mode=$action.escape($action.getMode())">Post Commit</a> |
+                                <a href="#" onclick="confirmation('$action.getBaseURL()/secure/admin/GitHubConfigureRepositories.jspa?nextAction=DeleteRepository&url=$repository&projectKey=$project.key&mode=$action.escape($action.getMode())')">Delete</a>
                             </td>
                         </tr>
                     #end
@@ -268,12 +268,12 @@
                               <td valign="top">
 
                                 #if ($action.getMode() == 'single')
-                                    <input type='hidden' name='projectKey' value='$action.getProjectKey()'>
+                                    <input type='hidden' name='projectKey' value='$action.escape($action.getProjectKey())'>
                                     <input type='hidden' name='mode' value='single'>
                                 #else
                                   <select name="projectKey" class="select medium-field">
                                     #foreach ($project in $action.getProjects())
-                                      <option value="${project.key}" #if ($action.getProjectKey() == $project.key) selected #end>${project.name}</option>
+                                      <option value="${project.key}" #if ($action.escape($action.getProjectKey()) == $action.escape($project.key)) selected #end>$action.escape(${project.name})</option>
                                     #end
                                   </select>
                                   <input type='hidden' name='mode' value='bulk'>
@@ -284,8 +284,8 @@
 
                               <td valign="top">
                                   <select name="repoVisibility" id="repoVisibility" class="select short-field">
-                                      <option value="public" #if ($action.getRepoVisibility() == 'public') selected #end >Public</option>
-                                      <option value="private" #if ($action.getRepoVisibility() == 'private') selected #end >Private</option>
+                                      <option value="public" #if ($action.escape($action.getRepoVisibility()) == 'public') selected #end >Public</option>
+                                      <option value="private" #if ($action.escape($action.getRepoVisibility()) == 'private') selected #end >Private</option>
                                   </select>
                               </td>
 
@@ -294,7 +294,7 @@
                                  class="text"
                                  id="url"
                                  name="url"
-                                 value="$action.getURL()"
+                                 value="$action.escape($action.getURL())"
                                  size="60"
                                  /><br/>
 

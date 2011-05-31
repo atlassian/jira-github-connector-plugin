@@ -18,10 +18,13 @@ import java.util.regex.Pattern;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+
 public class GitHubConfigureRepositories extends JiraWebActionSupport {
 
     final PluginSettingsFactory pluginSettingsFactory;
     final Logger logger = LoggerFactory.getLogger(GitHubConfigureRepositories.class);
+
+    JiraWebActionSupport jwas = new JiraWebActionSupport();
 
     public GitHubConfigureRepositories(PluginSettingsFactory pluginSettingsFactory){
         this.pluginSettingsFactory = pluginSettingsFactory;
@@ -233,6 +236,9 @@ public class GitHubConfigureRepositories extends JiraWebActionSupport {
         return repoURL.substring(0,lastSlash);
     }
 
+    public String escape(String unescapedHTML){
+        return jwas.htmlEncode(unescapedHTML);
+    }
 
     // Stored Repository + JIRA Projects
     public ArrayList<String> getProjectRepositories(String pKey){
