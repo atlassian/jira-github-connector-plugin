@@ -37,11 +37,7 @@ public class GitHubOAuth2 extends JiraWebActionSupport {
 
     }
 
-    public String doDefault(){
-        return "input";
-    }
 
-    @RequiresXsrfCheck
     protected String doExecute() throws Exception {
 
         if(validations.equals("user_denied")){
