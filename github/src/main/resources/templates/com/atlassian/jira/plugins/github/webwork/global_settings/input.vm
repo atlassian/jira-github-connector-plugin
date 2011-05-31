@@ -70,7 +70,7 @@
         <h3>GitHub Oauth Settings</h3>
 
             <div id='gh_config_link'>
-                <a href="$action.getBaseURL()/secure/admin/GitHubConfigureRepositories.jspa">Bulk Configure GitHub Repositories</a>
+                <a href="$action.getBaseURL()/secure/admin/GitHubConfigureRepositories!default.jspa">Bulk Configure GitHub Repositories</a>
             </div>
 
               <h4 class="gh_config_h4">Setting up a GitHub OAuth Application</h4>
@@ -78,6 +78,7 @@
 
                 <form class="aui" method="post" action="$action.getBaseURL()/secure/admin/ConfigureGlobalSettings.jspa">
                   <input type="hidden" name="nextAction" value="SetOAuthValues">
+                  <input type="hidden" name="atl_token" value="$atl_token">
                   If you need to sync only with public GitHub repositories, you can skip the this step and proceed directly to <a href="$action.getBaseURL()/secure/admin/GitHubConfigureRepositories.jspa">configuring your repositories</a>.
 
                   For private GitHub repositories, complete the following steps:
@@ -130,7 +131,7 @@
                                     class="text"
                                     id="clientID"
                                     name="clientID"
-                                    value="$action.getSavedClientID()"
+                                    value="$textutils.htmlEncode($action.getSavedClientID())"
                                     size="60"
                                     />
 
@@ -147,7 +148,7 @@
                                       class="text"
                                       id="clientSecret"
                                       name="clientSecret"
-                                      value="$action.getSavedClientSecret()"
+                                      value="$textutils.htmlEncode($action.getSavedClientSecret())"
                                       size="60"
                                       />
 

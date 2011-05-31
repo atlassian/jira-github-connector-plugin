@@ -3,6 +3,7 @@ package com.atlassian.jira.plugins.github.webwork;
 import com.atlassian.jira.config.properties.PropertiesManager;
 import com.atlassian.jira.project.Project;
 
+import com.atlassian.jira.security.xsrf.RequiresXsrfCheck;
 import com.atlassian.jira.web.action.JiraWebActionSupport;
 import com.atlassian.sal.api.pluginsettings.PluginSettingsFactory;
 
@@ -36,6 +37,11 @@ public class GitHubOAuth2 extends JiraWebActionSupport {
 
     }
 
+    public String doDefault(){
+        return "input";
+    }
+
+    @RequiresXsrfCheck
     protected String doExecute() throws Exception {
 
         if(validations.equals("user_denied")){
