@@ -1,6 +1,7 @@
 package com.atlassian.jira.plugins.github.webwork;
 
-import com.atlassian.crowd.embedded.api.User;
+
+import com.atlassian.jira.security.xsrf.RequiresXsrfCheck;
 import com.atlassian.jira.ComponentManager;
 import com.atlassian.jira.config.properties.PropertiesManager;
 import com.atlassian.jira.issue.IssueManager;
@@ -57,6 +58,13 @@ public class GitHubConfigureRepositories extends JiraWebActionSupport {
 
     }
 
+
+    public String doDefault(){
+
+        return "input";
+    }
+
+    @RequiresXsrfCheck
     protected String doExecute() throws Exception {
         logger.debug("NextAction: " + nextAction);
 

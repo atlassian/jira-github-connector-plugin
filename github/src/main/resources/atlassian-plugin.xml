@@ -70,7 +70,7 @@
 
         <name>GitHub Name Item</name>
 
-        <link>/secure/admin/ConfigureGlobalSettings.jspa</link>
+        <link>/secure/admin/ConfigureGlobalSettings!default.jspa</link>
         <condition class="com.atlassian.jira.plugin.webfragment.conditions.UserLoggedInCondition" />
 
     </web-item>
@@ -82,7 +82,7 @@
 
         <name>GitHub Name Item</name>
 
-        <link>/secure/admin/GitHubConfigureRepositories.jspa</link>
+        <link>/secure/admin/GitHubConfigureRepositories!default.jspa</link>
         <condition class="com.atlassian.jira.plugin.webfragment.conditions.UserLoggedInCondition" />
 
     </web-item>
