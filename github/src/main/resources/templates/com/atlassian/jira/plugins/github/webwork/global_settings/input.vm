@@ -14,7 +14,7 @@
             background-repeat: no-repeat;
             background-position: right center;
             padding-right: 20px;
-            font-size: 8pt;
+            font-size: 10pt;
         }
 
         .gh_config_h4{
