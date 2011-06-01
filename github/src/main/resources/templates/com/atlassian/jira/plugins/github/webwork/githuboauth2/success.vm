@@ -15,16 +15,15 @@
             AJS.$('#connector_sync_message').html("");
             AJS.$('#connector_sync_status').html("");
 
-            AJS.$('#connector_sync_message').load('$action.getBaseURL()/GitHubConfigureRepositories.jspa?nextAction=SyncRepository&url=' + url + '&projectKey=' + projectKey);
-
-            console.log('url ' +  '/secure/admin/GitHubConfigureRepositories.jspa?nextAction=SyncRepository&url=' + url + '&projectKey=' + projectKey);
+            AJS.$('#connector_sync_message').load('$action.getBaseURL()/GitHubConfigureRepositories.jspa?nextAction=SyncRepository&url=' + url + '&projectKey=' + projectKey + '&atl_token=$atl_token');
 
             window.setInterval(function(){
                 if(syncComplete == false){
-                    AJS.$('#connector_sync_status').load('$action.getBaseURL()/GitHubConfigureRepositories.jspa?nextAction=CurrentSyncStatus&url=' + url + '&projectKey=' + projectKey);
+                    AJS.$('#connector_sync_status').load('$action.getBaseURL()/GitHubConfigureRepositories.jspa?nextAction=CurrentSyncStatus&url=' + url + '&projectKey=' + projectKey + '&atl_token=$atl_token');
                 }
             }, 1000);
         }
+
 
     </script>
 
