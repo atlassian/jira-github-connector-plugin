@@ -134,10 +134,15 @@ public class GitHubConfigureRepositories extends JiraWebActionSupport {
 
             if (nextAction.equals("CurrentSyncStatus")){
 
-                currentSyncPage = (String)pluginSettingsFactory.createSettingsForKey(projectKey).get("currentsync" + url + projectKey);
+                try{
+                    currentSyncPage = (String)pluginSettingsFactory.createSettingsForKey(projectKey).get("currentsync" + url + projectKey);
+                    nonJIRACommitTotal = (String)pluginSettingsFactory.createSettingsForKey(projectKey).get("NonJIRACommitTotal" + url);
+                    JIRACommitTotal = (String)pluginSettingsFactory.createSettingsForKey(projectKey).get("JIRACommitTotal" + url);
 
-                nonJIRACommitTotal = (String)pluginSettingsFactory.createSettingsForKey(projectKey).get("NonJIRACommitTotal" + url);
-                JIRACommitTotal = (String)pluginSettingsFactory.createSettingsForKey(projectKey).get("JIRACommitTotal" + url);
+                }catch (Exception e){
+                    logger.debug("GitHubConfigureRepositories.doExecute().CurrentSyncStatus - Exception reading plugin values.");
+                }
+
 
                 logger.debug("GitHubConfigureRepositories.doExecute().CurrentSyncStatus - currentSyncPage" + currentSyncPage);
 
