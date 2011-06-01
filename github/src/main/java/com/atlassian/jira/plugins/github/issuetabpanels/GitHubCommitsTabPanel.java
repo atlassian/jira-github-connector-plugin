@@ -438,7 +438,7 @@ String htmlCommitEntry = "" +
 
              // Catches invalid or removed GitHub IDs, but errors are suppressed as they typically
             }catch (JSONException e){
-                e.printStackTrace();
+                //e.printStackTrace();
                 return "Information can't be retrieved from GitHub. Please contact your administrator.";
             }
 
@@ -463,9 +463,9 @@ String htmlCommitEntry = "" +
             }
             rd.close();
         }catch (MalformedURLException e){
-            e.printStackTrace();
+            //e.printStackTrace();
         } catch (Exception e) {
-            e.printStackTrace();
+            //e.printStackTrace();
         }
 
         return result;

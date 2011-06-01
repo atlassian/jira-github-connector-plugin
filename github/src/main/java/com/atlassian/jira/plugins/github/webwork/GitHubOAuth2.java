@@ -83,7 +83,7 @@ public class GitHubOAuth2 extends JiraWebActionSupport {
             String clientID = (String)pluginSettingsFactory.createGlobalSettings().get("githubRepositoryClientID");
             String clientSecret = (String)pluginSettingsFactory.createGlobalSettings().get("githubRepositoryClientSecret");
 
-            System.out.println("requestAccessToken() - " + "https://github.com/login/oauth/access_token?&client_id=" + clientID + "&client_secret=" + clientSecret + "&code=" + code);
+            logger.debug("requestAccessToken() - " + "https://github.com/login/oauth/access_token?&client_id=" + clientID + "&client_secret=" + clientSecret + "&code=" + code);
 
             url = new URL("https://github.com/login/oauth/access_token?&client_id=" + clientID + "&client_secret=" + clientSecret + "&code=" + code);
             conn = (HttpURLConnection) url.openConnection();
@@ -91,7 +91,7 @@ public class GitHubOAuth2 extends JiraWebActionSupport {
             conn.setRequestMethod("POST");
             rd = new BufferedReader(new InputStreamReader(conn.getInputStream()));
             while ((line = rd.readLine()) != null) {
-                System.out.println("RESPONSE: " + line);
+                logger.debug("RESPONSE: " + line);
                 result += line;
             }
             rd.close();

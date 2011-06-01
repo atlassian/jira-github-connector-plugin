@@ -16,6 +16,7 @@ import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import org.radeox.util.logging.SystemOutLogger;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -138,6 +139,8 @@ public class GitHubConfigureRepositories extends JiraWebActionSupport {
                 nonJIRACommitTotal = (String)pluginSettingsFactory.createSettingsForKey(projectKey).get("NonJIRACommitTotal" + url);
                 JIRACommitTotal = (String)pluginSettingsFactory.createSettingsForKey(projectKey).get("JIRACommitTotal" + url);
 
+                logger.debug("GitHubConfigureRepositories.doExecute().CurrentSyncStatus - currentSyncPage" + currentSyncPage);
+
                 return "syncstatus";
             }
 
@@ -152,13 +155,15 @@ public class GitHubConfigureRepositories extends JiraWebActionSupport {
     }
 
     private void resetCommitTotals(){
+        logger.debug("GitHubConfigureRepositories.resetCommitTotals()");
+        pluginSettingsFactory.createSettingsForKey(projectKey).put("currentsync" + url + projectKey, "0");
         pluginSettingsFactory.createSettingsForKey(projectKey).put("NonJIRACommitTotal" + url, "0");
         pluginSettingsFactory.createSettingsForKey(projectKey).put("JIRACommitTotal" + url, "0");
     }
 
     private void syncRepository(){
 
-        logger.debug("Staring Repository Sync");
+        logger.debug("GitHubConfigureRepositories.syncRepository() - Starting Repository Sync");
 
         GitHubCommits repositoryCommits = new GitHubCommits(pluginSettingsFactory);
         repositoryCommits.repositoryURL = url;

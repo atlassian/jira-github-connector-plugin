@@ -72,7 +72,7 @@ public class GitHubCommits {
     }
 
     private String getCommitsList(Integer pageNumber){
-        logger.debug("getCommitsList()");
+        logger.debug("GitHubCommits.getCommitsList()");
         URL url;
         HttpURLConnection conn;
 
@@ -81,7 +81,7 @@ public class GitHubCommits {
         String result = "";
         try {
 
-            logger.debug("Commits URL - " + this.inferCommitsURL() + "?page=" + Integer.toString(pageNumber) + this.getAccessTokenParameter() );
+            logger.debug("GitHubCommits - Commits URL - " + this.inferCommitsURL() + "?page=" + Integer.toString(pageNumber) + this.getAccessTokenParameter() );
             url = new URL(this.inferCommitsURL() + "?page=" + Integer.toString(pageNumber) + this.getAccessTokenParameter());
             conn = (HttpURLConnection) url.openConnection();
             conn.setInstanceFollowRedirects(true);
@@ -96,6 +96,7 @@ public class GitHubCommits {
             pluginSettingsFactory.createSettingsForKey(projectKey).put("currentsync" + repositoryURL + projectKey, pageNumber.toString());
 
         }catch (MalformedURLException e){
+            logger.debug("GitHubCommits.MalformedException()");
             //e.printStackTrace();
             if(pageNumber.equals(1)){
                 result = "GitHub Repository can't be found or incorrect credentials.";
@@ -104,7 +105,8 @@ public class GitHubCommits {
             pluginSettingsFactory.createSettingsForKey(projectKey).put("currentsync" + repositoryURL + projectKey, "complete");
 
         } catch (Exception e) {
-            //logger.debug("CommitList Exception");
+            logger.debug("GitHubCommits.exception()");
+            //e.printStackTrace();
             if(pageNumber.equals(1)){
                 result = "GitHub Repository can't be found or incorrect credentials.";
             }
@@ -180,7 +182,7 @@ public class GitHubCommits {
     }
 
     public String syncCommits(Integer pageNumber){
-
+        logger.debug("GitHubCommits.syncCommits()");
         Date date = new Date();
         pluginSettingsFactory.createSettingsForKey(projectKey).put("githubLastSyncTime" + repositoryURL, date.toString());
 
@@ -188,9 +190,6 @@ public class GitHubCommits {
         String commitsAsJSON = getCommitsList(pageNumber);
 
         String messages = "";
-
-        Integer nonJIRACommits = 0;
-        Integer JIRACommits = 0;
 
         if (commitsAsJSON != ""){
 
@@ -201,6 +200,7 @@ public class GitHubCommits {
                 for (int i = 0; i < commits.length(); ++i) {
                     String message = commits.getJSONObject(i).getString("message").toLowerCase();
                     String commit_id = commits.getJSONObject(i).getString("id");
+                    logger.debug("GitHubCommits.syncCommits() - commit_id:" + commit_id);
 
                     // Detect presence of JIRA Issue Key
                     if (message.indexOf(this.projectKey.toLowerCase()) > -1){
@@ -214,15 +214,14 @@ public class GitHubCommits {
 
                         for (int j=0; j < extractedIssues.size(); ++j){
                             String issueId = (String)extractedIssues.get(j).toString().toUpperCase();
+                            logger.debug("GitHubCommits.syncCommits() - Found issueId: " + issueId + " in commit " + commit_id);
+
                             addCommitID(issueId, commit_id, getBranchFromURL());
                             incrementCommitCount("JIRACommitTotal");
-
-                            JIRACommits++;
                         }
 
                     }else{
                         incrementCommitCount("NonJIRACommitTotal");
-                        nonJIRACommits++;
                     }
                 }
 
@@ -309,6 +308,9 @@ public class GitHubCommits {
     // Manages the entry of multiple Github commit id hash ids associated with an issue
     // urls look like - https://github.com/api/v2/json/commits/show/mojombo/grit/5071bf9fbfb81778c456d62e111440fdc776f76c?branch=master
     private void addCommitID(String issueId, String commitId, String branch){
+
+        logger.debug("GitHubCommits.addCommitID()");
+
         ArrayList<String> commitArray = new ArrayList<String>();
 
         // First Time Repository URL is saved
@@ -321,12 +323,14 @@ public class GitHubCommits {
         for (int i=0; i < commitArray.size(); i++){
             if ((inferCommitDetailsURL() + commitId + "?branch=" + branch).equals(commitArray.get(i))){
                 //logger.debug("Found commit id" + commitArray.get(i));
+                logger.debug("GitHubCommits.addCommitID() - CommitID already exists " + commitArray.get(i));
                 boolExists = true;
             }
         }
 
         if (!boolExists){
             //logger.debug("addCommitID: Adding CommitID " + inferCommitDetailsURL() + commitId );
+            logger.debug("GitHubCommits.addCommitID() - Adding new CommitID Array entry: " + inferCommitDetailsURL() + commitId + "?branch=" + branch);
             commitArray.add(inferCommitDetailsURL() + commitId + "?branch=" + branch);
             addIssueId(issueId);
             pluginSettingsFactory.createSettingsForKey(projectKey).put("githubIssueCommitArray" + issueId, commitArray);
