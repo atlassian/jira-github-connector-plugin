@@ -295,14 +295,21 @@
                                  size="60"
                                  /><br/>
 
-                                  <span id='gh_example_link'><strong>Example Repository URL:</strong> https://github.com/atlassianguy/superproject/master</span>
-
                               </td>
 
                                 <td valign="top">
                                     <input type="submit" value="Add Repository" id="gh_submit"/>
                                 </td>
                             </tr>
+
+                            <tr>
+                                <td colspan="2"></td>
+                                <td colspan="2"><strong>Example Repository URL:</strong> https://github.com/atlassianguy/superproject/master</td>
+
+                            </tr>
+
+
+
 
 
                           <table>
