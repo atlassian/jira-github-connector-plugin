@@ -70,7 +70,7 @@
 
     <p>The final step of the OAuth Application Authentication process did not complete successfully.</p>
     <p>Most likely this is due to errors with the configuration of your OAuth Client or OAuth Secret. </p>
-    <p>Please verify the correct values and re-enter them on the <a href="$action.getBaseURL()/secure/admin/ConfigureGlobalSettings.jspa">OAuth Settings Page</a>.</p>
+    <p>Please verify the correct values and re-enter them on the <a href="$action.getBaseURL()/secure/admin/ConfigureGlobalSettings!default.jspa">OAuth Settings Page</a>.</p>
 
 
   </body>

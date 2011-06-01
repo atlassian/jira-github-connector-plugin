@@ -79,7 +79,7 @@
                 <form class="aui" method="post" action="$action.getBaseURL()/secure/admin/ConfigureGlobalSettings.jspa">
                   <input type="hidden" name="nextAction" value="SetOAuthValues">
                   <input type="hidden" name="atl_token" value="$atl_token">
-                  If you need to sync only with public GitHub repositories, you can skip the this step and proceed directly to <a href="$action.getBaseURL()/secure/admin/GitHubConfigureRepositories.jspa">configuring your repositories</a>.
+                  If you need to sync only with public GitHub repositories, you can skip the this step and proceed directly to <a href="$action.getBaseURL()/secure/admin/GitHubConfigureRepositories!default.jspa">configuring your repositories</a>.
 
                   For private GitHub repositories, complete the following steps:
 
@@ -169,7 +169,7 @@
 
 
                    <li>
-                       Once you have completed the OAuth Application setup, you can begin <a href="$action.getBaseURL()/secure/admin/GitHubConfigureRepositories.jspa">configuring your repositories</a>
+                       Once you have completed the OAuth Application setup, you can begin <a href="$action.getBaseURL()/secure/admin/GitHubConfigureRepositories!default.jspa">configuring your repositories</a>
 
                    </li>
 

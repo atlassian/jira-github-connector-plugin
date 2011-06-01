@@ -75,10 +75,10 @@
 
     <p>Doing so means that the you will not be able to see commits associated with these repositories within JIRA.</p>
 
-    <p>If you meant to associate with a different GitHub OAuth application, you can set up a new application from the <a href="$action.getBaseURL()/secure/admin/ConfigureGlobalSettings.jspa">OAuth Settings Page</a> page.
+    <p>If you meant to associate with a different GitHub OAuth application, you can set up a new application from the <a href="$action.getBaseURL()/secure/admin/ConfigureGlobalSettings!default.jspa">OAuth Settings Page</a> page.
     </p>
 
-    <p>Alternatively, you can manage your existing repositories on the <a href="$action.getBaseURL()/secure/admin/GitHubConfigureRepositories.jspa">Configure Repositories Page</a>.</p>
+    <p>Alternatively, you can manage your existing repositories on the <a href="$action.getBaseURL()/secure/admin/GitHubConfigureRepositories!default.jspa">Configure Repositories Page</a>.</p>
 
   </body>
 </html>
