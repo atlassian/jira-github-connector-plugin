@@ -230,6 +230,7 @@ public class GitHubCommits {
 
             }catch (JSONException e){
                 //e.printStackTrace();
+                pluginSettingsFactory.createSettingsForKey(projectKey).put("currentsync" + repositoryURL + projectKey, "complete");
                 messages = "GitHub Repository can't be found or incorrect credentials.";
             }
 
