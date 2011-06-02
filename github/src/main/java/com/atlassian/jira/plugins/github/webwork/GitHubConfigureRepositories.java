@@ -84,6 +84,7 @@ public class GitHubConfigureRepositories extends JiraWebActionSupport {
 
         if(urlArray.length == 5){
             url += "/master";
+            urlArray = url.split("/");
         }
 
         if (validations.equals("")){
