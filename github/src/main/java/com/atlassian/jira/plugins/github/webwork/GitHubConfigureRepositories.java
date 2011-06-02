@@ -97,10 +97,10 @@ public class GitHubConfigureRepositories extends JiraWebActionSupport {
 
                     if(clientID == null){
                         //logger.debug("No Client ID");
-                        validations = "You will need to setup a <a href='" + baseURL + "/secure/admin/ConfigureGlobalSettings.jspa'>GitHub OAuth Application</a> before you can add private repositories";
+                        validations = "You will need to setup a <a href='" + baseURL + "/secure/admin/ConfigureGlobalSettings!default.jspa'>GitHub OAuth Application</a> before you can add private repositories";
                     }else{
                         if(clientID.equals("")){
-                            validations = "You will need to setup a <a href='" + baseURL + "/secure/admin/ConfigureGlobalSettings.jspa'>GitHub OAuth Application</a> before you can add private repositories";
+                            validations = "You will need to setup a <a href='" + baseURL + "/secure/admin/ConfigureGlobalSettings!default.jspa'>GitHub OAuth Application</a> before you can add private repositories";
                         }else{
                             addRepositoryURL();
                             pluginSettingsFactory.createGlobalSettings().put("githubPendingProjectKey", projectKey);
