@@ -73,11 +73,25 @@
             <plugin>
                 <groupId>com.atlassian.maven.plugins</groupId>
                 <artifactId>maven-jira-plugin</artifactId>
-                <version>3.2.4</version>
+                <version>3.3</version>
                 <extensions>true</extensions>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>integration-test</goal>
+                        </goals>
+                        <phase>integration-test</phase>
+                    </execution>
+                </executions>
                 <configuration>
-                    <productVersion>4.3</productVersion>
-                    <productDataVersion>4.3</productDataVersion>
+                    <systemPropertyVariables>
+                        <jira.websudo.is.disabled>true</jira.websudo.is.disabled>
+                        <baseurl.jira>http://localhost:2990/jira</baseurl.jira>
+                        <http.jira.port>2990</http.jira.port>
+                        <context.jira.path>jira</context.jira.path>
+                    </systemPropertyVariables>
+                    <productVersion>4.3.4</productVersion>
+                    <productDataPath>${basedir}/src/test/resources/generated-test-resources.zip</productDataPath>
                     <log4jProperties>src/aps/log4j.properties</log4jProperties>
                 </configuration>
             </plugin>
