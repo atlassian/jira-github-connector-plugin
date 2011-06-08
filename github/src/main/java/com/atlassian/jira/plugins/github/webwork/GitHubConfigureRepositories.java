@@ -162,9 +162,13 @@ public class GitHubConfigureRepositories extends JiraWebActionSupport {
 
     private void resetCommitTotals(){
         logger.debug("GitHubConfigureRepositories.resetCommitTotals()");
-        pluginSettingsFactory.createSettingsForKey(projectKey).put("currentsync" + url + projectKey, "0");
-        pluginSettingsFactory.createSettingsForKey(projectKey).put("NonJIRACommitTotal" + url, "0");
-        pluginSettingsFactory.createSettingsForKey(projectKey).put("JIRACommitTotal" + url, "0");
+        try{
+            pluginSettingsFactory.createSettingsForKey(projectKey).put("currentsync" + url + projectKey, "0");
+            pluginSettingsFactory.createSettingsForKey(projectKey).put("NonJIRACommitTotal" + url, "0");
+            pluginSettingsFactory.createSettingsForKey(projectKey).put("JIRACommitTotal" + url, "0");
+        }catch (Exception e){
+            logger.debug("GitHubConfigureRepositories.resetCommitTotals() - exception caught");
+        }
     }
 
     private void syncRepository(){
