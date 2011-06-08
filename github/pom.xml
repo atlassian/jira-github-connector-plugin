@@ -55,7 +55,32 @@
             <version>2.2.0</version>
             <scope>provided</scope>
         </dependency>
- 
+
+        <dependency>
+            <groupId>com.atlassian.streams</groupId>
+            <artifactId>streams-api</artifactId>
+            <version>${streams.version}</version>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>com.atlassian.streams</groupId>
+            <artifactId>streams-core</artifactId>
+            <version>${streams.version}</version>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>com.atlassian.streams</groupId>
+            <artifactId>streams-common</artifactId>
+            <version>${streams.version}</version>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>com.atlassian.streams</groupId>
+            <artifactId>streams-spi</artifactId>
+            <version>${streams.version}</version>
+            <scope>provided</scope>
+        </dependency>
+
  
     </dependencies>
  
@@ -85,6 +110,7 @@
     <properties>
         <jira.version>4.3.1</jira.version>
         <jira.data.version>4.3.1</jira.data.version>
+        <streams.version>4.0.3</streams.version>
     </properties>
  
 </project>
