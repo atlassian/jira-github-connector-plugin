@@ -94,10 +94,14 @@ public class GitHubConfigureRepositoriesPage implements Page
      */
     public GitHubConfigureRepositoriesPage deleteAllRepositories()
     {
-        for(GitHubRepository repo : getRepositories())
+        // Note: need to delete from the back so that indexes of rows stay the same
+        List<GitHubRepository> repos = getRepositories();
+
+        for(int i = repos.size() - 1; i >= 0; i--)
         {
-            repo.delete();
+            repos.get(i).delete();
         }
+        
         return this;
     }
 

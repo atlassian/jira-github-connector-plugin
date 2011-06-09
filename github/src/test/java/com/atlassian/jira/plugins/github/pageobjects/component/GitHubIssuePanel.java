@@ -57,12 +57,12 @@ public class GitHubIssuePanel implements ActivatedComponent<GitHubIssuePanel>
      */
     public List<GitHubCommitEntry> waitForMessages()
     {
-        // wait for one message to be present
-        Poller.waitUntilTrue(view.find(By.className("message-container")).timed().isPresent());
+        // wait for one message to be present (setting timeout type to longest value)
+        Poller.waitUntilTrue(view.find(By.className("message-container"), TimeoutType.PAGE_LOAD).timed().isPresent());
 
         //get all the messages
         List<GitHubCommitEntry> commitMessageList = new ArrayList<GitHubCommitEntry>();
-        for(PageElement div : view.findAll(By.className("message-container"), TimeoutType.PAGE_LOAD))
+        for(PageElement div : view.findAll(By.className("message-container")))
         {
             commitMessageList.add(pageBinder.bind(GitHubCommitEntry.class, div));
         }

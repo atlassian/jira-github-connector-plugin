@@ -53,9 +53,7 @@ public class GitHubRepository
         driver.executeScript("window.confirm = function(){ return true; }");
 
         // add marker to wait for post complete
-        // TODO: it is possible that we attempt to execute this script before AJS is loaded on the page.
-        // TODO: Need to add check for AJS on waituntil of host page
-        driver.executeScript("AJS.$('#gh_submit').addClass('_posting')");
+        driver.executeScript("document.getElementById('gh_submit').className = '_posting'");
         row.find(By.linkText("Delete")).click();
 
         //wait until marker is gone.
