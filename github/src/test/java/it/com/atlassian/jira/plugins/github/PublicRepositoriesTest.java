@@ -14,12 +14,14 @@ import static junit.framework.Assert.assertTrue;
  */
 public class PublicRepositoriesTest extends GitHubBaseTest
 {
+    private static final String TEST_REPO_URL = "https://github.com/farmas/TestRepo-QA";
+
     @Test
     public void addPublicRepo_VerifyAppearsInList()
     {
         configureRepos.deleteAllRepositories();
         
-        configureRepos.addPublicRepoToProject("QA", "https://github.com/farmas/TestRepo-QA");
+        configureRepos.addPublicRepoToProject("QA", TEST_REPO_URL);
 
         assertEquals(1, configureRepos.getRepositories().size());
     }
@@ -27,9 +29,9 @@ public class PublicRepositoriesTest extends GitHubBaseTest
     @Test
     public void addPublicRepo_VerifyCommitsOnIssues()
     {
-        if(configureRepos.isRepositoryPresent("QA", "https://github.com/farmas/TestRepo-QA/master") == false)
+        if(configureRepos.isRepositoryPresent("QA", TEST_REPO_URL + "/master") == false)
         {
-            configureRepos.addPublicRepoToProject("QA", "https://github.com/farmas/TestRepo-QA");
+            configureRepos.addPublicRepoToProject("QA", TEST_REPO_URL);
         }
 
         List<GitHubCommitEntry> commitList = jira.visit(JiraViewIssuePage.class, "QA-1")
