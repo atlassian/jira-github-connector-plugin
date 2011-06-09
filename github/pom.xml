@@ -102,14 +102,6 @@
                 <artifactId>maven-jira-plugin</artifactId>
                 <version>3.3</version>
                 <extensions>true</extensions>
-                <executions>
-                    <execution>
-                        <goals>
-                            <goal>integration-test</goal>
-                        </goals>
-                        <phase>integration-test</phase>
-                    </execution>
-                </executions>
                 <configuration>
                     <systemPropertyVariables>
                         <jira.websudo.is.disabled>true</jira.websudo.is.disabled>
