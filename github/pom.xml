@@ -15,8 +15,8 @@
     </organization>
 
     <scm>
-        <connection>scm:git:git@github.com:mbuckbee/github_plugin.git</connection>
-        <developerConnection>scm:git:git@github.com:mbuckbee/github_plugin.git</developerConnection>
+        <connection>scm:git:git://github.com:mbuckbee/github_plugin.git</connection>
+        <developerConnection>scm:git:git://github.com:mbuckbee/github_plugin.git</developerConnection>
         <url>https://github.com/mbuckbee/github_plugin</url>
     </scm>
  
