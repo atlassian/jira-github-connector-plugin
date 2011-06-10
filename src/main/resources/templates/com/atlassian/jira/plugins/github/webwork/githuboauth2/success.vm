@@ -1,0 +1,145 @@
+<html>
+  <head>
+    <title>GitHub Private Repository OAuth Success</title>
+
+    <script type="text/javascript">
+
+        var url = '$action.getPrivateRepositoryURL()';
+        var projectKey = '$action.getProjectKey()';
+        var syncComplete = false;
+
+        // Function is located in velocity template not the global github.js include as
+        // we need to dynamically insert URLs
+        function forceSync(url, projectKey){
+            AJS.$('#gh_messages').css('display','block');
+            AJS.$('#connector_sync_message').html("");
+            AJS.$('#connector_sync_status').html("");
+
+            AJS.$('#connector_sync_message').load('$action.getBaseURL()/GitHubConfigureRepositories.jspa?nextAction=SyncRepository&url=' + url + '&projectKey=' + projectKey + '&atl_token=$atl_token');
+
+            window.setInterval(function(){
+                if(syncComplete == false){
+                    AJS.$('#connector_sync_status').load('$action.getBaseURL()/GitHubConfigureRepositories.jspa?nextAction=CurrentSyncStatus&url=' + url + '&projectKey=' + projectKey + '&atl_token=$atl_token');
+                }
+            }, 1000);
+        }
+
+
+    </script>
+
+    <style type="text/css">
+
+
+        #gh_config_link{
+            margin-top: 10px;
+        }
+
+        #gh_config_link a{
+            background: url('$action.getBaseURL()/download/resources/com.atlassian.jira.plugins.github.GitHub/images/pencil_icon.jpg');
+            background-repeat: no-repeat;
+            background-position: right center;
+            padding-right: 20px;
+            font-size: 8pt;
+        }
+
+        .gh_config_h4{
+            font-weight: normal;
+            color: #3676B7;
+            background: url('$action.getBaseURL()/download/resources/com.atlassian.jira.plugins.github.GitHub/images/down_gray_arrow.jpg');
+            background-repeat: no-repeat;
+            background-position: left center;
+            padding-left: 18px;
+            margin-top: 18px;
+        }
+
+        #gh_post_receive_header{
+            font-weight: normal;
+            font-size: 10pt;
+            color: #666;
+            margin-top: 18px;
+            margin-bottom: 10px;
+        }
+
+        .gh_messages{
+            background-color: #DFEFFE;
+            margin-left: 18px;
+            margin-top: 18px;
+            border: 2px solid #bbb;
+            padding: 10px;
+            padding-left: 36px;
+            -moz-border-radius: 6px;
+            -webkit-border-radius: 6px;
+            -khtml-border-radius: 6px;
+            border-radius: 6px;
+            background-image: url('$action.getBaseURL()/download/resources/com.atlassian.jira.plugins.github.GitHub/images/blue_info_icon.jpg');
+            background-repeat: no-repeat;
+            background-position: 5px 5px;
+            font-size: 8pt;
+            width: 400px;
+            margin-bottom: 12px;
+        }
+
+
+
+    </style>
+
+  </head>
+
+  <body>
+
+
+    <h3>GitHub Private Repository OAuth Success</h3>
+
+
+    <h4 class="gh_config_h4">GitHub Private Repository OAuth Success</h4>
+
+
+    <div class="gh_messages">
+    <p>You have successfully linked the following:</p>
+
+      <p>
+          Private Repository: <strong>$action.getPrivateRepositoryURL()</strong>
+      </p>
+
+      <p>
+          JIRA Project Key: <strong>$action.projectKey</strong>
+      </p>
+
+      <p>
+          GitHub Access Token: <strong>$action.access_token</strong>
+      </p>
+
+    </div>
+
+
+    <div id='gh_messages' class='gh_messages' style="display: none;">
+        <strong>Sync Summary</strong>
+        <div id='connector_sync_status'></div>
+        <div id='connector_sync_message'></div>
+    </div>
+
+
+    #if ($action.getPostCommitURL() != "")
+        <div id="gh_post_receive">
+
+               <h4 id="gh_post_receive_header">Add the Post-Receive Hook</h4>
+
+                <p>Please add the URL below to your GitHub Repositories Post-Receive Hooks</p>
+
+                <p>
+                    <form class="aui">
+                        <input id="gh_post_receive_textbox" class="text long-field" type="text" value="$action.getBaseURL()/$action.getPostCommitURL()">
+                    </form>
+                </p>
+
+                <div>
+                    <a href="http://help.github.com/post-receive-hooks/" target="_new">Post Receive URL Setup Instructions</a>
+                </div>
+
+        </div>
+    #end
+
+      <p>You can add additional repositories from the <a href="$action.getBaseURL()/secure/admin/GitHubConfigureRepositories!default.jspa">Configure Repositories Page</a></p>
+
+  </body>
+</html>

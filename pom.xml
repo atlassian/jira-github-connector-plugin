@@ -1,0 +1,152 @@
+<?xml version="1.0" encoding="UTF-8"?>
+ 
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+ 
+    <modelVersion>4.0.0</modelVersion>
+    <groupId>com.atlassian.jira.plugins</groupId>
+    <artifactId>jira-github-connector-plugin</artifactId>
+    <version>0.2-SNAPSHOT</version>
+ 
+    <organization>
+        <name>Atlassian</name>
+        <url>http://www.atlassian.com/</url>
+    </organization>
+
+    <scm>
+        <connection>scm:git:ssh://git@github.com/mbuckbee/github_plugin.git</connection>
+        <developerConnection>scm:git:ssh://git@github.com/mbuckbee/github_plugin.git</developerConnection>
+        <url>https://github.com/mbuckbee/github_plugin</url>
+    </scm>
+ 
+    <name>GitHub</name>
+    <description>GitHub Plugin for JIRA, linking JIRA issues to GitHub commits.</description>
+    <packaging>atlassian-plugin</packaging>
+ 
+    <dependencies>
+        <dependency>
+            <groupId>com.atlassian.jira</groupId>
+            <artifactId>atlassian-jira</artifactId>
+            <version>${jira.version}</version>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>javax.servlet</groupId>
+            <artifactId>servlet-api</artifactId>
+            <version>2.5</version>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <version>4.6</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>com.atlassian.jira</groupId>
+            <artifactId>jira-func-tests</artifactId>
+            <version>${jira.version}</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>com.atlassian.sal</groupId>
+            <artifactId>sal-api</artifactId>
+            <version>2.0.17</version>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>com.atlassian.crowd</groupId>
+            <artifactId>crowd-api</artifactId>
+            <version>2.2.0</version>
+            <scope>provided</scope>
+        </dependency>
+
+        <dependency>
+           <groupId>com.atlassian.selenium</groupId>
+           <artifactId>atlassian-webdriver-jira</artifactId>
+           <version>2.0</version>
+           <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>commons-lang</groupId>
+            <artifactId>commons-lang</artifactId>
+            <version>2.5</version>
+        </dependency>
+
+        <dependency>
+            <groupId>com.atlassian.streams</groupId>
+            <artifactId>streams-api</artifactId>
+            <version>${streams.version}</version>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>com.atlassian.streams</groupId>
+            <artifactId>streams-core</artifactId>
+            <version>${streams.version}</version>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>com.atlassian.streams</groupId>
+            <artifactId>streams-common</artifactId>
+            <version>${streams.version}</version>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>com.atlassian.streams</groupId>
+            <artifactId>streams-spi</artifactId>
+            <version>${streams.version}</version>
+            <scope>provided</scope>
+        </dependency>
+
+    </dependencies>
+ 
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>com.atlassian.maven.plugins</groupId>
+                <artifactId>maven-jira-plugin</artifactId>
+                <version>3.3</version>
+                <extensions>true</extensions>
+                <configuration>
+                    <systemPropertyVariables>
+                        <jira.websudo.is.disabled>true</jira.websudo.is.disabled>
+                        <baseurl.jira>http://localhost:2990/jira</baseurl.jira>
+                        <http.jira.port>2990</http.jira.port>
+                        <context.jira.path>jira</context.jira.path>
+                    </systemPropertyVariables>
+                    <productVersion>4.3.4</productVersion>
+                    <productDataPath>${basedir}/src/test/resources/generated-test-resources.zip</productDataPath>
+                    <log4jProperties>src/aps/log4j.properties</log4jProperties>
+                </configuration>
+            </plugin>
+            <plugin>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <configuration>
+                    <source>1.5</source>
+                    <target>1.5</target>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
+ 
+    <properties>
+        <jira.version>4.3.1</jira.version>
+        <jira.data.version>4.3.1</jira.data.version>
+        <streams.version>4.0.3</streams.version>
+    </properties>
+
+    <distributionManagement>
+        <repository>
+            <id>atlassian-m2-repository</id>
+            <name>Atlassian Public Repository</name>
+            <url>https://maven.atlassian.com/public</url>
+        </repository>
+        <snapshotRepository>
+            <id>atlassian-m2-snapshot-repository</id>
+            <name>Atlassian Public Snapshot Repository</name>
+            <url>https://maven.atlassian.com/public-snapshot</url>
+        </snapshotRepository>
+    </distributionManagement>
+ 
+</project>
