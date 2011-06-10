@@ -15,9 +15,9 @@
     </organization>
 
     <scm>
-        <connection>scm:git:ssh://git@github.com/mbuckbee/github_plugin.git</connection>
-        <developerConnection>scm:git:ssh://git@github.com/mbuckbee/github_plugin.git</developerConnection>
-        <url>https://github.com/mbuckbee/github_plugin</url>
+        <connection>scm:git:ssh://git@github.com/atlassian/jira-github-connector-plugin.git</connection>
+        <developerConnection>scm:git:ssh://git@github.com/atlassian/jira-github-connector-plugin.git</developerConnection>
+        <url>https://github.com/atlassian/jira-github-connector-plugin</url>
     </scm>
  
     <name>GitHub</name>
