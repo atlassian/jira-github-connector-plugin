@@ -1,0 +1,9 @@
+
+# idea project files
+jira-github-connector-plugin.iml
+jira-github-connector-plugin.ipr
+jira-github-connector-plugin.iws
+
+# maven build dir
+target
+
