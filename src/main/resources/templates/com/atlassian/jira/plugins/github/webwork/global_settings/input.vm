@@ -169,7 +169,7 @@
 
 
                    <li>
-                       Once you have completed the OAuth Application setup, you can begin <a href="$action.getBaseURL()/secure/admin/GitHubConfigureRepositories!default.jspa">configuring your repositories</a>
+                       Once you have completed the OAuth Application setup, you can begin <a href="$action.getBaseURL()/secure/admin/GitHubConfigureRepositories!default.jspa">configuring your repositories</a>.
 
                    </li>
 

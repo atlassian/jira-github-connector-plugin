@@ -124,7 +124,7 @@
 
                <h4 id="gh_post_receive_header">Add the Post-Receive Hook</h4>
 
-                <p>Please add the URL below to your GitHub Repositories Post-Receive Hooks</p>
+                <p>Please add the URL below as a post-receive hook to the GitHub repository.</p>
 
                 <p>
                     <form class="aui">
@@ -139,7 +139,7 @@
         </div>
     #end
 
-      <p>You can add additional repositories from the <a href="$action.getBaseURL()/secure/admin/GitHubConfigureRepositories!default.jspa">Configure Repositories Page</a></p>
+      <p>You can add additional repositories from the <a href="$action.getBaseURL()/secure/admin/GitHubConfigureRepositories!default.jspa">Configure Repositories Page</a>.</p>
 
   </body>
 </html>
