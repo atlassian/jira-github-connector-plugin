@@ -217,231 +217,264 @@ public class GitHubCommitsTabPanel extends AbstractIssueTabPanel {
 
     }
 
-    private String formatCommitDetails(String jsonDetails){
-            try{
+    private String formatCommitDetails(String jsonDetails)
+    {
 
-                JiraWebActionSupport jwas = new JiraWebActionSupport();
+        logger.debug(jsonDetails);
+        try
+        {
+            JiraWebActionSupport jwas = new JiraWebActionSupport();
 
-                JSONObject jsonCommits = new JSONObject(jsonDetails);
-                JSONObject commit = jsonCommits.getJSONObject("commit");
+            JSONObject jsonCommits = new JSONObject(jsonDetails);
+            JSONObject commit = jsonCommits.getJSONObject("commit");
 
-                String message = commit.getString("message");
-                String commit_hash = commit.getString("id");
+//            String message = get(commit, "message");
+            String commit_hash = extract(commit, "id");
 
-                JSONObject author = commit.getJSONObject("author");
-                String authorName = author.getString("name");
-                String login = author.getString("login");
-                String commitURL = commit.getString("url");
+            JSONObject author = commit.getJSONObject("author");
+//            String authorName = get(author, "name");
+            String login = extract(author, "login");
+            String commitURL = extract(commit, "url");
 
-                String[] commitURLArray = commitURL.split("/");
+            String[] commitURLArray = commitURL.split("/");
 
-                String projectName = commitURLArray[2];
+            String projectName = commitURLArray[2];
 
-                String committedDateString = commit.getString("committed_date");
+            String committedDateString = extract(commit, "committed_date");
 
-                String formattedCommitDate = "";
+            String formattedCommitDate = "";
 
-                try{
-                    Date committedDate = parseISO8601(committedDateString);
-                    formattedCommitDate = formatCommitDate(committedDate);
+            try
+            {
+                Date committedDate = parseISO8601(committedDateString);
+                formattedCommitDate = formatCommitDate(committedDate);
 
-                }catch (ParseException pe){
-
-                }
-
-                String commitTree = commit.getString("tree");
-                String commitMessage = commit.getString("message");
-                JSONObject githubUser = new JSONObject(getUserDetails(login));
-
-                JSONObject user = githubUser.getJSONObject("user");
-                String userName = "";
-                try{
-                    userName = user.getString("name");
-                }catch (JSONException je){
-                     logger.debug("Missing Username");
-                }
-
-                String gravatarHash = user.getString("gravatar_id");
-                String gravatarUrl = "https://secure.gravatar.com/avatar/" + gravatarHash + "?s=60";
-
-                String htmlParentHashes = "";
-
-                if(commit.has("parents")){
-                    JSONArray arrayParents = commit.getJSONArray("parents");
-
-                    for (int i=0; i < arrayParents.length(); i++){
-                        String parentHashID = arrayParents.getJSONObject(i).getString("id");
-                        htmlParentHashes = "<tr><td style='color: #757575'>Parent:</td><td><a href='" + "https://github.com/" + jwas.htmlEncode(login) + "/" + jwas.htmlEncode(projectName) + "/commit/" + parentHashID +"' target='_new'>" + parentHashID + "</a></td></tr>";
-                    }
-
-                }
-
-                Map mapFiles = Collections.synchronizedMap(new TreeMap());
-
-                String htmlAdded = "";
-
-                if(commit.has("added")){
-                    JSONArray arrayAdded = commit.getJSONArray("added");
-
-                    for (int i=0; i < arrayAdded.length(); i++){
-                          String addFilename = jwas.htmlEncode(arrayAdded.getString(i));
-                          htmlAdded = "<li><span style='color:green; font-size: 8pt;'>ADDED</span>  <a href='" + fileCommitURL(addFilename, commit_hash) + "' target='_new'>" + addFilename + "</a></li>";
-                          mapFiles.put(addFilename, htmlAdded);
-
-                    }
-
-
-
-                }
-
-                String htmlRemoved = "";
-
-                if(commit.has("removed")){
-                    JSONArray arrayRemoved = commit.getJSONArray("removed");
-
-                    for (int i=0; i < arrayRemoved.length(); i++){
-                          String removeFilename = jwas.htmlEncode(arrayRemoved.getString(i));
-                          htmlRemoved = "<li><span style='color:red; font-size: 8pt;'>DELETED</span>  <a href='" + fileCommitURL(removeFilename, commit_hash) + "' target='_new'>" + removeFilename + "</a></li>";
-                          mapFiles.put(removeFilename, htmlRemoved);
-                    }
-
-                }
-
-                String htmlModified = "";
-
-                if(commit.has("modified")){
-                    JSONArray arrayModified = commit.getJSONArray("modified");
-
-                    for (int i=0; i < arrayModified.length(); i++){
-                          String modFilename = jwas.htmlEncode(arrayModified.getJSONObject(i).getString("filename"));
-                          String modDiff = arrayModified.getJSONObject(i).getString("diff");
-                          htmlModified = "<li><span font-size: 8pt;'>" + extractDiffInformation(modDiff) + "</span>  <a href='" + fileCommitURL(modFilename, commit_hash) + "' target='_new'>"+ modFilename + "</a></li>";
-
-                          mapFiles.put(modFilename, htmlModified);
-
-                    }
-
-                }
-
-                String htmlFiles = "";
-                String htmlFilesHiddenDescription = "";
-                Integer numSeeMore = 0;
-                Random randDivID = new Random(System.currentTimeMillis());
-
-                // Sort and compose all files
-                Iterator it = mapFiles.keySet().iterator();
-                Object obj;
-
-                String htmlHiddenDiv = "";
-
-                if(mapFiles.size() <= 5){
-                    while (it.hasNext()) {
-                      obj = it.next();
-                      htmlFiles += mapFiles.get(obj);
-                    }
-
-                    htmlFilesHiddenDescription = "";
-
-                }else{
-
-                    Integer i = 0;
-
-                    while (it.hasNext()) {
-                        obj = it.next();
-
-                        if(i <= 4){
-                            htmlFiles += mapFiles.get(obj);
-                        }else{
-                            htmlHiddenDiv += mapFiles.get(obj);
-                        }
-
-                        i++;
-                    }
-
-                    numSeeMore = mapFiles.size() - 5;
-                    Integer divID = randDivID.nextInt();
-
-                    htmlFilesHiddenDescription = "<div class='see_more'  id='see_more_" + divID.toString() + "' style='color: #3C78B5; cursor: pointer; text-decoration: underline;' onclick='toggleMoreFiles(" + divID.toString() + ")'>" +
-                                "See " + numSeeMore.toString() + " more" +
-                            "</div>" +
-                            "<div class='hide_more' id='hide_more_" + divID.toString() + "' style='display: none; color: #3C78B5;  cursor: pointer; text-decoration: underline;' onclick='toggleMoreFiles(" + divID.toString() + ")'>Hide " + numSeeMore.toString() + " Files</div>";
-
-                    htmlHiddenDiv = htmlFilesHiddenDescription + "<div id='" + divID.toString() + "' style='display: none;'><ul>" + htmlHiddenDiv + "</ul></div>";
-
-                }
-
-
-
-
-String htmlCommitEntry = "" +
-    "<table>" +
-        "<tr>" +
-            "<td valign='top' width='70px'><a href='#user_url' target='_new'><img src='#gravatar_url' border='0'></a></td>" +
-            "<td valign='top'>" +
-                "<div style='padding-bottom: 6px'><a href='#user_url' target='_new'>#user_name - #login</a></div>" +
-                "<table>" +
-                    "<tr>" +
-                        "<td>" +
-                            "<div style='border-left: 2px solid #C9D9EF; background-color: #EAF3FF; color: #5D5F62; padding: 5px; margin-bottom: 10px;'>#commit_message</div>" +
-
-                                "<ul>" +
-                                    htmlFiles +
-                                "</ul>" +
-
-                                htmlHiddenDiv +
-
-                            "<div style='margin-top: 10px'>" +
-                                "<img src='" + baseurl + "/download/resources/com.atlassian.jira.plugins.jira-github-connector-plugin/images/document.jpg' align='center'> <span class='commit_date' style='color: #757575; font-size: 9pt;'>#formatted_commit_date</span>" +
-                            "</div>" +
-
-                        "</td>" +
-
-                        "<td width='400' style='padding-top: 0px' valign='top'>" +
-                            "<div style='border-left: 2px solid #cccccc; margin-left: 15px; margin-top: 0px; padding-top: 0px; padding-left: 10px'>" +
-                                "<table style='margin-top: 0px; padding-top: 0px;'>" +
-                                    "<tr><td style='color: #757575'>Commit:</td><td><a href='#commit_url' target='_new'>#commit_hash</a></td></tr>" +
-                                     "<tr><td style='color: #757575'>Tree:</td><td><a href='#tree_url' target='_new'>#tree_hash</a></td></tr>" +
-                                     htmlParentHashes +
-                                "</table>" +
-                            "</div>" +
-                        "</td>" +
-
-                    "</tr>" +
-                "</table>" +
-        "</td>" +
-    "</tr>" +
-"</table>";
-
-
-                htmlCommitEntry = htmlCommitEntry.replace("#gravatar_url", gravatarUrl);
-                htmlCommitEntry = htmlCommitEntry.replace("#user_url", "https://github.com/" + jwas.htmlEncode(login));
-                htmlCommitEntry = htmlCommitEntry.replace("#login", jwas.htmlEncode(login));
-
-                htmlCommitEntry = htmlCommitEntry.replace("#user_name", jwas.htmlEncode(userName));
-
-                htmlCommitEntry = htmlCommitEntry.replace("#commit_message", jwas.htmlEncode(commitMessage));
-
-                htmlCommitEntry = htmlCommitEntry.replace("#formatted_commit_time", committedDateString);
-
-
-
-
-                htmlCommitEntry = htmlCommitEntry.replace("#formatted_commit_date", formattedCommitDate);
-
-                htmlCommitEntry = htmlCommitEntry.replace("#commit_url", "https://github.com" + commitURL);
-                htmlCommitEntry = htmlCommitEntry.replace("#commit_hash", commit_hash);
-
-                htmlCommitEntry = htmlCommitEntry.replace("#tree_url", "https://github.com/" + login + "/" + projectName + "/tree/" + commit_hash);
-
-                htmlCommitEntry = htmlCommitEntry.replace("#tree_hash", commitTree);
-                return htmlCommitEntry;
-
-             // Catches invalid or removed GitHub IDs, but errors are suppressed as they typically
-            }catch (JSONException e){
-                //e.printStackTrace();
-                return "Information can't be retrieved from GitHub. Please contact your administrator.";
+            }
+            catch (ParseException pe)
+            {
+                logger.warn("Parse error on date", pe);
             }
 
+            String commitTree = extract(commit, "tree");
+            String commitMessage = extract(commit, "message");
+            String gravatarUrl = "";
+            String userName = "";
+            try
+            {
+                JSONObject githubUser = new JSONObject(getUserDetails(login));
+                
+                JSONObject user = githubUser.getJSONObject("user");
+                userName = extract(user, "name");
+                String gravatarHash = extract(user, "gravatar_id");
+                gravatarUrl = "https://secure.gravatar.com/avatar/" + gravatarHash + "?s=60";
+    
+            }
+            catch (JSONException e)
+            {
+                logger.warn("Error retrieving user info. Login: '" + login + "'.");
+            }
+            
+            String htmlParentHashes = "";
+            if (commit.has("parents"))
+            {
+                JSONArray arrayParents = commit.getJSONArray("parents");
+
+                for (int i = 0; i < arrayParents.length(); i++)
+                {
+                    String parentHashID = extract(arrayParents.getJSONObject(i), "id");
+                    htmlParentHashes = "<tr><td style='color: #757575'>Parent:</td><td><a href='" + "https://github.com/" + jwas.htmlEncode(login) + "/" + jwas.htmlEncode(projectName) + "/commit/" + parentHashID + "' target='_new'>" + parentHashID + "</a></td></tr>";
+                }
+
+            }
+
+            Map mapFiles = Collections.synchronizedMap(new TreeMap());
+
+            String htmlAdded = "";
+
+            if (commit.has("added"))
+            {
+                JSONArray arrayAdded = commit.getJSONArray("added");
+
+                for (int i = 0; i < arrayAdded.length(); i++)
+                {
+                    String addFilename = jwas.htmlEncode(arrayAdded.getString(i));
+                    htmlAdded = "<li><span style='color:green; font-size: 8pt;'>ADDED</span>  <a href='" + fileCommitURL(addFilename, commit_hash) + "' target='_new'>" + addFilename + "</a></li>";
+                    mapFiles.put(addFilename, htmlAdded);
+
+                }
+
+
+            }
+
+            String htmlRemoved = "";
+
+            if (commit.has("removed"))
+            {
+                JSONArray arrayRemoved = commit.getJSONArray("removed");
+
+                for (int i = 0; i < arrayRemoved.length(); i++)
+                {
+                    String removeFilename = jwas.htmlEncode(arrayRemoved.getString(i));
+                    htmlRemoved = "<li><span style='color:red; font-size: 8pt;'>DELETED</span>  <a href='" + fileCommitURL(removeFilename, commit_hash) + "' target='_new'>" + removeFilename + "</a></li>";
+                    mapFiles.put(removeFilename, htmlRemoved);
+                }
+
+            }
+
+            String htmlModified = "";
+
+            if (commit.has("modified"))
+            {
+                JSONArray arrayModified = commit.getJSONArray("modified");
+
+                for (int i = 0; i < arrayModified.length(); i++)
+                {
+                    String modFilename = jwas.htmlEncode(extract(arrayModified.getJSONObject(i), "filename"));
+                    String modDiff = extract(arrayModified.getJSONObject(i), "diff");
+                    htmlModified = "<li><span font-size: 8pt;'>" + extractDiffInformation(modDiff) + "</span>  <a href='" + fileCommitURL(modFilename, commit_hash) + "' target='_new'>" + modFilename + "</a></li>";
+
+                    mapFiles.put(modFilename, htmlModified);
+
+                }
+
+            }
+
+            String htmlFiles = "";
+            String htmlFilesHiddenDescription = "";
+            Integer numSeeMore = 0;
+            Random randDivID = new Random(System.currentTimeMillis());
+
+            // Sort and compose all files
+            Iterator it = mapFiles.keySet().iterator();
+            Object obj;
+
+            String htmlHiddenDiv = "";
+
+            if (mapFiles.size() <= 5)
+            {
+                while (it.hasNext())
+                {
+                    obj = it.next();
+                    htmlFiles += mapFiles.get(obj);
+                }
+
+                htmlFilesHiddenDescription = "";
+
+            }
+            else
+            {
+
+                Integer i = 0;
+
+                while (it.hasNext())
+                {
+                    obj = it.next();
+
+                    if (i <= 4)
+                    {
+                        htmlFiles += mapFiles.get(obj);
+                    }
+                    else
+                    {
+                        htmlHiddenDiv += mapFiles.get(obj);
+                    }
+
+                    i++;
+                }
+
+                numSeeMore = mapFiles.size() - 5;
+                Integer divID = randDivID.nextInt();
+
+                htmlFilesHiddenDescription = "<div class='see_more'  id='see_more_" + divID.toString() + "' style='color: #3C78B5; cursor: pointer; text-decoration: underline;' onclick='toggleMoreFiles(" + divID.toString() + ")'>" +
+                        "See " + numSeeMore.toString() + " more" +
+                        "</div>" +
+                        "<div class='hide_more' id='hide_more_" + divID.toString() + "' style='display: none; color: #3C78B5;  cursor: pointer; text-decoration: underline;' onclick='toggleMoreFiles(" + divID.toString() + ")'>Hide " + numSeeMore.toString() + " Files</div>";
+
+                htmlHiddenDiv = htmlFilesHiddenDescription + "<div id='" + divID.toString() + "' style='display: none;'><ul>" + htmlHiddenDiv + "</ul></div>";
+
+            }
+
+
+            String gravatarImg = gravatarUrl == null || gravatarUrl.isEmpty() ? "" : "<img src='#gravatar_url' border='0'>";
+            String htmlCommitEntry = "" +
+                    "<table>" +
+                    "<tr>" +
+                    "<td valign='top' width='70px'><a href='#user_url' target='_new'>" + gravatarImg + "</a></td>" +
+                    "<td valign='top'>" +
+                    "<div style='padding-bottom: 6px'><a href='#user_url' target='_new'>#user_name - #login</a></div>" +
+                    "<table>" +
+                    "<tr>" +
+                    "<td>" +
+                    "<div style='border-left: 2px solid #C9D9EF; background-color: #EAF3FF; color: #5D5F62; padding: 5px; margin-bottom: 10px;'>#commit_message</div>" +
+
+                    "<ul>" +
+                    htmlFiles +
+                    "</ul>" +
+
+                    htmlHiddenDiv +
+
+                    "<div style='margin-top: 10px'>" +
+                    "<img src='" + baseurl + "/download/resources/com.atlassian.jira.plugins.jira-github-connector-plugin/images/document.jpg' align='center'> <span class='commit_date' style='color: #757575; font-size: 9pt;'>#formatted_commit_date</span>" +
+                    "</div>" +
+
+                    "</td>" +
+
+                    "<td width='400' style='padding-top: 0px' valign='top'>" +
+                    "<div style='border-left: 2px solid #cccccc; margin-left: 15px; margin-top: 0px; padding-top: 0px; padding-left: 10px'>" +
+                    "<table style='margin-top: 0px; padding-top: 0px;'>" +
+                    "<tr><td style='color: #757575'>Commit:</td><td><a href='#commit_url' target='_new'>#commit_hash</a></td></tr>" +
+                    "<tr><td style='color: #757575'>Tree:</td><td><a href='#tree_url' target='_new'>#tree_hash</a></td></tr>" +
+                    htmlParentHashes +
+                    "</table>" +
+                    "</div>" +
+                    "</td>" +
+
+                    "</tr>" +
+                    "</table>" +
+                    "</td>" +
+                    "</tr>" +
+                    "</table>";
+
+
+            htmlCommitEntry = htmlCommitEntry.replace("#gravatar_url", gravatarUrl);
+            htmlCommitEntry = htmlCommitEntry.replace("#user_url", "https://github.com/" + jwas.htmlEncode(login));
+            htmlCommitEntry = htmlCommitEntry.replace("#login", jwas.htmlEncode(login));
+
+            htmlCommitEntry = htmlCommitEntry.replace("#user_name", jwas.htmlEncode(userName));
+
+            htmlCommitEntry = htmlCommitEntry.replace("#commit_message", jwas.htmlEncode(commitMessage));
+
+            htmlCommitEntry = htmlCommitEntry.replace("#formatted_commit_time", committedDateString);
+
+
+            htmlCommitEntry = htmlCommitEntry.replace("#formatted_commit_date", formattedCommitDate);
+
+            htmlCommitEntry = htmlCommitEntry.replace("#commit_url", "https://github.com" + commitURL);
+            htmlCommitEntry = htmlCommitEntry.replace("#commit_hash", commit_hash);
+
+            htmlCommitEntry = htmlCommitEntry.replace("#tree_url", "https://github.com/" + login + "/" + projectName + "/tree/" + commit_hash);
+
+            htmlCommitEntry = htmlCommitEntry.replace("#tree_hash", commitTree);
+            return htmlCommitEntry;
+
+            // Catches invalid or removed GitHub IDs, but errors are suppressed as they typically
+        }
+        catch (JSONException e)
+        {
+
+            logger.error(e.getMessage(), e);
+            return "Information can't be retrieved from GitHub. Please contact your administrator.";
+        }
+
+    }
+
+    private String extract(JSONObject commit, String varName) throws JSONException
+    {
+        // This function is a hacky point-cut to log the value. It should really be inlined, but I (edalgliesh) have found
+        // it to be unusually useful for a function of its type.
+        String result = commit.getString(varName);
+        logger.debug(varName + " : " + result);
+        return result;
     }
 
     private String getUserDetails(String loginName){
