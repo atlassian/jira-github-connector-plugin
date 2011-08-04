@@ -95,12 +95,13 @@ public class GitHubConfigureRepositories extends JiraWebActionSupport {
                     String clientID = "";
                     clientID = (String)pluginSettingsFactory.createGlobalSettings().get("githubRepositoryClientID");
 
+                    String contextPath = request.getContextPath();
                     if(clientID == null){
                         //logger.debug("No Client ID");
-                        validations = "You will need to setup a <a href='" + baseURL + "/secure/admin/ConfigureGlobalSettings!default.jspa'>GitHub OAuth Application</a> before you can add private repositories";
+                        validations = "You will need to setup a <a href='" + contextPath + "/secure/admin/ConfigureGlobalSettings!default.jspa'>GitHub OAuth Application</a> before you can add private repositories";
                     }else{
                         if(clientID.equals("")){
-                            validations = "You will need to setup a <a href='" + baseURL + "/secure/admin/ConfigureGlobalSettings!default.jspa'>GitHub OAuth Application</a> before you can add private repositories";
+                            validations = "You will need to setup a <a href='" + contextPath + "/secure/admin/ConfigureGlobalSettings!default.jspa'>GitHub OAuth Application</a> before you can add private repositories";
                         }else{
                             addRepositoryURL();
                             pluginSettingsFactory.createGlobalSettings().put("githubPendingProjectKey", projectKey);
@@ -306,10 +307,6 @@ public class GitHubConfigureRepositories extends JiraWebActionSupport {
     // Confirmation Messages
     private String messages = "";
     public String getMessages(){return this.messages;}
-
-    // Base URL
-    private String baseURL = PropertiesManager.getInstance().getPropertySet().getString("jira.baseurl");
-    public String getBaseURL(){return this.baseURL;}
 
     // Redirect URL
     private String redirectURL = "";

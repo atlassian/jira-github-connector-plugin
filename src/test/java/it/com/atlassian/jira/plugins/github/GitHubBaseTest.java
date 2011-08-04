@@ -4,6 +4,8 @@ import com.atlassian.jira.plugins.github.pageobjects.page.GitHubConfigureReposit
 import com.atlassian.pageobjects.TestedProductFactory;
 import com.atlassian.pageobjects.page.HomePage;
 import com.atlassian.webdriver.jira.JiraTestedProduct;
+import com.atlassian.webdriver.pageobjects.WebDriverTester;
+import org.junit.After;
 import org.junit.Before;
 
 /**
@@ -17,21 +19,15 @@ public abstract class GitHubBaseTest
     @Before
     public void loginToJira()
     {
-        System.setProperty("baseurl.jira", "http://localhost:2990/jira");
-        System.setProperty("http.jira.port", "2990");
-        System.setProperty("context.jira.path", "jira");
-
         jira = TestedProductFactory.create(JiraTestedProduct.class);
 
-        if(jira.visit(HomePage.class).getHeader().isLoggedIn())
-        {
-            configureRepos = jira.visit(GitHubConfigureRepositoriesPage.class);
-        }
-        else
-        {
-            configureRepos = jira.gotoLoginPage().loginAsSysAdmin(GitHubConfigureRepositoriesPage.class);
-        }
+        configureRepos = jira.gotoLoginPage().loginAsSysAdmin(GitHubConfigureRepositoriesPage.class);
     }
 
-    
+    @After
+    public void logout()
+    {
+        jira.getTester().getDriver().manage().deleteAllCookies();
+    }
+
 }

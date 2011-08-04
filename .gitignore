@@ -1,2 +1,6 @@
 .DS_store
 target
+*.iml
+*.ipr
+*.iws
+*~

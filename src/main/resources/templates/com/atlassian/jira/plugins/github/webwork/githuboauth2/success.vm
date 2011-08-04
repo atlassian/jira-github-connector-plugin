@@ -15,11 +15,11 @@
             AJS.$('#connector_sync_message').html("");
             AJS.$('#connector_sync_status').html("");
 
-            AJS.$('#connector_sync_message').load('$action.getBaseURL()/GitHubConfigureRepositories.jspa?nextAction=SyncRepository&url=' + url + '&projectKey=' + projectKey + '&atl_token=$atl_token');
+            AJS.$('#connector_sync_message').load('${baseurl}/GitHubConfigureRepositories.jspa?nextAction=SyncRepository&url=' + url + '&projectKey=' + projectKey + '&atl_token=$atl_token');
 
             window.setInterval(function(){
                 if(syncComplete == false){
-                    AJS.$('#connector_sync_status').load('$action.getBaseURL()/GitHubConfigureRepositories.jspa?nextAction=CurrentSyncStatus&url=' + url + '&projectKey=' + projectKey + '&atl_token=$atl_token');
+                    AJS.$('#connector_sync_status').load('${baseurl}/GitHubConfigureRepositories.jspa?nextAction=CurrentSyncStatus&url=' + url + '&projectKey=' + projectKey + '&atl_token=$atl_token');
                 }
             }, 1000);
         }
@@ -35,7 +35,7 @@
         }
 
         #gh_config_link a{
-            background: url('$action.getBaseURL()/download/resources/com.atlassian.jira.plugins.jira-github-connector-plugin/images/pencil_icon.jpg');
+            background: url('${baseurl}/download/resources/com.atlassian.jira.plugins.jira-github-connector-plugin/images/pencil_icon.jpg');
             background-repeat: no-repeat;
             background-position: right center;
             padding-right: 20px;
@@ -45,7 +45,7 @@
         .gh_config_h4{
             font-weight: normal;
             color: #3676B7;
-            background: url('$action.getBaseURL()/download/resources/com.atlassian.jira.plugins.jira-github-connector-plugin/images/down_gray_arrow.jpg');
+            background: url('${baseurl}/download/resources/com.atlassian.jira.plugins.jira-github-connector-plugin/images/down_gray_arrow.jpg');
             background-repeat: no-repeat;
             background-position: left center;
             padding-left: 18px;
@@ -71,7 +71,7 @@
             -webkit-border-radius: 6px;
             -khtml-border-radius: 6px;
             border-radius: 6px;
-            background-image: url('$action.getBaseURL()/download/resources/com.atlassian.jira.plugins.jira-github-connector-plugin/images/blue_info_icon.jpg');
+            background-image: url('${baseurl}/download/resources/com.atlassian.jira.plugins.jira-github-connector-plugin/images/blue_info_icon.jpg');
             background-repeat: no-repeat;
             background-position: 5px 5px;
             font-size: 8pt;
@@ -128,7 +128,7 @@
 
                 <p>
                     <form class="aui">
-                        <input id="gh_post_receive_textbox" class="text long-field" type="text" value="$action.getBaseURL()/$action.getPostCommitURL()">
+                        <input id="gh_post_receive_textbox" class="text long-field" type="text" value="${baseurl}/$action.getPostCommitURL()">
                     </form>
                 </p>
 
@@ -139,7 +139,7 @@
         </div>
     #end
 
-      <p>You can add additional repositories from the <a href="$action.getBaseURL()/secure/admin/GitHubConfigureRepositories!default.jspa">Configure Repositories Page</a>.</p>
+      <p>You can add additional repositories from the <a href="${baseurl}/secure/admin/GitHubConfigureRepositories!default.jspa">Configure Repositories Page</a>.</p>
 
   </body>
 </html>

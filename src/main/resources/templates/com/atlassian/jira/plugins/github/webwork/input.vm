@@ -17,7 +17,7 @@
         }
 
         #gh_config_link a{
-            background: url('$action.getBaseURL()/download/resources/com.atlassian.jira.plugins.jira-github-connector-plugin/images/pencil_icon.jpg');
+            background: url('${baseurl}}/download/resources/com.atlassian.jira.plugins.jira-github-connector-plugin/images/pencil_icon.jpg');
             background-repeat: no-repeat;
             background-position: right center;
             padding-right: 20px;
@@ -27,7 +27,7 @@
         .gh_config_h4{
             font-weight: normal;
             color: #3676B7;
-            background: url('$action.getBaseURL()/download/resources/com.atlassian.jira.plugins.jira-github-connector-plugin/images/down_gray_arrow.jpg');
+            background: url('${baseurl}/download/resources/com.atlassian.jira.plugins.jira-github-connector-plugin/images/down_gray_arrow.jpg');
             background-repeat: no-repeat;
             background-position: left center;
             padding-left: 18px;
@@ -98,7 +98,7 @@
             -webkit-border-radius: 6px;
             -khtml-border-radius: 6px;
             border-radius: 6px;
-            background-image: url('$action.getBaseURL()/download/resources/com.atlassian.jira.plugins.jira-github-connector-plugin/images/blue_info_icon.jpg');
+            background-image: url('${baseurl}/download/resources/com.atlassian.jira.plugins.jira-github-connector-plugin/images/blue_info_icon.jpg');
             background-repeat: no-repeat;
             background-position: 10px 10px;
             font-size: 10pt;
@@ -123,11 +123,11 @@
             AJS.$('#connector_sync_message').html("");
             AJS.$('#connector_sync_status').html("");
 
-            AJS.$('#connector_sync_message').load('$action.getBaseURL()/GitHubConfigureRepositories.jspa?nextAction=SyncRepository&url=' + url + '&projectKey=' + projectKey + '&atl_token=$atl_token');
+            AJS.$('#connector_sync_message').load('${baseurl}/GitHubConfigureRepositories.jspa?nextAction=SyncRepository&url=' + url + '&projectKey=' + projectKey + '&atl_token=$atl_token');
 
             window.setInterval(function(){
                 if(syncComplete == false){
-                    AJS.$('#connector_sync_status').load('$action.getBaseURL()/GitHubConfigureRepositories.jspa?nextAction=CurrentSyncStatus&url=' + url + '&projectKey=' + projectKey + '&atl_token=$atl_token');
+                    AJS.$('#connector_sync_status').load('${baseurl}/GitHubConfigureRepositories.jspa?nextAction=CurrentSyncStatus&url=' + url + '&projectKey=' + projectKey + '&atl_token=$atl_token');
                 }
             }, 1000);
         }
@@ -146,7 +146,7 @@
             #end</h3>
 
             <div id='gh_config_link'>
-                <a href="$action.getBaseURL()/secure/admin/ConfigureGlobalSettings!default.jspa">Configure OAuth Settings</a>
+                <a href="${baseurl}/secure/admin/ConfigureGlobalSettings!default.jspa">Configure OAuth Settings</a>
             </div>
 
             <h4 class="gh_config_h4">Existing Linked Repositories</h4>
@@ -169,9 +169,9 @@
                             <td><a href="$action.getRepositoryURLWithoutBranch($repository)" target="_new">$action.escape($repository)</a></td>
                             <td>$action.escape($action.getProjectKey())</td>
                             <td width="260px">
-                                <a href="$action.getBaseURL()/secure/admin/GitHubConfigureRepositories.jspa?url=$repository&projectKey=$action.escape($action.getProjectKey())&nextAction=ForceSync&mode=$action.escape($action.getMode())&atl_token=$atl_token">Force Sync</a> |
-                                <a href="$action.getBaseURL()/secure/admin/GitHubConfigureRepositories.jspa?url=$repository&projectKey=$action.escape($action.getProjectKey())&nextAction=ShowPostCommitURL&mode=$action.escape($action.getMode())&atl_token=$atl_token">Post Commit</a> |
-                                <a href="#" onclick="confirmation('$action.getBaseURL()/secure/admin/GitHubConfigureRepositories.jspa?nextAction=DeleteRepository&url=$action.escape($repository)&projectKey=$action.getProjectKey()&mode=$action.escape($action.getMode())&atl_token=$atl_token')">Delete</a>
+                                <a href="${baseurl}/secure/admin/GitHubConfigureRepositories.jspa?url=$repository&projectKey=$action.escape($action.getProjectKey())&nextAction=ForceSync&mode=$action.escape($action.getMode())&atl_token=$atl_token">Force Sync</a> |
+                                <a href="${baseurl}/secure/admin/GitHubConfigureRepositories.jspa?url=$repository&projectKey=$action.escape($action.getProjectKey())&nextAction=ShowPostCommitURL&mode=$action.escape($action.getMode())&atl_token=$atl_token">Post Commit</a> |
+                                <a href="#" onclick="confirmation('${baseurl}/secure/admin/GitHubConfigureRepositories.jspa?nextAction=DeleteRepository&url=$action.escape($repository)&projectKey=$action.getProjectKey()&mode=$action.escape($action.getMode())&atl_token=$atl_token')">Delete</a>
                             </td>
                         </tr>
                     #end
@@ -197,9 +197,9 @@
                             <td><a href="$action.getRepositoryURLWithoutBranch($repository)" target="_new">$action.escape($repository)</a></td>
                             <td>$action.escape($project.key)</td>
                             <td width="260px">
-                                <a href="$action.getBaseURL()/secure/admin/GitHubConfigureRepositories.jspa?url=$action.escape($repository)&projectKey=$action.escape($project.key)&nextAction=ForceSync&mode=$action.escape($action.getMode())&atl_token=$atl_token">Force Sync</a> |
-                                <a href="$action.getBaseURL()/secure/admin/GitHubConfigureRepositories.jspa?url=$action.escape($repository)&projectKey=$action.escape($project.key)&nextAction=ShowPostCommitURL&mode=$action.escape($action.getMode())&atl_token=$atl_token">Post Commit</a> |
-                                <a href="#" onclick="confirmation('$action.getBaseURL()/secure/admin/GitHubConfigureRepositories.jspa?nextAction=DeleteRepository&url=$repository&projectKey=$project.key&mode=$action.escape($action.getMode())&atl_token=$atl_token')">Delete</a>
+                                <a href="${baseurl}/secure/admin/GitHubConfigureRepositories.jspa?url=$action.escape($repository)&projectKey=$action.escape($project.key)&nextAction=ForceSync&mode=$action.escape($action.getMode())&atl_token=$atl_token">Force Sync</a> |
+                                <a href="${baseurl}/secure/admin/GitHubConfigureRepositories.jspa?url=$action.escape($repository)&projectKey=$action.escape($project.key)&nextAction=ShowPostCommitURL&mode=$action.escape($action.getMode())&atl_token=$atl_token">Post Commit</a> |
+                                <a href="#" onclick="confirmation('${baseurl}/secure/admin/GitHubConfigureRepositories.jspa?nextAction=DeleteRepository&url=$repository&projectKey=$project.key&mode=$action.escape($action.getMode())&atl_token=$atl_token')">Delete</a>
                             </td>
                         </tr>
                     #end
@@ -246,7 +246,7 @@
                                 <p>Please add the URL below as a post-receive hook to the GitHub repository.</p>
 
                                 <p>
-                                    <input type="text" class="text" size="100" value="$action.getBaseURL()/$action.getPostCommitURL()">
+                                    <input type="text" class="text" size="100" value="${baseurl}/$action.getPostCommitURL()">
                                 </p>
 
                                 <div>
@@ -256,7 +256,7 @@
                         </div>
                     #end
 
-                     <form class="aui" method="post" action="$action.getBaseURL()/secure/admin/GitHubConfigureRepositories.jspa">
+                     <form class="aui" method="post" action="${baseurl}/secure/admin/GitHubConfigureRepositories.jspa">
                           <input type="hidden" name="nextAction" value="AddRepository">
                           <input type="hidden" name="atl_token" value="$atl_token">
                           <table width="500px">

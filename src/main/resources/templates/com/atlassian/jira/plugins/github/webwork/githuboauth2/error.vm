@@ -11,7 +11,7 @@
         }
 
         #gh_config_link a{
-            background: url('$action.getBaseURL()/download/resources/com.atlassian.jira.plugins.jira-github-connector-plugin/images/pencil_icon.jpg');
+            background: url('${baseurl}/download/resources/com.atlassian.jira.plugins.jira-github-connector-plugin/images/pencil_icon.jpg');
             background-repeat: no-repeat;
             background-position: right center;
             padding-right: 20px;
@@ -21,7 +21,7 @@
         .gh_config_h4{
             font-weight: normal;
             color: #3676B7;
-            background: url('$action.getBaseURL()/download/resources/com.atlassian.jira.plugins.jira-github-connector-plugin/images/down_gray_arrow.jpg');
+            background: url('${baseurl}/download/resources/com.atlassian.jira.plugins.jira-github-connector-plugin/images/down_gray_arrow.jpg');
             background-repeat: no-repeat;
             background-position: left center;
             padding-left: 18px;
@@ -47,7 +47,7 @@
             -webkit-border-radius: 6px;
             -khtml-border-radius: 6px;
             border-radius: 6px;
-            background-image: url('$action.getBaseURL()/download/resources/com.atlassian.jira.plugins.jira-github-connector-plugin/images/blue_info_icon.jpg');
+            background-image: url('${baseurl}/download/resources/com.atlassian.jira.plugins.jira-github-connector-plugin/images/blue_info_icon.jpg');
             background-repeat: no-repeat;
             background-position: 5px 5px;
             font-size: 8pt;
@@ -70,7 +70,7 @@
 
     <p>The final step of the OAuth Application Authentication process did not complete successfully.</p>
     <p>Most likely this is due to errors with the configuration of your OAuth Client or OAuth Secret. </p>
-    <p>Please verify the correct values and re-enter them on the <a href="$action.getBaseURL()/secure/admin/ConfigureGlobalSettings!default.jspa">OAuth Settings Page</a>.</p>
+    <p>Please verify the correct values and re-enter them on the <a href="${baseurl}/secure/admin/ConfigureGlobalSettings!default.jspa">OAuth Settings Page</a>.</p>
 
 
   </body>

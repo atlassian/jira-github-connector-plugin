@@ -125,8 +125,4 @@ public class ConfigureGlobalSettings extends JiraWebActionSupport {
     private String messages = "";
     public String getMessages(){return this.messages;}
 
-    // Base URL
-    private String baseURL = PropertiesManager.getInstance().getPropertySet().getString("jira.baseurl");
-    public String getBaseURL(){return this.baseURL;}
-
 }

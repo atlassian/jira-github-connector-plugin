@@ -145,8 +145,4 @@ public class GitHubOAuth2 extends JiraWebActionSupport {
     public void setPostCommitURL(String value){this.postCommitURL = value;}
     public String getPostCommitURL(){return postCommitURL;}
 
-    // Base URL
-    private String baseURL = PropertiesManager.getInstance().getPropertySet().getString("jira.baseurl");
-    public String getBaseURL(){return this.baseURL;}
-
 }
