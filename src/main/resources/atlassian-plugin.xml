@@ -66,7 +66,7 @@
 
     <web-item key="github_global" name="GitHub Global" section="system.admin/github" weight="10">
         <description>Static link to github.com.</description>
-        <label>OAuth Settings</label>
+        <label>GitHub OAuth Settings</label>
 
         <name>GitHub Name Item</name>
 
@@ -78,7 +78,7 @@
 
     <web-item key="github_bulk_repo" name="GitHub Bulk Repository" section="system.admin/github" weight="10">
         <description>Bulk Configure GitHub Repositories </description>
-        <label>Bulk Configure Repositories</label>
+        <label>Bulk Configure GitHub Repositories</label>
 
         <name>GitHub Name Item</name>
 
