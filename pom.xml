@@ -5,7 +5,7 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>com.atlassian.jira.plugins</groupId>
     <artifactId>jira-github-connector-plugin</artifactId>
-    <version>0.4</version>
+    <version>0.5-SNAPSHOT</version>
  
     <organization>
         <name>Atlassian</name>
