@@ -104,7 +104,7 @@
             <plugin>
                 <groupId>com.atlassian.maven.plugins</groupId>
                 <artifactId>maven-jira-plugin</artifactId>
-                <version>3.3</version>
+                <version>3.4</version>
                 <extensions>true</extensions>
                 <configuration>
                     <systemPropertyVariables>
@@ -113,7 +113,7 @@
                         <http.jira.port>2990</http.jira.port>
                         <context.jira.path>jira</context.jira.path>
                     </systemPropertyVariables>
-                    <productVersion>4.3.4</productVersion>
+                    <productVersion>4.4.1</productVersion>
                     <productDataPath>${basedir}/src/test/resources/generated-test-resources.zip</productDataPath>
                     <log4jProperties>src/aps/log4j.properties</log4jProperties>
                 </configuration>
