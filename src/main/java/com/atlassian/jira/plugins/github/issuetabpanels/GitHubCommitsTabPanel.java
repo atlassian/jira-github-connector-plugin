@@ -474,7 +474,7 @@ public class GitHubCommitsTabPanel extends AbstractIssueTabPanel {
         int commitIndex = commitUrl.lastIndexOf("commit/");
         String substring = commitUrl.substring(0, commitIndex);
         String url = substring + "tree/" + commitHash;
-        return "<tr><td style='color: #757575'>Tree:</td><td><a href=" + url + "' target='_new'>" + treeHash +" </a></td></tr>";
+        return "<tr><td style='color: #757575'>Tree:</td><td><a href='" + url + "'target='_new'>" + treeHash +" </a></td></tr>";
     }
 
     private String extractParentLink(String parentHashID, String commitUrl) throws JSONException
@@ -482,7 +482,7 @@ public class GitHubCommitsTabPanel extends AbstractIssueTabPanel {
         int index = commitUrl.lastIndexOf("/");
         String substring = commitUrl.substring(0, index);
 
-        return "<tr><td style='color: #757575'>Parent:</td><td><a href='" + substring + "/" + parentHashID + ">" + parentHashID + "</a></td></tr>"; 
+        return "<tr><td style='color: #757575'>Parent:</td><td><a href='" + substring + "/" + parentHashID + "'>" + parentHashID + "</a></td></tr>"; 
     }
 
     private String extract(JSONObject commit, String varName) throws JSONException
