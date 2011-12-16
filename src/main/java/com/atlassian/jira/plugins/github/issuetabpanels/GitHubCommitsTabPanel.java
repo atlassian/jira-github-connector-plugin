@@ -105,7 +105,7 @@ public class GitHubCommitsTabPanel extends AbstractIssueTabPanel {
                     gitHubCommits.repositoryURL = getRepositoryURLFromCommitURL(commitArray.get(i));
                     String commitDetails = gitHubCommits.getCommitDetails(commitArray.get(i));
 
-                    issueCommitActions = this.formatCommitDetails(commitDetails);
+                    issueCommitActions = this.formatCommitDetails(commitDetails, projectKey, issueId);
                     GenericMessageAction action = new GenericMessageAction(issueCommitActions);
                     githubActions.add(action);
 
@@ -217,16 +217,16 @@ public class GitHubCommitsTabPanel extends AbstractIssueTabPanel {
 
     }
 
-    private String formatCommitDetails(String jsonDetails)
+    private String formatCommitDetails(String jsonDetails, String projectKey, String issueId)
     {
 
         logger.debug(jsonDetails);
         try
         {
-            JiraWebActionSupport jwas = new JiraWebActionSupport();
+            final JiraWebActionSupport jwas = new JiraWebActionSupport();
 
-            JSONObject jsonCommits = new JSONObject(jsonDetails);
-            JSONObject commit = jsonCommits.getJSONObject("commit");
+            final JSONObject jsonCommits = new JSONObject(jsonDetails);
+            final JSONObject commit = jsonCommits.getJSONObject("commit");
 
 //            String message = get(commit, "message");
             String commit_hash = extract(commit, "id");
@@ -272,19 +272,6 @@ public class GitHubCommitsTabPanel extends AbstractIssueTabPanel {
             catch (JSONException e)
             {
                 logger.warn("Error retrieving user info. Login: '" + login + "'.");
-            }
-            
-            String htmlParentHashes = "";
-            if (commit.has("parents"))
-            {
-                JSONArray arrayParents = commit.getJSONArray("parents");
-
-                for (int i = 0; i < arrayParents.length(); i++)
-                {
-                    String parentHashID = extract(arrayParents.getJSONObject(i), "id");
-                    htmlParentHashes = "<tr><td style='color: #757575'>Parent:</td><td><a href='" + "https://github.com/" + jwas.htmlEncode(login) + "/" + jwas.htmlEncode(projectName) + "/commit/" + parentHashID + "' target='_new'>" + parentHashID + "</a></td></tr>";
-                }
-
             }
 
             Map mapFiles = Collections.synchronizedMap(new TreeMap());
@@ -423,8 +410,9 @@ public class GitHubCommitsTabPanel extends AbstractIssueTabPanel {
                     "<div style='border-left: 2px solid #cccccc; margin-left: 15px; margin-top: 0px; padding-top: 0px; padding-left: 10px'>" +
                     "<table style='margin-top: 0px; padding-top: 0px;'>" +
                     "<tr><td style='color: #757575'>Commit:</td><td><a href='#commit_url' target='_new'>#commit_hash</a></td></tr>" +
-                    "<tr><td style='color: #757575'>Tree:</td><td><a href='#tree_url' target='_new'>#tree_hash</a></td></tr>" +
-                    htmlParentHashes +
+
+                    getHtmlTreeHashes(commit_hash, commitTree, "https://github.com" + commitURL) +
+                    getHtmlParentHashes(commit, "https://github.com" + commitURL) +
                     "</table>" +
                     "</div>" +
                     "</td>" +
@@ -452,9 +440,6 @@ public class GitHubCommitsTabPanel extends AbstractIssueTabPanel {
             htmlCommitEntry = htmlCommitEntry.replace("#commit_url", "https://github.com" + commitURL);
             htmlCommitEntry = htmlCommitEntry.replace("#commit_hash", commit_hash);
 
-            htmlCommitEntry = htmlCommitEntry.replace("#tree_url", "https://github.com/" + login + "/" + projectName + "/tree/" + commit_hash);
-
-            htmlCommitEntry = htmlCommitEntry.replace("#tree_hash", commitTree);
             return htmlCommitEntry;
 
             // Catches invalid or removed GitHub IDs, but errors are suppressed as they typically
@@ -466,6 +451,38 @@ public class GitHubCommitsTabPanel extends AbstractIssueTabPanel {
             return "Information can't be retrieved from GitHub. Please contact your administrator.";
         }
 
+    }
+
+    private String getHtmlParentHashes(JSONObject commit, String commitUrl) throws JSONException
+    {
+        String htmlParentHashes = "";
+        if (commit.has("parents"))
+        {
+            JSONArray arrayParents = commit.getJSONArray("parents");
+
+            for (int i = 0; i < arrayParents.length(); i++)
+            {
+                htmlParentHashes += extractParentLink(extract(arrayParents.getJSONObject(i), "id"), commitUrl);
+            }
+
+        }
+        return htmlParentHashes;
+    }
+
+    private String getHtmlTreeHashes(String commitHash, String treeHash, String commitUrl)
+    {
+        int commitIndex = commitUrl.lastIndexOf("commit/");
+        String substring = commitUrl.substring(0, commitIndex);
+        String url = substring + "tree/" + commitHash;
+        return "<tr><td style='color: #757575'>Tree:</td><td><a href=" + url + "' target='_new'>" + treeHash +" </a></td></tr>";
+    }
+
+    private String extractParentLink(String parentHashID, String commitUrl) throws JSONException
+    {
+        int index = commitUrl.lastIndexOf("/");
+        String substring = commitUrl.substring(0, index);
+
+        return "<tr><td style='color: #757575'>Parent:</td><td><a href='" + substring + "/" + parentHashID + ">" + parentHashID + "</a></td></tr>"; 
     }
 
     private String extract(JSONObject commit, String varName) throws JSONException
